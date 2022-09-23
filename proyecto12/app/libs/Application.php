@@ -6,7 +6,8 @@ class Application
 {
     function __construct()
     {
-        print "Bienvenido a mi tienda Virtual";
+       $db=Mysqldb::getInstance()->getDataBase();
+        print 'Bienvenido a mi tienda virtual';
     }
 
 }
