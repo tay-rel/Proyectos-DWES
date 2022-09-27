@@ -28,15 +28,18 @@
             </div>
             <div class="col-sm-8">
                 <form >
+                    <div class="form-group text-left" >
+                        <label for="user">Usuario:</label>
+                        <input type="text" name="user" class="form-control"></in>
+                    </div>
+                    <div class="form-group text-left"></div>
+                    <label for="password">Clave de acceso:</label>
+                    <input type="password" name="password" class="form-control">
+                    <div class="form-group text-left">
+                        <input type="submit" name="enviar" class="btn btn-success">
+                    </div>
                     <table>
-                        <tr>
-                            <td>Usuario:</td>
-                            <td><input type="text" name="user"></td>
-                        </tr>
-                        <tr>
-                            <td>Clave de acceso:</td>
-                            <td><input type="password" name="password"></td>
-                        </tr>
+
                         <tr>
                             <td>&nbsp</td>
                             <td><input type="submit" name="enviar"></td>
