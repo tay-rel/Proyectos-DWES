@@ -4,7 +4,7 @@
                     <h1 class="text-center">Login</h1>
                 </div>
                 <div class="card-body">
-                    <form >
+                    <form action="<?= ROOT ?>login/verifyUser/" method="POST">
                         <div class="form-group text-left" >
                             <label for="user">Usuario:</label>
                             <input type="text" name="user" class="form-control">
@@ -28,7 +28,7 @@
                             <a href="login/registro" class="btn btn-info">Nuevo usuario</a>  <!-- es la uri , primer elemento es el controlador el segundo es el metodo -->
                         </div>
                         <div class="col-sm-6">
-                            <a href="login/olvido" class="btn btn-info">Recordar contraseña</a>
+                            <a href="<?= ROOT?>login/olvido" class="btn btn-info">Recordar contraseña</a>
                         </div>
                     </div>
                 </div><!-- Genero otra columna -->
