@@ -11,7 +11,10 @@ class LoginController extends Controller
 
     public function index()
     {
-        $data=[];
+        $data=[
+            'titulo'=> 'Login',
+            'menu'=>false,          //false si no quiero que en la vista se va el menu
+        ];
         $this->view('login',$data);
     }
 
