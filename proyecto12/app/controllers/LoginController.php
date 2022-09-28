@@ -18,24 +18,16 @@ class LoginController extends Controller
         $this->view('login',$data);
     }
 
- /*   public function metodoVariable()
+    public function olvido()
     {
-        if(func_num_args() > 0 )           //indica el numero de metodos que hemos pasado
-        {
-            for ($i =0 ; $i < func_num_args() ; $i++){
-                print func_get_arg($i) . '<br>';
-            }
-        }else{
-            print('NO hay argumentos.<br>');
-        }
+        //DESARROLLAMOS LA PARTE DE REGISTR DE UN USUARI
     }
-
-    public function metodoFijo($arg1='Uno',$arg2='Dos',$arg3='Tres')
+    public function registro()
     {
-        print $arg1 . '<br>';
-        print $arg2 . '<br>';
-        print $arg3 . '<br>';
-    }*/
-
-
+        $data=[
+            'titulo'=> 'Registro',
+            'menu'=>false,          //false si no quiero que en la vista se va el menu
+        ];
+        $this->view('register',$data);
+    }
 }

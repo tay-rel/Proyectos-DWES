@@ -25,7 +25,7 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-sm-6"><!--boton -->
-                            <a href="login/alta" class="btn btn-info">Nuevo usuario</a>  <!-- es la uri , primer elemento es el controlador el segundo es el metodo -->
+                            <a href="login/registro" class="btn btn-info">Nuevo usuario</a>  <!-- es la uri , primer elemento es el controlador el segundo es el metodo -->
                         </div>
                         <div class="col-sm-6">
                             <a href="login/olvido" class="btn btn-info">Recordar contraseña</a>
