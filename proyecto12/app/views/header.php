@@ -33,3 +33,15 @@
         <div class="col-sm-2">
         </div>
         <div class="col-sm-8">
+            <?php if(isset($data['errors']) && count($data['errors']) > 0)  : ?>
+            <div class="alert alert-danger mt-3">
+                <ul class="list-group ">
+                    <?php foreach ($data['errors'] as $value) : ?>
+                   <li class="list-group-item alert alert-danger mt-3">
+                       <strong><?= $value?></strong><br>
+                   </li>
+                    <?php endforeach;?>
+                </ul>
+
+            </div>
+            <?php endif; ?>

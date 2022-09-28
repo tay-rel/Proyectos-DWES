@@ -10,12 +10,16 @@
             <div class="form-group text-left">
                 <label for="first_name">Nombre:</label>
                 <input type="text" name="first_name" id="first_name" class="form-control"
-                       required placeholder="Escriba su nombre">
+                       required placeholder="Escriba su nombre"
+                       value="<?php isset($data['dataForm']['firstName']) ? print $data['dataForm']['firstName'] : '' ?>"
+                >
             </div>
             <div class="form-group text-left">
                 <label for="last_name_1">Apellido 1:</label>
                 <input type="text" name="last_name_1" id="last_name_1" class="form-control"
-                       required placeholder="Escriba su apellido">
+                       required placeholder="Escriba su apellido"
+                       value="<?php isset($data['dataForm']['last_name_1']) ? print $data['dataForm']['last_name_1'] : '' ?>"
+                >
             </div>
             <div class="form-group text-left">
                 <label for="last_name_2">Apellido 2:</label>
@@ -69,8 +73,5 @@
         </form>
     </div>
 </div>
-
-
-
 
 <?php include_once 'footer.php'?>
