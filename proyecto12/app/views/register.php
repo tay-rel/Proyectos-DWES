@@ -10,7 +10,7 @@
             <div class="form-group text-left">
                 <label for="first_name">Nombre:</label>
                 <input type="text" name="first_name" id="first_name" class="form-control"
-                required placeholder="Escriba su nombre">
+                       required placeholder="Escriba su nombre">
             </div>
             <div class="form-group text-left">
                 <label for="last_name_1">Apellido 1:</label>
@@ -53,9 +53,9 @@
                        required placeholder="Escriba su provincia">
             </div>
             <div class="form-group text-left">
-                <label for="cod_post">Codigo postal:</label>
-                <input type="text" name="cod_post" id="cod_post" class="form-control"
-                       required placeholder="Escriba su codigo postal">
+                <label for="postcode">Código postal:</label>
+                <input type="text" name="postcode" id="postcode" class="form-control"
+                       required placeholder="Escriba su código postal">
             </div>
             <div class="form-group text-left">
                 <label for="country">Pais:</label>
@@ -69,6 +69,7 @@
         </form>
     </div>
 </div>
+
 
 
 
