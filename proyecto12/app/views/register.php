@@ -24,7 +24,9 @@
             <div class="form-group text-left">
                 <label for="last_name_2">Apellido 2:</label>
                 <input type="text" name="last_name_2" id="last_name_2" class="form-control"
-                       required placeholder="Escriba su apellido 2">
+                       required placeholder="Escriba su apellido 2"
+                       value="<?php isset($data['dataForm']['lastName2']) ? print $data['dataForm']['lastName2'] : '' ?>"
+                >
             </div>
             <div class="form-group text-left">
                 <label for="email">Correo electronico:</label>
@@ -44,27 +46,37 @@
             <div class="form-group text-left">
                 <label for="address">Direccion:</label>
                 <input type="text" name="address" id="address" class="form-control"
-                       required placeholder="Escriba su direccion">
+                       required placeholder="Escriba su direccion"
+                       value="<?php isset($data['dataForm']['address']) ? print $data['dataForm']['address'] : '' ?>"
+                >
             </div>
             <div class="form-group text-left">
                 <label for="city">Ciudad:</label>
                 <input type="text" name="city" id="city" class="form-control"
-                       required placeholder="Escriba su ciudad">
+                       required placeholder="Escriba su ciudad"
+                       value="<?php isset($data['dataForm']['city']) ? print $data['dataForm']['city'] : '' ?>"
+                >
             </div>
             <div class="form-group text-left">
                 <label for="state">Provincia:</label>
                 <input type="text" name="state" id="state" class="form-control"
-                       required placeholder="Escriba su provincia">
+                       required placeholder="Escriba su provincia"
+                       value="<?php isset($data['dataForm']['state']) ? print $data['dataForm']['state'] : '' ?>"
+                >
             </div>
             <div class="form-group text-left">
                 <label for="postcode">Código postal:</label>
                 <input type="text" name="postcode" id="postcode" class="form-control"
-                       required placeholder="Escriba su código postal">
+                       required placeholder="Escriba su código postal"
+                       value="<?php isset($data['dataForm']['postcode']) ? print $data['dataForm']['postcode'] : '' ?>"
+                >
             </div>
             <div class="form-group text-left">
                 <label for="country">Pais:</label>
                 <input type="text" name="country" id="country" class="form-control"
-                       required placeholder="Escriba su pais">
+                       required placeholder="Escriba su pais"
+                       value="<?php isset($data['dataForm']['country']) ? print $data['dataForm']['country'] : '' ?>"
+                >
             </div>
             <div class="form-group text-left">
                 <input type="submit" name="enviar datos" class="btn btn-success">

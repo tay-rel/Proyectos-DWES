@@ -20,7 +20,8 @@ class LoginController extends Controller
 
     public function olvido()
     {
-        //DESARROLLAMOS LA PARTE DE REGISTR DE UN USUARI
+        //DESARROLLAMOS LA PARTE DE REGISTR DE UN USUARIO
+        print 'Estoy en el olvido';
     }
     public function registro()
     {
@@ -29,7 +30,7 @@ class LoginController extends Controller
         $dataForm = [];
 
         //var_dump($_POST);           //solo ve que hay en post
-        if ($_SERVER['REQUEST_METHOD'] == 'post') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //Procesa el formulario,requere los formularios
             //var_dump($_POST);
             $firstName = $_POST['first_name'] ?? ' ';
