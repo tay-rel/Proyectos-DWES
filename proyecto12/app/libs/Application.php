@@ -12,9 +12,9 @@ class Application
 
     function __construct()
     {
-      // $db=Mysqldb::getInstance()->getDataBase(); clase login
-       //$url=$this->separarUrl();        /*Obtendra la url*/
-       //1 var_dump($url);         /*Depura la Url*/
+        // $db=Mysqldb::getInstance()->getDataBase(); clase login
+        //$url=$this->separarUrl();        /*Obtendra la url*/
+        //1 var_dump($url);         /*Depura la Url*/
 
         $this->separarUrl();
 
@@ -27,20 +27,20 @@ class Application
             require_once '../app/controllers/' . $controller . '.php' ;
             $this->urlController=new $controller;       //aqui ya empieza como un objeto del controlador
 
-           if(method_exists($this->urlController, $this->urlAction) && is_callable(array($this->urlController,$this->urlAction) ) ){/*Es si existe y lo puedo llamar*/
-               if (!empty($this->urlParams) ){
-                   call_user_func_array(array($this->urlController,$this->urlAction),$this->urlParams);      //permite llamar a un metodo de una clase
-               }else{
-                   $this->urlController->{$this->urlAction}();
-               }
-           }else{
-               /*Añade el controlador por si no tiene metodo*/
-               if(strlen($this->urlAction == 0)){//devuelve un entero indicando el numero de caracteres que tiene la cadena
+            if(method_exists($this->urlController, $this->urlAction) && is_callable(array($this->urlController,$this->urlAction) ) ){/*Es si existe y lo puedo llamar*/
+                if (!empty($this->urlParams) ){
+                    call_user_func_array(array($this->urlController,$this->urlAction),$this->urlParams);      //permite llamar a un metodo de una clase
+                }else{
+                    $this->urlController->{$this->urlAction}();
+                }
+            }else{
+                /*Añade el controlador por si no tiene metodo*/
+                if(strlen($this->urlAction == 0)){//devuelve un entero indicando el numero de caracteres que tiene la cadena
                     $this->urlController->index();
-               }else{
-                   header('HTTP/1.0 404 Not Found'); //Tratamos el error producido cuando creemos el controlador de error
-               }
-           }
+                }else{
+                    header('HTTP/1.0 404 Not Found'); //Tratamos el error producido cuando creemos el controlador de error
+                }
+            }
         }else{
             require_once '../app/controllers/LoginController.php';
             $page=new LoginController();
@@ -56,7 +56,7 @@ class Application
 
             //2return $url;
 
-           // $this->urlController= isset($url[0]) ? $url[0] : null;
+            // $this->urlController= isset($url[0]) ? $url[0] : null;
             $this->urlController=$url[0] ?? null;       /*A param n quiero pasar 0 ni 1 usamos unset*/
             $this->urlAction=$url[1] ?? null;
 
