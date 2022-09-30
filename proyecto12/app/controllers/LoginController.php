@@ -21,7 +21,47 @@ class LoginController extends Controller
 
     public function olvido()
     {
-        print 'Estoy en olvido';
+        $errors=[];
+        if($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $data=[
+                'titulo'=>'Bienvenido',
+                'menu'=>false,
+                'errors'=>[],
+                'subtitle'=>'¿Olvidaste la contraseña?'
+            ];
+        }else{
+           // print'estoy dentro';
+            $email = $_POST['email'] ?? '';
+            if ($email == '') {
+                array_push($errors, 'El email es requerido');
+            }
+            if (!filter_var($email,FILTER_VALIDATE_EMAIL)){
+                array_push($errors, 'El correo electronico no es valido');
+            }
+            if (count($errors)==0){
+                //comprueba si esta en la bbdd
+                if(!$this->model->existsEmail($email)){
+                    array_push($errors,'El correo electronico no existe en ela base de datos');
+                }else{
+                    //enviar un email si existe en la bbd
+                    $this->model->sendEmail($email);
+                }
+
+            }
+            if(count($errors)>0){
+                //regresa a la vista anterior Olvido
+                $data=[
+                    'titulo'=>'OLvido de la contraseña',
+                    'menu'=>false,
+                    'errors'=>$errors,
+                    'subtitle'=>'¿Olvidaste la contraseña?'
+                ];
+                $this->view('olvido',$data);
+            }
+        }
+
+
+        $this->view('olvido',$data);
     }
 
     public function registro()
@@ -96,9 +136,33 @@ class LoginController extends Controller
             if (count($errors) == 0) {
                 //print 'Pasamos a dar de alta al usuario en la BD';
                 if($this->model->createUser($dataForm)){
-                    print 'Registro insertado';
+                    $data=[
+                        'titulo'=>'Bienvenido',
+                        'menu'=>false,
+                        'errors'=>[],
+                        'subtitle'=>'Bienvenido/a a nuestra tienda online',
+                        'text'=>'Gracias por su registro',
+                        'color'=>'alert-success',
+                        'url'=>'menu',  //menu controller que va a mensaje [url]
+                        'colorButton'=>'btn-success',
+                        'textButton'=>'Acceder',
+
+                    ];
+                    $this->view('mensaje',$data);
                 }else{
-                    print 'no se pudo ';
+                    $data=[
+                        'titulo'=>'Error',
+                        'menu'=>false,
+                        'errors'=>[],
+                        'subtitle'=>'Error en el proceso de registro.Revise los datos',
+                        'text'=>'Probablemente el correo ya exista',
+                        'color'=>'alert-danger',
+                        'url'=>'login',  //menu controller que va a mensaje [url]
+                        'colorButton'=>'btn-danger',
+                        'textButton'=>'Regresar',
+
+                    ];
+                    $this->view('mensaje',$data);
                 }
             } else {
                 $data = [

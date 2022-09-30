@@ -12,10 +12,6 @@ class Application
 
     function __construct()
     {
-        // $db=Mysqldb::getInstance()->getDataBase(); clase login
-        //$url=$this->separarUrl();        /*Obtendra la url*/
-        //1 var_dump($url);         /*Depura la Url*/
-
         $this->separarUrl();
 
         if(! $this->urlController){     /*Controlador =false significa que esta vacio */
