@@ -50,7 +50,38 @@ class LoginController extends Controller
                 if ( ! $this->model->existsEmail($email)) {
                     array_push($errors, 'El correo electrónico no existe en la base de datos');
                 } else {
-                    $this->model->sendEmail($email);
+                 if(   $this->model->sendEmail($email)){
+                     //si va bien
+                     $data = [
+                         'titulo' => 'Cambio de contraseña de acceso',
+                         'menu' => false,
+                         'errors' => [],    //porque no provengo de un form
+                         'subtitle' => 'Cambio de contraseña de acceso',
+                         'text' => 'SE ha enviado a <b>' . $email .
+                             '<b>para qu epueda cambiar su clave de acceso.<br>No olvide revisar su carpeta de spam',
+                         'color' => 'alert-success',
+                         'url' => 'login',
+                         'colorButton' => 'btn-success',
+                         'textButton' => 'Regresar',
+                     ];
+
+                     $this->view('mensaje', $data);
+                 }else{
+                     //si va mal
+                     $data = [
+                         'titulo' => 'Error en el correo',
+                         'menu' => false,
+                         'errors' => [],
+                         'subtitle' => 'Error en el envio del correo electronico',
+                         'text' => 'Existio un problema de envio del correo.<br>Pruebe mas tarde, gracias',
+                         'color' => 'alert-danger',
+                         'url' => 'login',
+                         'colorButton' => 'btn-danger',
+                         'textButton' => 'Regresar',
+                     ];
+
+                     $this->view('mensaje', $data);
+                 }
                 }
             }
 
@@ -196,5 +227,17 @@ class LoginController extends Controller
 
             $this->view('register', $data);
         }
+
+    }
+    public function changePassword($id)
+    {
+        $data = [
+            'titulo' => 'Cambiar contraseña',
+            'menu'   => false,
+            'data' =>$id,
+            'subtitle'=>'Cambia contraseña',
+        ];
+        $this->view('changePassword', $data);
+
     }
 }

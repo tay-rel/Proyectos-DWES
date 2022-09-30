@@ -45,8 +45,7 @@
             <div class="form-group text-left">
                 <label for="password2">Repita su clave de acceso:</label>
                 <input type="password" name="password2" id="password2" class="form-control"
-                       required placeholder="Repita su contraseña"
-                >
+                       required placeholder="Repita su contraseña">
             </div>
             <div class="form-group text-left">
                 <label for="address">Dirección:</label>

@@ -77,7 +77,7 @@ class Login
         $headers .='REply-to: administracion@tiendamvc.local';
 
         $subject="Cambiar contraseña en tiendamvc";
-        
-        return mail($email ,$subject,$msg,$headers);
+
+        return mail($email ,$subject,$msg,$headers);    //devuelve true si ha sido enviado y false(si hay un problema de envio) sino ha sido enviado
     }
 }
