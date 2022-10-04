@@ -333,6 +333,11 @@ class LoginController extends Controller
             ];
 
             if(!$errors){
+                //genero la sesion porque no habia errores
+                $data=$this->model->getUserByEmail($user);      //almacenamos todos los datos del usuario
+                $session=new Session();
+                $session->login($data);
+
                 header('location:' . ROOT . 'shop');
             }else{
                $data=[

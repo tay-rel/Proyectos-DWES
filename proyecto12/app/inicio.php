@@ -12,3 +12,4 @@ define('ENCRIPTIKEY','elperrodesanroque');      //PUEDE CAMBIAR LA CLAVEDE LA EN
 require_once ('libs/Mysqldb.php');
 require_once ('libs/Controller.php');
 require_once('libs/Application.php');   //contenedor de clases=libreria
+require_once ('libs/Session.php');
