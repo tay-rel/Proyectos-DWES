@@ -12,9 +12,21 @@ class LoginController extends Controller
 
     public function index()
     {
+        if (isset($_COOKIE['shoplogin'])){      //obtenemos el valor
+            $value=explode('|',$_COOKIE['shoplogin']);
+            $dataForm= [
+                'user'=>$value[0],
+                'password'=>$value[1],
+                'remember'=>'on',
+            ];
+        }else{
+            $dataForm=null;     //si la coockie no existe es null
+        }
+
         $data = [
             'titulo' => 'Login',
             'menu'   => false,
+            'data' =>$dataForm,     //aparece el formulario relleno guardando el login
         ];
 
         $this->view('login', $data);
@@ -258,8 +270,35 @@ class LoginController extends Controller
                     'subtitle'=>'Cambia tu contraseña de acceso',
                 ];
                 $this->view('changePassword',$data);
+            }else{
+                if($this->model->changePassword($id,$password)){        //si el modelo va bien deuuelve verdadero y si no falso
+                    $data=[
+                        'titulo' => 'Cambiar contraseña',
+                        'menu'   => false,
+                        'errors' => [],
+                        'subtitle'=>'Modificacion de la contraseña',
+                        'text' => 'La contraseña ha sido cambiada',
+                        'color'=>'alert-success',
+                        'url'=>'login',
+                        'colorBUtton'=>'btn-success',
+                        'textButton'=>'regresar',
+                    ];
+                    $this->view('mensaje',$data);
+                }else{
+                    $data=[
+                        'titulo' => 'Error al cambiar contraseña',
+                        'menu'   => false,
+                        'errors' => [],
+                        'subtitle'=>'Error en la modificacion de la contraseña',
+                        'text' => 'Existio un error en la modificacion',
+                        'color'=>'alert-danger',
+                        'url'=>'login',
+                        'colorBUtton'=>'btn-danger',
+                        'textButton'=>'regresar'
+                    ];
+                    $this->view('mensaje',$data);
+                }
             }
-
 
         }else{
             $data = [
@@ -269,9 +308,46 @@ class LoginController extends Controller
                 'subtitle'=>'Cambia contraseña',
             ];
             $this->view('changePassword', $data);
+        }
+    }
+    public function verifyUser()
+    {
+        $errors=[];
+        if($_SERVER['REQUEST_METHOD']=='POST'){
 
+            $user=$_POST['user'] ?? '';
+            $password=$_POST['password'] ?? '';
+            $remember =isset($_POST['remember']) ? 'on': 'off';
+            $errors=$this->model->verifyUser($user,$password);
+            $value=$user . '|' . $password;
+            if($remember=='on'){
+                $date=time()+(60*60*24*7);          //una semana
+            }else{      //sino se marca a on
+                $date=time()-1;         //es menos un segundo
+            }
+            setcookie('shoplogin', $value,$date, dirname(__DIR__) . ROOT);
 
+            $dataForm=[
+                'user'=>$user,
+                'remember'=>$remember,
+            ];
+
+            if(!$errors){
+                header('location:' . ROOT . 'shop');
+            }else{
+               $data=[
+                   'titulo' => 'Login',
+                   'menu'   => false,
+                   'errors'=>$errors,
+                   'data' =>$dataForm,
+
+               ];
+               $this->view('login',$data);
+            }
+        }else{
+            $this->index();
         }
 
     }
+
 }

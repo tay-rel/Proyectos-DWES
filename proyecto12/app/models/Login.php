@@ -26,7 +26,7 @@ class Login
         if ( ! $this->existsEmail($data['email'])) {
             // Crear el usuario
 
-            $password = hash_hmac('sha512', $data['password'], 'elperrodesanroque');
+            $password = hash_hmac('sha512', $data['password'], ENCRIPTIKEY);
 
             $sql = 'INSERT INTO users(first_name, last_name_1, last_name_2, email, 
                   address, city, state, zipcode, country, password) 
@@ -58,7 +58,7 @@ class Login
         $query=$this->db->prepare($sql);
         $query->bindParam(':email', $email, PDO::PARAM_STR);
         $query->execute();
-//ya se que existe y devuelve una fila
+//ya se que existe y devuelve una fila y si no hay nada que extraer devuelve null
         return $query->fetch(PDO::FETCH_OBJ);
     }
     public function sendEmail($email)
@@ -80,4 +80,36 @@ class Login
 
         return mail($email ,$subject,$msg,$headers);    //devuelve true si ha sido enviado y false(si hay un problema de envio) sino ha sido enviado
     }
+
+    public function changePassword($id,$password)
+    {
+        //1 paso para modificar la contraseña es la contraseña nueva
+        $pass = hash_hmac('sha512', $password, ENCRIPTIKEY);
+        $sql='UPDATE users SET password=:password WHERE id=:id';
+
+        $params=[
+            ':id'=>$id,
+            ':password'=>$pass,
+        ];
+        $query = $this->db->prepare($sql);  //preparamos la consulta
+        return $query->execute(($params));      //return true =correcto y false =incorrecto
+    }
+
+    public function verifyUser($email,$password)
+    {
+        $errors = [];
+
+        $user = $this->getUserByEmail($email);
+
+        $pass = hash_hmac('sha512', $password, ENCRIPTIKEY);
+
+        if (!$user) {
+            array_push($errors, 'El usuario no existe en nuestros registros');
+        } elseif ($user->password != $pass) {
+            array_push($errors, 'La contraseña no es correcta');
+        }
+
+        return $errors;
+    }
+
 }

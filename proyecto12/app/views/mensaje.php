@@ -5,8 +5,8 @@
     <h4><?=$data['text'] ?></h4>
 
 </div>
-<a href="<?=ROOT . $data['url']?>" class="btn <?=$data['colorButton']?>">
-    <?=$data['textButton']?>
+<a href="<?= ROOT . $data['url'] ?>" class="btn <?= $data['colorButton'] ?>">
+    <?= $data['textButton'] ?>
 </a>
 
 <?php include_once 'footer.php'?>
