@@ -98,9 +98,6 @@ class LoginController extends Controller
 
         }
 
-
-
-
     }
 
     public function registro()
@@ -231,13 +228,50 @@ class LoginController extends Controller
     }
     public function changePassword($id)
     {
-        $data = [
-            'titulo' => 'Cambiar contraseña',
-            'menu'   => false,
-            'data' =>$id,
-            'subtitle'=>'Cambia contraseña',
-        ];
-        $this->view('changePassword', $data);
+        //Vemo lo que envia el formulario
+        $errors=[];
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            //var_dump($_POST);
+            $id=$_POST['id'] ?? '';
+            $password=$_POST['password'] ?? '';
+            $password2=$_POST['password2'] ?? '';
+
+            if($id==''){
+                array_push($errors,'El usuario no existe');
+            }
+            if($password==''){
+                array_push($errors,'La contraseña es requerida');
+            }
+            if($password2==''){
+                array_push($errors,'Repetir contraseña es requerido');
+            }
+            if($password!=$password2){
+                array_push($errors,'Ambas claves deben ser iguales');
+            }
+            if(count($errors)){         //si no hay errores devolvera 0 e igualara como falso
+                //lamara a la vista del formulario mostrando los mensajes
+                $data=[
+                    'titulo' => 'Cambiar contraseña',
+                    'menu'   => false,
+                    'errors' =>$errors,
+                    'data' =>$id,
+                    'subtitle'=>'Cambia tu contraseña de acceso',
+                ];
+                $this->view('changePassword',$data);
+            }
+
+
+        }else{
+            $data = [
+                'titulo' => 'Cambiar contraseña',
+                'menu'   => false,
+                'data' =>$id,
+                'subtitle'=>'Cambia contraseña',
+            ];
+            $this->view('changePassword', $data);
+
+
+        }
 
     }
 }
