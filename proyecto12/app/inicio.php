@@ -6,7 +6,7 @@ define('ROOT', DIRECTORY_SEPARATOR);
 define('APP', ROOT .'app' . DIRECTORY_SEPARATOR);   //  /app/
 define('URL','/var/www/proyecto12/');
 define('VIEWS',URL . APP . 'views/');
-define('ENCRIPTIKEY','elperrodesanroque');      //PUEDE CAMBIAR LA CLAVEDE LA ENCRIPTACION
+define('ENCRIPTKEY','elperrodesanroque');      //PUEDE CAMBIAR LA CLAVEDE LA ENCRIPTACION
 
 
 

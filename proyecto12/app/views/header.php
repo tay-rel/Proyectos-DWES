@@ -20,16 +20,16 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <a href="<?= ROOT ?>" class="navbar-brand">Tienda</a>
     <div class="collapse navbar-collapse" id="menu">
-        <!-- Enlaces del menú para todos-->
+        <!--        Enlaces del menú para todos-->
         <?php if($data['menu']): ?>
-           <!-- Ubicación del menú para usuarios logueados-->
+            <!--            Ubicación del menú para usuarios logueados-->
         <?php endif; ?>
-        <?php if(isset($data['menu']) && $data['admin']): ?>
-           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-               <li class="nav-item">
-                   <a href="<?= ROOT ?>adminuser" class="nav-link" >Usuarios</a>
-               </li>
-           </ul>
+        <?php if(isset($data['admin']) && $data['admin']): ?>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a href="<?= ROOT ?>adminuser" class="nav-link">Usuarios</a>
+                </li>
+            </ul>
         <?php endif; ?>
     </div>
 </nav>
