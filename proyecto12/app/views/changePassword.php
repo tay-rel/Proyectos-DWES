@@ -1,17 +1,15 @@
 <?php include_once 'header.php'?>
 <div class="card p-4 bg-light">
     <div class="card-header">
-        <h1 class="text-center"><?=$data['subtitle']?></h1>
+        <h1 class="text-center"><?= $data['subtitle']?></h1>
     </div>
     <div class="card-body">
         <form action="<?=ROOT?>login/changePassword/<?=$data['data']?>" method="post">
             <input type="hidden" name="id" value="<?=$data['data']?>">       <!--pasamos por un campo oculto, para pasar el id-->
             <div class="form-group text-left">
-                <label for="password">Clave de acceso:</label>
-                <input type="password" name="password" id="password" class="form-control"
-                       required placeholder="Escriba su contraseña"
-
-                >
+                <label for="password1">Clave de acceso:</label>
+                <input type="password" name="password1" id="password1" class="form-control"
+                       required placeholder="Escriba su contraseña">
             </div>
             <div class="form-group text-left">
                 <label for="password2">Repita su clave de acceso:</label>
@@ -29,5 +27,4 @@
         </div>
     </div>
 </div>
-
 <?php include_once 'footer.php'?>

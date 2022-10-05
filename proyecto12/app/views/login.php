@@ -17,8 +17,8 @@
                 <label for="password">Clave de acceso:</label>
                 <input type="password" name="password" class="form-control"
                 placeholder="escribe la contraseña"
-                       value="<?=isset($data['data']) ? $data['data']['user']: ''?>"
-                >
+                       value="<?= $data['data']['password']  ?? '' ?>">
+
             </div>
             <div class="form-group text-left">
                 <input type="submit" value="Enviar" class="btn btn-success">

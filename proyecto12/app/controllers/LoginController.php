@@ -245,19 +245,19 @@ class LoginController extends Controller
         if($_SERVER['REQUEST_METHOD']=='POST'){
             //var_dump($_POST);
             $id=$_POST['id'] ?? '';
-            $password=$_POST['password'] ?? '';
+            $password1=$_POST['password1'] ?? '';
             $password2=$_POST['password2'] ?? '';
 
             if($id==''){
                 array_push($errors,'El usuario no existe');
             }
-            if($password==''){
+            if($password1==''){
                 array_push($errors,'La contraseña es requerida');
             }
             if($password2==''){
                 array_push($errors,'Repetir contraseña es requerido');
             }
-            if($password!=$password2){
+            if($password1!=$password2){
                 array_push($errors,'Ambas claves deben ser iguales');
             }
             if(count($errors)){         //si no hay errores devolvera 0 e igualara como falso
@@ -271,17 +271,17 @@ class LoginController extends Controller
                 ];
                 $this->view('changePassword',$data);
             }else{
-                if($this->model->changePassword($id,$password)){        //si el modelo va bien deuuelve verdadero y si no falso
+                if($this->model->changePassword($id,$password1)){        //si el modelo va bien deuuelve verdadero y si no falso
                     $data=[
                         'titulo' => 'Cambiar contraseña',
                         'menu'   => false,
                         'errors' => [],
-                        'subtitle'=>'Modificacion de la contraseña',
-                        'text' => 'La contraseña ha sido cambiada',
-                        'color'=>'alert-success',
-                        'url'=>'login',
-                        'colorBUtton'=>'btn-success',
-                        'textButton'=>'regresar',
+                        'subtitle' => 'Modificación de la contraseña de acceso',
+                        'text' => 'La contraseña ha sido cambiada correctamente. Bienvenido de nuevo',
+                        'color' => 'alert-success',
+                        'url' => 'login',
+                        'colorButton' => 'btn-success',
+                        'textButton' => 'Regresar',
                     ];
                     $this->view('mensaje',$data);
                 }else{
@@ -289,12 +289,12 @@ class LoginController extends Controller
                         'titulo' => 'Error al cambiar contraseña',
                         'menu'   => false,
                         'errors' => [],
-                        'subtitle'=>'Error en la modificacion de la contraseña',
-                        'text' => 'Existio un error en la modificacion',
-                        'color'=>'alert-danger',
-                        'url'=>'login',
-                        'colorBUtton'=>'btn-danger',
-                        'textButton'=>'regresar'
+                        'subtitle' => 'Error al modificar la contraseña de acceso',
+                        'text' => 'Existió un error al modificar la clave de acceso',
+                        'color' => 'alert-danger',
+                        'url' => 'login',
+                        'colorButton' => 'btn-danger',
+                        'textButton' => 'Regresar',
                     ];
                     $this->view('mensaje',$data);
                 }
@@ -304,8 +304,8 @@ class LoginController extends Controller
             $data = [
                 'titulo' => 'Cambiar contraseña',
                 'menu'   => false,
-                'data' =>$id,
-                'subtitle'=>'Cambia contraseña',
+                'data' => $id,
+                'subtitle' => 'Cambia tu contraseña de acceso',
             ];
             $this->view('changePassword', $data);
         }
