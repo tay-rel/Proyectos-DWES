@@ -32,7 +32,7 @@
             </div>
             <div class="form-group text-left">
                 <input type="submit" value="Enviar" class="btn btn-success">
-                <a href="<?= ROOT ?>adminuser" class="btn btn-info">Regresar</a>
+                <a href="<?= ROOT ?>AdminUser" class="btn btn-info">Regresar</a>
             </div>
         </form>
     </div>

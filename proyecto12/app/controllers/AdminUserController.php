@@ -55,8 +55,9 @@ class AdminUserController extends Controller
             }
 
             if ( ! $errors) {
-                // Añadir en DB
+                // Redireccin a la vista index del AdminUser que llegado el momento estara en el listado de los usuarios
             } else {
+                //Cuando no se pueda crear los usuarios
 
                 $data = [
                     'titulo' => 'Administración de Usuarios - Alta',

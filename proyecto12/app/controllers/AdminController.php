@@ -17,18 +17,18 @@ class AdminController extends Controller
             'data' => [],
         ];
 
-        $this->view('admin/index', $data);
+        $this->view('admin/index', $data);//el metodo get es quien me lleva al index
     }
 
     public function verifyUser()
     {
-        $data = [
-            'titulo' => 'Administración - Inicio',
-            'menu' => false,
-            'admin' => true,
-            'data' => [],
-        ];
+        //completar el metodo verifyUser
+        //$errors=verifyUSer , es un else mas interno verifica si hay un error en la base de datos que es un arary que contenga los posibles errores,sino hay errores devuelve array vacio
+        //cuando hay errores de validación
+        //cuando hay errores de entrada por get
+        //Cuando hay errores como no hay else se sale para mostrar a la misma vista
+        //Si las validaciones fallan odo falla
+        //si ha habido un fallo habra un arraypush  mostrando el error regresando al index porque entra por metodo post
 
-        $this->view('admin/index2', $data);
     }
 }
