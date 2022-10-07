@@ -22,13 +22,48 @@ class AdminController extends Controller
 
     public function verifyUser()
     {
-        //completar el metodo verifyUser
-        //$errors=verifyUSer , es un else mas interno verifica si hay un error en la base de datos que es un arary que contenga los posibles errores,sino hay errores devuelve array vacio
-        //cuando hay errores de validación
-        //cuando hay errores de entrada por get
-        //Cuando hay errores como no hay else se sale para mostrar a la misma vista
-        //Si las validaciones fallan odo falla
-        //si ha habido un fallo habra un arraypush  mostrando el error regresando al index porque entra por metodo post
+        $errors = [];
+        $dataForm = [];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $user = $_POST['user'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            $dataForm = [
+                'user' => $user,
+                'password' => $password,
+            ];
+            if(empty($user)) {
+                array_push($errors, 'El usuario es requerido');
+            }
+            if(empty($password)) {
+                array_push($errors, 'La contraseña es requerida');
+            }
+
+            if ( ! $errors ) {
+
+                $errors = $this->model->verifyUser($dataForm);
+
+                if ( ! $errors ) {
+                    header("LOCATION:" . ROOT . 'AdminShop');
+                }
+
+            }
+
+        }
+
+        $data = [
+            'titulo' => 'Administración - Inicio',
+            'menu' => false,
+            'admin' => false,
+            'errors' => $errors,
+            'data' => $dataForm,
+        ];
+
+        $this->view('admin/index', $data);
 
     }
+
+
 }

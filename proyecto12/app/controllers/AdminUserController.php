@@ -55,9 +55,27 @@ class AdminUserController extends Controller
             }
 
             if ( ! $errors) {
-                // Redireccin a la vista index del AdminUser que llegado el momento estara en el listado de los usuarios
+
+                if ($this->model->createAdminUser($dataForm)) {
+                    header("location:" . ROOT . 'AdminUser');
+                } else {
+
+                    $data = [
+                        'titulo' => 'Error en la creación de un usuario administrador',
+                        'menu' => false,
+                        'errors' => [],
+                        'subtitle' => 'Error al crear un nuevo usuario administrador',
+                        'text' => 'Se ha producido un error durante el proceso de creación de un usuario administrador',
+                        'color' => 'alert-danger',
+                        'url' => 'adminuser',
+                        'colorButton' => 'btn-danger',
+                        'textButton' => 'Volver',
+                    ];
+                    $this->view('mensaje', $data);
+
+                }
+
             } else {
-                //Cuando no se pueda crear los usuarios
 
                 $data = [
                     'titulo' => 'Administración de Usuarios - Alta',
@@ -84,7 +102,6 @@ class AdminUserController extends Controller
 
         }
     }
-
     public function update()
     {
         print 'Modificación de usuarios';
