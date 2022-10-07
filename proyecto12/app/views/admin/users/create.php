@@ -5,7 +5,7 @@
         <h1 class="text-center">Alta de un usuario administrador</h1>
     </div>
     <div class="card-body">
-        <form action="<?= ROOT ?>adminUser/create/" method="POST">
+        <form action="<?= ROOT ?>AdminUser/create/" method="POST">
             <div class="form-group text-left">
                 <label for="name">Usuario:</label>
                 <input type="text" name="name" class="form-control"
