@@ -6,19 +6,25 @@ class AdminUserController extends Controller
 
     public function __construct()
     {
-        $this->model = $this->model('AdminUser');
+        $this -> model = $this->model('AdminUser');
     }
 
     public function index()
     {
-        $data = [
-            'titulo' => 'Administración de Usuarios',
-            'menu' => false,
-            'admin' => true,
-            'data' => [],
-        ];
+        $session= new Session();
+           if($session -> getLogin()){
+               $users=$this -> model ->getUsers();
+               $data = [
+                   'titulo' => 'Administración de Usuarios',
+                   'menu' => false,
+                   'admin' => true,
+                   'users' => $users,
+               ];
+               $this->view('admin/users/index', $data);
+           }else{
+               header('LOCATION:' . ROOT . 'admin');
+           }
 
-        $this->view('admin/users/index', $data);
     }
 
     public function create()
@@ -56,7 +62,7 @@ class AdminUserController extends Controller
 
             if ( ! $errors) {
 
-                if ($this->model->createAdminUser($dataForm)) {
+                if ($this -> model -> createAdminUser($dataForm)) {
                     header("location:" . ROOT . 'AdminUser');
                 } else {
 
@@ -102,9 +108,26 @@ class AdminUserController extends Controller
 
         }
     }
-    public function update()
+    public function update($id)
     {
-        print 'Modificación de usuarios';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        } else {
+
+            $user = $this->model->getUserById($id);
+            $status = $this->model->getConfig('adminStatus');
+
+            $data = [
+                'titulo' => 'Administración de Usuarios - Editar',
+                'menu' => false,
+                'admin' => true,
+                'data' => $user,
+                'status' => $status,
+            ];
+
+            $this->view('admin/users/update', $data);
+
+        }
     }
 
     public function delete()

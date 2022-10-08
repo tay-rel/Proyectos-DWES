@@ -62,14 +62,13 @@ class LoginController extends Controller
                 if ( ! $this->model->existsEmail($email)) {
                     array_push($errors, 'El correo electrónico no existe en la base de datos');
                 } else {
-                 if(   $this->model->sendEmail($email)){
-                     //si va bien
+                 if(   $this->model->sendEmail($email)){                                //si va bien
                      $data = [
                          'titulo' => 'Cambio de contraseña de acceso',
                          'menu' => false,
                          'errors' => [],    //porque no provengo de un form
                          'subtitle' => 'Cambio de contraseña de acceso',
-                         'text' => 'SE ha enviado a <b>' . $email .
+                         'text' => 'Se ha enviado a <b>' . $email .
                              '<b>para qu epueda cambiar su clave de acceso.<br>No olvide revisar su carpeta de spam',
                          'color' => 'alert-success',
                          'url' => 'login',
@@ -78,8 +77,7 @@ class LoginController extends Controller
                      ];
 
                      $this->view('mensaje', $data);
-                 }else{
-                     //si va mal
+                 } else {                                                                 //si va mal
                      $data = [
                          'titulo' => 'Error en el correo',
                          'menu' => false,
@@ -240,7 +238,6 @@ class LoginController extends Controller
     }
     public function changePassword($id)
     {
-        //Vemo lo que envia el formulario
         $errors=[];
         if($_SERVER['REQUEST_METHOD']=='POST'){
             //var_dump($_POST);
@@ -261,7 +258,7 @@ class LoginController extends Controller
                 array_push($errors,'Ambas claves deben ser iguales');
             }
             if(count($errors)){         //si no hay errores devolvera 0 e igualara como falso
-                //lamara a la vista del formulario mostrando los mensajes
+                //llamara a la vista del formulario mostrando los mensajes
                 $data=[
                     'titulo' => 'Cambiar contraseña',
                     'menu'   => false,
@@ -270,8 +267,9 @@ class LoginController extends Controller
                     'subtitle'=>'Cambia tu contraseña de acceso',
                 ];
                 $this->view('changePassword',$data);
+
             }else{
-                if($this->model->changePassword($id,$password1)){        //si el modelo va bien deuuelve verdadero y si no falso
+                if ( $this->model->changePassword($id, $password1)){        //si el modelo va bien deuuelve verdadero y si no falso
                     $data=[
                         'titulo' => 'Cambiar contraseña',
                         'menu'   => false,
@@ -307,38 +305,41 @@ class LoginController extends Controller
                 'data' => $id,
                 'subtitle' => 'Cambia tu contraseña de acceso',
             ];
+
             $this->view('changePassword', $data);
         }
     }
     public function verifyUser()
     {
         $errors=[];
-        if($_SERVER['REQUEST_METHOD']=='POST'){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             $user=$_POST['user'] ?? '';
             $password=$_POST['password'] ?? '';
-            $remember =isset($_POST['remember']) ? 'on': 'off';
-            $errors=$this->model->verifyUser($user,$password);
+            $remember =isset($_POST['remember']) ? 'on': 'off';     //recuerda la contraseña
+
+            $errors=$this->model->verifyUser($user, $password);
+
             $value=$user . '|' . $password;
-            if($remember=='on'){
+            if($remember =='on'){
                 $date=time()+(60*60*24*7);          //una semana
+
             }else{      //sino se marca a on
                 $date=time()-1;         //es menos un segundo
             }
-            setcookie('shoplogin', $value,$date, dirname(__DIR__) . ROOT);
+            setcookie('shoplogin',$value ,$date , dirname(__DIR__) . ROOT);
 
             $dataForm=[
                 'user'=>$user,
                 'remember'=>$remember,
             ];
 
-            if(!$errors){
-                //genero la sesion porque no habia errores
+            if(!$errors){                       //genero la sesion porque no habia errores
                 $data=$this->model->getUserByEmail($user);      //almacenamos todos los datos del usuario
                 $session=new Session();
                 $session->login($data);
 
-                header('location:' . ROOT . 'shop');
+                header('LOCATION:' . ROOT . 'shop');
             }else{
                $data=[
                    'titulo' => 'Login',

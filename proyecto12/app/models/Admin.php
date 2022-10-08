@@ -3,7 +3,7 @@
 class Admin
 {
 
-    private $model;
+    private $db;
     public function __construct()
     {
         $this->db = Mysqldb::getInstance()->getDatabase();

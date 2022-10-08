@@ -2,7 +2,7 @@
 
 class AdminUser
 {
-    private $model;
+    private $db;
 
     public function __construct()
     {
@@ -12,7 +12,7 @@ class AdminUser
     {
         $response = false;
 
-        if ( ! $this->existsEmail($data['email'])) {
+        if ( ! $this -> existsEmail($data['email'])) {
 
             $password = hash_hmac('sha512', $data['password'], ENCRIPTKEY);
 
@@ -48,4 +48,31 @@ class AdminUser
     }
 
     //genera una funcion getUser que es parecida a otras es where porque no este borrado por deleted que el 0 es falso y 1 true
+    public function getUsers()
+    {
+        $sql = 'SELECT * FROM admins WHERE deleted = 0';
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_OBJ);  //devuelve como un objeto
+    }
+
+    public function getUserById($id)
+    {
+        $sql = 'SELECT * FROM admins WHERE id=:id';
+        $query = $this->db->prepare($sql);
+        $query->execute([':id' => $id]);
+
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function getConfig($type)
+    {
+        $sql = 'SELECT * FROM config WHERE type=:type ORDER BY value DESC';
+        $query = $this->db->prepare($sql);
+        $query->execute([':type' => $type]);
+
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+
 }

@@ -18,7 +18,7 @@ class ShopController extends Controller
             ];
             $this->view('shop/index');
         }else{
-            header('location:' . ROOT);
+            header('LOCATION' . ROOT);
         }
 
     }
