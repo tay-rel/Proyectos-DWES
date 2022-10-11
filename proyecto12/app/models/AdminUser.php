@@ -75,4 +75,42 @@ class AdminUser
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
+    /**
+     * @param PDO|null $db
+     */
+    public function setUser($user)                          //verifica si envia o no contrasñea
+    {
+     $errors=[];
+
+     if($user['password']){//si me envian la cotraseña
+         //se envio contraseña
+         $sql='UPDATE admins SET  name=:name, email=: , password=:password, status=:status,
+         update_at=:update_at WHERE id=:id';
+         $pass=hash_hmac('sha512',$user['password'],ENCRIPTKEY);
+         $params=[
+             ':id'=>$user['id'],
+             ':name'=>$user['name'],
+             ':email'=>$user['email'],
+             ':password'=>$pass,
+             ':status'=>$user['status'],
+             ':update_at'=>date('Y-m-d H:i:s'),
+         ];
+     }else{//si no me envian la contraseña
+         $sql='UPDATE admins SET  name=:name, email=: , password=:password, status=:status,
+         update_at=:update_at WHERE id=:id';
+         $params=[
+             ':id'=>$user['id'],
+             ':name'=>$user['name'],
+             ':email'=>$user['email'],
+             ':status'=>$user['status'],
+             ':update_at'=>date('Y-m-d H:i:s'),
+         ];
+     }
+     $query=$this->db ->prepare($sql);
+     if(! $query -> execute($params)){
+         array_push($errors, 'Erro al modificar el usuario administrador');
+     }
+     return $errors;
+    }
+
 }
