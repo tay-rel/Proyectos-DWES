@@ -22,7 +22,7 @@ class AdminUserController extends Controller
                ];
                $this->view('admin/users/index', $data);
            }else{
-               header('LOCATION:' . ROOT . 'admin');
+               header('location:' . ROOT . 'admin');
            }
 
     }
@@ -117,7 +117,7 @@ class AdminUserController extends Controller
             $email=$_POST['email'] ?? '';
             $password1=$_POST['password1'] ?? '';
             $password2=$_POST['password2'] ?? '';
-            $status=$_POST['pstatus'] ?? '';
+            $status=$_POST['status'] ?? '';
 
             if ($name == '') {
                 array_push($errors, 'El nombre es requerido');
@@ -142,7 +142,7 @@ class AdminUserController extends Controller
                     ];
                     $errors=$this->model->setUser($data);                //llamo al modelo
                     if(! $errors){                                      //regresa al listado de los admins
-                        header('LOCATION: '. ROOT .'AdminUser');//termina la ejecucion del metodo
+                        header('location: '. ROOT .'AdminUser');//termina la ejecucion del metodo
 
                     }
                 }
@@ -165,8 +165,28 @@ class AdminUserController extends Controller
 
     }
 
-    public function delete()
+    public function delete($id)
     {
-        print 'Eliminación de usuarios';
+        $errors=[];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $errors=$this->model->delete($id);
+        if(! $errors){
+            header('location: '. ROOT .'AdminUser');
+        }
+
+        }
+        $user = $this->model->getUserById($id);                             //si es por get ibtenemos los usuarios
+        $status = $this->model->getConfig('adminStatus');               //datos del status
+
+        $data = [
+            'titulo' => 'Administración de Usuarios - Eliminar',
+            'menu' => false,
+            'admin' => true,
+            'data' => $user,
+            'status' => $status,
+            'errors'=>$errors,
+        ];
+
+        $this->view('admin/users/delete', $data);
     }
 }

@@ -27,6 +27,10 @@ class Admin
             array_push($errors, 'El correo electrónico está duplicado');
         } elseif ($password != $admins[0]->password) {
             array_push($errors, 'La clave de acceso no es correcta');
+        }elseif($admins[0] -> status == 0){
+            array_push($errors,'El usuario esta desactivado');//si genera un arrore no se loguea
+        }elseif($admins[0] -> deleted == 1){
+            array_push($errors,'El usuario no existe en nuestros registros');
         } else {
 
             $sql2 = 'UPDATE admins SET login_at=:login WHERE id=:id';

@@ -113,4 +113,20 @@ class AdminUser
      return $errors;
     }
 
+    public function delete($id)
+    {
+        $errors=[];
+        $sql='UPDATE admins SET deleted=:deleted,deleted_at WHERE id=:id';//SOFTDELETE->BORRADO BLANDO->EFECTIVO PERO NO SE BORRA=V =delete deja huella en la base de datos por eso el update es mas rapido,no se genera huecos en la bbdd
+        $params=[
+            'id'=>$id,
+            'deleted'=>1,
+            'deleted_at'=>date('Y-m-d H:i:s'),
+        ];
+        $query=$this->db ->prepare($sql);
+        if(! $query -> execute($params)){
+            array_push($errors, 'Erro al eliminar el usuario administrador');
+        }
+        return $errors;
+    }
+
 }

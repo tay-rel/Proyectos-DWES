@@ -19,11 +19,15 @@
                         <td class="text-center"><?= $user->name ?></td>
                         <td class="text-center"><?= $user->email ?></td>
                         <td class="text-center">
-                            <a href="<?= ROOT ?>Adminuser/update/<?= $user->id ?>"
+                            <a href="<?= ROOT ?>AdminUser/update<?= $user->id ?>"
                                class="btn btn-info"
                             >Editar</a>
                         </td>
-                        <td class="text-center btn btn-danger">Borrar</td>
+                        <td class="text-center btn btn-danger">
+                            <a href="<?= ROOT ?>AdminUser/delete<?= $user->id ?>"
+                               class="btn btn-danger"
+                            >Borrar</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
