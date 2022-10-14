@@ -29,6 +29,9 @@
                 <li class="nav-item">
                     <a href="<?= ROOT ?>AdminUser" class="nav-link">Usuarios</a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?= ROOT ?>adminproduct" class="nav-link">Productos</a>
+                </li>
             </ul>
         <?php endif; ?>
     </div>
