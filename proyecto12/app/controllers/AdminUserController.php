@@ -35,13 +35,13 @@ class AdminUserController extends Controller
 
             $name = $_POST['name'] ?? '';
             $email = $_POST['email'] ?? '';
-            $password1 = $_POST['password1'] ?? '';
+            $password1 = $_POST['password'] ?? '';
             $password2 = $_POST['password2'] ?? '';
 
             $dataForm = [
                 'name' => $name,
                 'email' => $email,
-                'password1' => $password1,
+                'password' => $password1,
             ];
 
             if (empty($name)) {
@@ -73,7 +73,7 @@ class AdminUserController extends Controller
                         'subtitle' => 'Error al crear un nuevo usuario administrador',
                         'text' => 'Se ha producido un error durante el proceso de creación de un usuario administrador',
                         'color' => 'alert-danger',
-                        'url' => 'adminuser',
+                        'url' => 'AdminUser',
                         'colorButton' => 'btn-danger',
                         'textButton' => 'Volver',
                     ];
@@ -115,7 +115,7 @@ class AdminUserController extends Controller
 
             $name=$_POST['name'] ?? '';
             $email=$_POST['email'] ?? '';
-            $password1=$_POST['password1'] ?? '';
+            $password1=$_POST['password'] ?? '';
             $password2=$_POST['password2'] ?? '';
             $status=$_POST['status'] ?? '';
 
@@ -137,7 +137,7 @@ class AdminUserController extends Controller
                         'id' =>$id,
                         'name' => $name,
                         'email' => $email,
-                        'password1' => $password1,
+                        'password' => $password1,
                         'status' => $status,
                     ];
                     $errors=$this->model->setUser($data);                //llamo al modelo
