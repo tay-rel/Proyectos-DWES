@@ -30,7 +30,7 @@
                     <a href="<?= ROOT ?>AdminUser" class="nav-link">Usuarios</a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= ROOT ?>adminproduct" class="nav-link">Productos</a>
+                    <a href="<?= ROOT ?>adminProduct" class="nav-link">Productos</a>
                 </li>
             </ul>
         <?php endif; ?>
