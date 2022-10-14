@@ -27,17 +27,10 @@ class Admin
             array_push($errors, 'El correo electrónico está duplicado');
         } elseif ($password != $admins[0]->password) {
             array_push($errors, 'La clave de acceso no es correcta');
-<<<<<<< HEAD
-        }elseif($admins[0] -> status == 0){
-            array_push($errors,'El usuario esta desactivado');//si genera un arrore no se loguea
-        }elseif($admins[0] -> deleted == 1){
-            array_push($errors,'El usuario no existe en nuestros registros');
-=======
         } elseif ($admins[0]->status == 0) {
             array_push($errors, 'El usuario está desactivado');
         } elseif ($admins[0]->deleted == 1) {
             array_push($errors, 'El usuario no existe en nuestros registros');
->>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
         } else {
             $sql2 = 'UPDATE admins SET login_at=:login WHERE id=:id';
             $query2 = $this->db->prepare($sql2);

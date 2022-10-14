@@ -19,21 +19,12 @@
                         <td class="text-center"><?= $user->name ?></td>
                         <td class="text-center"><?= $user->email ?></td>
                         <td class="text-center">
-<<<<<<< HEAD
-                            <a href="<?= ROOT ?>AdminUser/update<?= $user->id ?>"
-                               class="btn btn-info"
-                            >Editar</a>
-                        </td>
-                        <td class="text-center btn btn-danger">
-                            <a href="<?= ROOT ?>AdminUser/delete<?= $user->id ?>"
-=======
                             <a href="<?= ROOT ?>AdminUser/update/<?= $user->id ?>"
                                class="btn btn-info"
                             >Editar</a>
                         </td>
                         <td class="text-center">
                             <a href="<?= ROOT ?>AdminUser/delete/<?= $user->id ?>"
->>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
                                class="btn btn-danger"
                             >Borrar</a>
                         </td>

@@ -2,9 +2,6 @@
 
 class AdminProduct
 {
-<<<<<<< HEAD
-
-=======
     private $db;
 
     public function __construct()
@@ -29,5 +26,4 @@ class AdminProduct
 
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
->>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
 }

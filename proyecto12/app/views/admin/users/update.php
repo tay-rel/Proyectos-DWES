@@ -21,27 +21,21 @@
                 >
             </div>
             <div class="form-group text-left">
-<<<<<<< HEAD
-                <label for="password1">Clave de acceso: (dejar en blanco si no desea modificarla)</label>
-                <input type="password" name="password1" class="form-control"
-                       placeholder="Escribe tu contraseña">
-=======
                 <label for="password1">Clave de acceso:</label>
                 <input type="password" name="password" class="form-control"
                        placeholder="Escribe tu contraseña" required>
->>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
             </div>
             <div class="form-group text-left">
                 <label for="password2">Clave de acceso:</label>
                 <input type="password" name="password2" class="form-control"
-                       placeholder="Repite tu contraseña">
+                       placeholder="Repite tu contraseña" required>
             </div>
             <div class="form-group">
-                <label for="status">Selecciona un estado</label><!--El estado debe tener memoria-->
+                <label for="status">Selecciona un estado</label>
                 <select name="status" id="status" class="form-control">
                     <option value="">Selecciona el estado del usuario</option>
-                    <?php foreach($data['status'] as $status): ?><!--gENERA DOS ELEMENTOS ACTIVO E INACTIVO-->
-                        <option value="<?= $status->value ?>"<?= $status->value == $data['data'] -> status ? ' selected' : '' ?> ><?= $status->description ?></option>
+                    <?php foreach($data['status'] as $status): ?>
+                        <option value="<?= $status->value ?>"><?= $status->description ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

@@ -2,11 +2,8 @@
 
 class AdminProductController extends Controller
 {
-<<<<<<< HEAD
-=======
 
 
->>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
     private $model;
 
     public function __construct()
@@ -16,28 +13,6 @@ class AdminProductController extends Controller
 
     public function index()
     {
-<<<<<<< HEAD
-        $session= new Session();
-        if($session->getLogin()){
-            $products = $this->model ->getProducts();
-        }else{
-            header('location: ' . ROOT . 'admin');
-        }
-    }
-    public function create()
-    {
-
-    }
-    public function update()
-    {
-
-    }
-    public function delete()
-    {
-
-    }
-
-=======
         $session = new Session();
 
         if ($session->getLogin()) {
@@ -87,5 +62,4 @@ class AdminProductController extends Controller
     {
 
     }
->>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
 }

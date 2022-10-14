@@ -110,50 +110,6 @@ class AdminUserController extends Controller
     }
     public function update($id)
     {
-<<<<<<< HEAD
-        $errors=[];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $name=$_POST['name'] ?? '';
-            $email=$_POST['email'] ?? '';
-            $password1=$_POST['password'] ?? '';
-            $password2=$_POST['password2'] ?? '';
-            $status=$_POST['status'] ?? '';
-
-            if ($name == '') {
-                array_push($errors, 'El nombre es requerido');
-            }
-            if ($email == '') {
-                array_push($errors, 'El email es requerido');
-            }
-            if ($status == '') {
-                array_push($errors, 'Selecciona el estado');
-            }
-            if(!empty($password1) || !empty($password2)){//si entro de esta condional me han enviado una contraseña u otra .
-                if($password1 != $password2){//si me envian una u otra
-                    array_push($errors, 'Las contraseña no coinciden');//si no pasan esta validacin es porque deben rellenar las dos
-                }
-                if(! $errors){          //devuelve estos datos
-                    $data = [
-                        'id' =>$id,
-                        'name' => $name,
-                        'email' => $email,
-                        'password' => $password1,
-                        'status' => $status,
-                    ];
-                    $errors=$this->model->setUser($data);                //llamo al modelo
-                    if(! $errors){                                      //regresa al listado de los admins
-                        header('location: '. ROOT .'AdminUser');//termina la ejecucion del metodo
-
-                    }
-                }
-            }
-
-        }
-        $user = $this->model->getUserById($id);                             //si es por get ibtenemos los usuarios
-        $status = $this->model->getConfig('adminStatus');
-
-=======
         $errors = [];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -196,44 +152,20 @@ class AdminUserController extends Controller
         $user = $this->model->getUserById($id);
         $status = $this->model->getConfig('adminStatus');
 
->>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
         $data = [
             'titulo' => 'Administración de Usuarios - Editar',
             'menu' => false,
             'admin' => true,
             'data' => $user,
             'status' => $status,
-<<<<<<< HEAD
-            'errors'=>$errors,
-        ];
-
-        $this->view('admin/users/update', $data);
-
-=======
             'errors' => $errors,
         ];
 
         $this->view('admin/users/update', $data);
->>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
     }
 
-    public function delete($id)
+    public function delete()
     {
-<<<<<<< HEAD
-        $errors=[];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $errors=$this->model->delete($id);
-        if(! $errors){
-            header('location: '. ROOT .'AdminUser');
-        }
-
-        }
-        $user = $this->model->getUserById($id);                             //si es por get ibtenemos los usuarios
-        $status = $this->model->getConfig('adminStatus');               //datos del status
-
-        $data = [
-            'titulo' => 'Administración de Usuarios - Eliminar',
-=======
         $errors = [];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -251,16 +183,11 @@ class AdminUserController extends Controller
 
         $data = [
             'titulo' => 'Administración de Usuarios - Eliminación',
->>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
             'menu' => false,
             'admin' => true,
             'data' => $user,
             'status' => $status,
-<<<<<<< HEAD
-            'errors'=>$errors,
-=======
             'errors' => $errors,
->>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
         ];
 
         $this->view('admin/users/delete', $data);
