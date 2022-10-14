@@ -21,9 +21,15 @@
                 >
             </div>
             <div class="form-group text-left">
+<<<<<<< HEAD
                 <label for="password1">Clave de acceso: (dejar en blanco si no desea modificarla)</label>
                 <input type="password" name="password1" class="form-control"
                        placeholder="Escribe tu contraseña">
+=======
+                <label for="password1">Clave de acceso:</label>
+                <input type="password" name="password" class="form-control"
+                       placeholder="Escribe tu contraseña" required>
+>>>>>>> e726dd6c1ff450fc85dfbcecc0fd97a078d68702
             </div>
             <div class="form-group text-left">
                 <label for="password2">Clave de acceso:</label>
