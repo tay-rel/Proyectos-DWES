@@ -13,12 +13,14 @@ class Validate
             //$number=//lo que busca,por lo que reemplaza, y donde lo reemplaza
             return str_replace($search,$search,$string);
         }
-        public static function date($string){
+        public static function date($string)
+        {
             //yyy/mm/d datepicker
             $date=explode('-',$string);
                 return checkdate($date[1],$date[2],$date[0]); //calendario gregoriano-m
         }
-        public static function dateDif($string){
+        public static function dateDif($string)
+        {
             //La fecha de publicación es posterior a la fecha de publicacion donde mano los datos a mañana
            //ambas variables son objeto transformados
             $now=new DateTime();//la hora y fecha donde se ejecuta que es la del servidor
@@ -28,8 +30,13 @@ class Validate
             return ($date > $now);//compara como cadena de caracteres
         }
 
-        public static function file($string){
+        public static function file($string)
+        {
+            $search = [' ', '*', '!', '@', '?', 'á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ', 'ü', 'Ü', '¿', '¡'];
+            $replace = ['-', '', '', '', '', 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N', 'u', 'U', '', ''];
+            $file = str_replace($search,$replace, $string);
 
+            return $file;
         }
 
 

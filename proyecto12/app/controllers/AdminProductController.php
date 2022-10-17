@@ -50,7 +50,7 @@ class AdminProductController extends Controller
             $price =Validate::number( $_POST['price'] ?? '');//llamamos a la clase para que lo valide
             $discount = Validate::number($_POST['discount'] ?? '');
             $send =Validate::number( $_POST['send'] ?? '');
-            $image = $_FILES['image']['name'];
+            $image = Validate::file($_FILES['image']['name']);
             $published = $_POST['published'] ?? '';
             $relation1=$_POST['relation1'] != ''?:0;//si es verdadero pregunta eso no si existe
             $relation2 = $_POST['relation2'] != '' ? $_POST['relation2'] : 0;
