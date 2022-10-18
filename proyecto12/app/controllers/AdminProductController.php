@@ -39,18 +39,20 @@ class AdminProductController extends Controller
         $errors = [];
         $dataForm = [];
 
-        $type = $this->model->getConfig('productType');
-        $status=$this->model->getConfig('productStatus');
+        $typeConfig = $this->model->getConfig('productType');
+        $statusConfig=$this->model->getConfig('productStatus');
         $catalogue=$this->model->getCatalogue();
+
+        //status es la listade productos
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             //recibimos la informacion del form,
             $type = $_POST['type'] ?? '';
-            $name =addslashes(htmlentities($_POST['name'] ?? ''));
-            $description = addslashes(htmlentities($_POST['description'] ?? ''));// que las variable me permiten validar la informacion
-            $price =Validate::number( $_POST['price'] ?? '');//llamamos a la clase para que lo valide
-            $discount = Validate::number($_POST['discount'] ?? '');
-            $send =Validate::number( $_POST['send'] ?? '');
-            $image = Validate::file($_FILES['image']['name']);
+            $name = Validate::text($_POST['name'] ?? '');
+            $description = Validate::text($_POST['description'] ?? '');// que las variable me permiten validar la informacion
+            $price = Validate::number((float)$_POST['price'] ?? 0.0);//llamamos a la clase para que lo valide
+            $discount = Validate::number((float)$_POST['discount'] ?? 0.0);
+            $send = Validate::number($_POST['send'] ?? '');
+            $image = Validate::file($_FILES['image']['name']);//se debe arreglar porque si no recibe nada es null
             $published = $_POST['published'] ?? '';
             $relation1=$_POST['relation1'] != ''?:0;//si es verdadero pregunta eso no si existe
             $relation2 = $_POST['relation2'] != '' ? $_POST['relation2'] : 0;
@@ -60,13 +62,14 @@ class AdminProductController extends Controller
             $status = $_POST['status'] ?? '';
 
             //Books
-            $author =  addslashes(htmlentities($_POST['author'] ?? ''));
-            $publisher =  addslashes(htmlentities($_POST['publisher'] ?? ''));
-            $pages = Validate::number($_POST['pages'] ?? '');
+            //la ?: no evalua el isset si la cadena esta vacia es falsa
+            $author = Validate::text($_POST['author'] ?: '');
+            $publisher = Validate::text($_POST['publisher'] ?: '');
+            $pages = Validate::number($_POST['pages'] ?: '');
             //Courses
-            $people =addslashes(htmlentities($_POST['people'] ?? ''));
-            $objetives =addslashes(htmlentities($_POST['objetives'] ?? ''));
-            $necesites = addslashes(htmlentities($_POST['necesites'] ?? ''));
+            $people = Validate::text($_POST['people'] ?? '');
+            $objetives = Validate::text($_POST['objetives'] ?? '');
+            $necesites = Validate::text($_POST['necesites'] ?? '');
 
 
             //validamos la informacion-
@@ -120,6 +123,24 @@ class AdminProductController extends Controller
             } else {
                 array_push($errors, 'Debes seleccionar un tipo válido');
             }
+//da erro
+    //se debe mejorar la validacion la imagen porque se comprueba dos veces
+            //se debe refactorizar para quitar las condicionales
+       if($image){
+           if(Validate::imageFile($_FILES['image']['tmp_name'])){//valida si es unfichero de imagen
+               $image=strtolower($image);//pasamos a minusculas el nombre de la imagen
+               if(is_uploaded_file($_FILES['image']['tmp_name'])){     //si se ha subido fichero accede a traves de la variable $files, si ha sido ssubido lo guardo donde me interese
+                   move_uploaded_file($_FILES['image']['tmp_name'],'img/' . $image);//esto debe ser protegido
+                   Validate::resizeImage($image,240);
+               }else{          //si la imagen no ha sido subida
+                   array_push($errors,'Error al subir el archivo de imagen');
+               }
+           }else{
+               array_push($errors,'El formato de la imagen no es aceptado');
+           }
+       }else{
+           array_push($errors,'No he recibido la imagen');
+       }
 
             //crear el array de datos
             $dataForm = [
@@ -136,14 +157,19 @@ class AdminProductController extends Controller
                 'send'=>$send,
                 'pages'=>$pages,
                 'published'=>$published,
+                'relation1'=>$relation1,
+                'relation2'=>$relation2,
+                'relation3'=>$relation3,
+                'status'=>$status,
             ];
 
            // var_dump($dataForm);
             if(!$errors){
-                //enviamos la informacion al modelo y el modelo lo procesa
+                $errors=$this->model->createProduct($dataForm);
                 if(!$errors){
                     //redirigimos al index de productos
-                }
+                    header('location' . ROOT . 'AdminProduct');
+                }array_push($errors,'Se ha producido un error en la incersion en la BD');
             }
         }
 
@@ -151,8 +177,8 @@ class AdminProductController extends Controller
             'titulo' => 'Administración de Productos - Alta',
             'menu' => false,
             'admin' => true,
-            'type' => $type,
-            'status'=>$status,
+            'type' => $typeConfig,
+            'status'=>$statusConfig,
             'catalogue'=>$catalogue,
             'errors' => $errors,
             'data' => $dataForm,

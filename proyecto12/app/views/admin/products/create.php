@@ -8,11 +8,13 @@
         <div class="card-body">
             <form action="<?= ROOT ?>adminProduct/create/" method="POST" enctype="multipart/form-data"><!--Habilita la subida de ficheros--->
                 <div class="form-group">
-                    <label for="status">Tipo de producto</label>
+                    <label for="type">Tipo de producto</label>
                     <select name="type" id="type" class="form-control">
                         <option value="">Selecciona el tipo de producto</option>
-                        <?php foreach($data['type'] as $type): ?>
-                            <option value="<?= $type->value ?>"><?= $type->description ?></option>
+                        <?php foreach ($data['type'] as $type): ?>
+                            <option value="<?= $type->value ?>"
+                                <?= (isset($data['data']['type']) && $data['data']['type'] == $type->value) ? ' selected' : '' ?>
+                            ><?= $type->description ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -81,7 +83,7 @@
                 </div>
                 <div class="form-group text-left">
                     <label for="envio">Coste del envío del producto:</label>
-                    <input type="text" name="envio" class="form-control" pattern="^(\d|-)?(\d|,)*\.?\d*$"
+                    <input type="text" name="send" class="form-control" pattern="^(\d|-)?(\d|,)*\.?\d*$"
                            placeholder="Escribe el costo del envio del producto sin comas ni símbolos."
                            value="<?= ($data['data']['send']) ?? '' ?>">
                 </div>
@@ -140,7 +142,7 @@
                         <option value="">Selecciona el estado del producto</option>
                         <?php foreach ($data['status'] as $status) : ?>
                             <option value="<?= $status->value ?>"
-                                <?= (isset($data['data']['status']) && $data['data']['status']==$status->value) ? ' selected ' : '' ?>
+                                <?= (isset($data['data']['status']) && $data['data']['status']==$status->value) ? 'selected' : '' ?>
                             >
                                 <?= $status->description ?>
                             </option>
