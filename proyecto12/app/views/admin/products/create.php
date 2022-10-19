@@ -142,7 +142,7 @@
                         <option value="">Selecciona el estado del producto</option>
                         <?php foreach ($data['status'] as $status) : ?>
                             <option value="<?= $status->value ?>"
-                                <?= (isset($data['data']['status']) && $data['data']['status']==$status->value) ? 'selected' : '' ?>
+                                <?= (isset($data['data']['status']) && $data['data']['status']==$status->value) ? ' selected' : '' ?>
                             >
                                 <?= $status->description ?>
                             </option>
