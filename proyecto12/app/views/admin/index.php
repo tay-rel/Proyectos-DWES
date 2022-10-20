@@ -1,5 +1,5 @@
 <?php include_once dirname(__DIR__) . ROOT . 'header.php'?>
-v
+
     <div class="card p-4 bg-light">
         <div class="card-header">
             <h1 class="text-center">Módulo de Administración</h1>
