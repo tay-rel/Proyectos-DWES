@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,12 +19,10 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <a href="<?= ROOT ?>" class="navbar-brand">Tienda</a>
+    <a href="<?= ROOT ?>shop" class="navbar-brand">Tienda</a>
     <div class="collapse navbar-collapse" id="menu">
         <!--        Enlaces del menú para todos-->
         <?php if($data['menu']): ?>
-            <!--            Ubicación del menú para usuarios logueados,se pondra un menu para la parte no administrativa, si el menu esta a tru o false-->
-
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
                     <a href="<?= ROOT ?>courses" class="nav-link <?= (isset($data['active']) && $data['active']=='courses') ? 'active' : '' ?>">Cursos</a>
@@ -47,7 +46,7 @@
         <?php if(isset($data['admin']) && $data['admin']): ?>
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
-                    <a href="<?= ROOT ?>AdminUser" class="nav-link">Usuarios</a>
+                    <a href="<?= ROOT ?>Adminuser" class="nav-link">Usuarios</a>
                 </li>
                 <li class="nav-item">
                     <a href="<?= ROOT ?>adminProduct" class="nav-link">Productos</a>

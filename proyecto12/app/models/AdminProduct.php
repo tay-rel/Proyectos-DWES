@@ -72,7 +72,7 @@ class AdminProduct
     public  function getProductById($id){
         $sql='SELECT * FROM products WHERE id=:id';
 
-        $query=$this->db->prepare();
+        $query=$this->db->prepare($sql);
         $query->execute([':id' =>$id]);
         return $query->fetch(PDO::FETCH_OBJ);
     }
@@ -86,6 +86,7 @@ class AdminProduct
                 VALUES (:type, :name, :description, :price, :discount, :send, :image, :published, :relation1, :relation2, :relation3, :mostSold, :new, :status, :deleted, :create_at, :updated_at, :deleted_at, :author, :publisher, :pages, :people, :objetives, :necesites)';
 
         $params = [
+            ':id'   =>$data['id'],
             ':type' => $data['type'],
             ':name' => $data['name'],
             ':description' => $data['description'],
@@ -101,9 +102,7 @@ class AdminProduct
             ':new' => $data['new'],
             ':status' => $data['status'],
             ':deleted' => 0,
-            ':create_at' => date('Y-m-d H:i:s'),
-            ':updated_at' => null,
-            ':deleted_at' => null,
+            ':updated_at' => date('Y-m-d H:i:s'),
             ':author' => $data['author'],
             ':publisher' => $data['publisher'],
             ':pages' => $data['pages'],
@@ -124,7 +123,7 @@ class AdminProduct
         $sql .=' WHERE id:=id';
 
         $query = $this->db->prepare($sql);
-        if($query->execute($params)){
+        if(! $query->execute($params)){
             array_push($errors,'El error al modificar el producto');
         }
         return $errors;
@@ -137,12 +136,11 @@ class AdminProduct
         $params=[
             ':id'=>$id,
             ':deleted'=>1,
-            ':deleted'=> date(),//poner fecha
-
-
+            ':deleted_at'=> date('Y-m-d H:i:s'),
         ];
         $query=$this->db->prepare($sql);
-        if($query->execute($params)){
+
+        if(! $query->execute($params)){
             array_push($errors,'Error al borrar el producto');
         }
         return $errors;

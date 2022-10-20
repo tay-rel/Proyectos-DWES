@@ -18,7 +18,6 @@ class AdminProductController extends Controller
             $products = $this->model->getProducts();
             $type = $this->model->getConfig('productType');
 
-
             $data = [
                 'titulo' => 'Administración de Productos-Alta',
                 'menu' => false,
@@ -43,26 +42,25 @@ class AdminProductController extends Controller
         $statusConfig=$this->model->getConfig('productStatus');
         $catalogue=$this->model->getCatalogue();
 
-        //status es la listade productos
+                                                                                //status es la listade productos
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            //recibimos la informacion del form,
+                                                                                        //recibimos la informacion del form,
             $type = $_POST['type'] ?? '';
             $name = Validate::text($_POST['name'] ?? '');
-            $description = Validate::text($_POST['description'] ?? '');// que las variable me permiten validar la informacion
-            $price = Validate::number((float)$_POST['price'] ?? 0.0);//llamamos a la clase para que lo valide
+            $description = Validate::text($_POST['description'] ?? '');             // que las variable me permiten validar la informacion
+            $price = Validate::number((float)$_POST['price'] ?? 0.0);           //llamamos a la clase para que lo valide
             $discount = Validate::number((float)$_POST['discount'] ?? 0.0);
             $send = Validate::number((float)$_POST['send'] ?? '');
-            $image = Validate::file($_FILES['image']['name']);//se debe arreglar porque si no recibe nada es null
+            $image = Validate::file($_FILES['image']['name']);                          //se debe arreglar porque si no recibe nada es null
             $published = $_POST['published'] ?? '';
-            $relation1=$_POST['relation1'] != ''?:0;//si es verdadero pregunta eso no si existe
+            $relation1=$_POST['relation1'] != ''?:0;                                //si es verdadero pregunta eso no si existe
             $relation2 = $_POST['relation2'] != '' ? $_POST['relation2'] : 0;
             $relation3 = $_POST['relation3'] != '' ? $_POST['relation3'] : 0;
-            $mostSold = isset($_POST['mostSold']) ? '1':0;
-            $new =isset($_POST['new']) ? '1':0;
+            $mostSold = isset($_POST['mostSold']) ? '1' : 0;
+            $new =isset($_POST['new']) ? '1': 0;
             $status = $_POST['status'] ?? '';
-
             //Books
-            //la ?: no evalua el isset si la cadena esta vacia es falsa
+                                                                            //la ?: no evalua el isset si la cadena esta vacia es falsa
             $author = Validate::text($_POST['author'] ?: 'pepe');
             $publisher = Validate::text($_POST['publisher'] ?: 'jose');
             $pages = Validate::number($_POST['pages'] ?: '100');
@@ -70,14 +68,19 @@ class AdminProductController extends Controller
             $people = Validate::text($_POST['people'] ?? '');
             $objetives = Validate::text($_POST['objetives'] ?? '');
             $necesites = Validate::text($_POST['necesites'] ?? '');
+            $people = Validate::text($_POST['people'] ?: 'Novatos');
+            $objetives = Validate::text($_POST['objetives'] ?: 'Desde la nada al todo en PHP');
+            $necesites = Validate::text($_POST['necesites'] ?: 'Ganas, muchas ganas');
+
+
 
 
             //validamos la informacion-
 
-            if (empty($name == '')) {
+            if (empty($name)) {                                                             // == ''
                 array_push($errors, 'El nombre del usuario es requerido');
             }
-            if (empty($description == '')) {
+            if (empty($description )) {                                                           //== ''
                 array_push($errors, 'La descripcion del product es requerida');
             }
             if ( ! is_numeric($price)) {
@@ -97,7 +100,6 @@ class AdminProductController extends Controller
             }elseif(!Validate::dateDif($published)){//si no se verifica esto entra al error
                 array_push($errors,'La fecha de publicacion no puede ser anterior hoy');//la fecha de publicacion debe ser la de hoy o anterior
             }
-
 
             if ($type == 1) {
                 if (empty($people)) {
@@ -123,16 +125,17 @@ class AdminProductController extends Controller
             } else {
                 array_push($errors, 'Debes seleccionar un tipo válido');
             }
-//da error
-    //se debe mejorar la validacion la imagen porque se comprueba dos veces
-            //se debe refactorizar para quitar las condicionales
+                                                                                                                        //da error
+                                                                                                                            //se debe mejorar la validacion la imagen porque se comprueba dos veces
+                                                                                                                                    //se debe refactorizar para quitar las condicionales
        if($image){
-           if(Validate::imageFile($_FILES['image']['tmp_name'])){//valida si es unfichero de imagen
-               $image=strtolower($image);//pasamos a minusculas el nombre de la imagen
-               if(is_uploaded_file($_FILES['image']['tmp_name'])){     //si se ha subido fichero accede a traves de la variable $files, si ha sido ssubido lo guardo donde me interese
-                   move_uploaded_file($_FILES['image']['tmp_name'],'img/' . $image);//esto debe ser protegido
+           if(Validate::imageFile($_FILES['image']['tmp_name'])){                                   //valida si es unfichero de imagen
+               $image=strtolower($image);                                                             //pasamos a minusculas el nombre de la imagen
+
+               if(is_uploaded_file($_FILES['image']['tmp_name'])){                                  //si se ha subido fichero accede a traves de la variable $files, si ha sido ssubido lo guardo donde me interese
+                   move_uploaded_file($_FILES['image']['tmp_name'],'img/' . $image);                //esto debe ser protegido
                    Validate::resizeImage($image,240);
-               }else{          //si la imagen no ha sido subida
+               }else{                                                                                   //si la imagen no ha sido subida
                    array_push($errors,'Error al subir el archivo de imagen');
                }
            }else{
@@ -168,10 +171,9 @@ class AdminProductController extends Controller
                 if ( $this->model->createProduct($dataForm) ) {// si no hay errores // devuelve booleano
                     header('location:' . ROOT . 'AdminProduct');    // Redireccion index de productos
                 }
-                array_push($errors, 'Se ha producido un errpr en la inserción en la BD');
+                array_push($errors, 'Se ha producido un error en la inserción en la BD');
             }
         }
-
 
         //dotamos de memoria
         $data = [
@@ -193,32 +195,31 @@ class AdminProductController extends Controller
     public function update($id)
     {
         $errors = [];
-        $dataForm = [];
 
         $typeConfig = $this->model->getConfig('productType');
         $statusConfig=$this->model->getConfig('productStatus');
         $catalogue=$this->model->getCatalogue();
 
-        //status es la listade productos
+                                                                                            //status es la listade productos
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            //recibimos la informacion del form,
+                                                                                             //recibimos la informacion del form,
             $type = $_POST['type'] ?? '';
             $name = Validate::text($_POST['name'] ?? '');
-            $description = Validate::text($_POST['description'] ?? '');// que las variable me permiten validar la informacion
-            $price = Validate::number((float)$_POST['price'] ?? 0.0);//llamamos a la clase para que lo valide
-            $discount = Validate::number((float)$_POST['discount'] ?? 0.0);
-            $send = Validate::number((float)$_POST['send'] ?? '');
-            $image = Validate::file($_FILES['image']['name']);//se debe arreglar porque si no recibe nada es null
+            $description = Validate::text($_POST['description'] ?? '');                    // que las variable me permiten validar la informacion
+            $price = Validate::number((float)($_POST['price'] ?? 0.0));                   //llamamos a la clase para que lo valide
+            $discount = Validate::number((float)($_POST['discount'] ?? 0.0));
+            $send = Validate::number((float)($_POST['send'] ?? ''));
+            $image = Validate::file($_FILES['image']['name']);                              //se debe arreglar porque si no recibe nada es null
             $published = $_POST['published'] ?? '';
-            $relation1=$_POST['relation1'] != ''?:0;//si es verdadero pregunta eso no si existe
+            $relation1=$_POST['relation1'] != ''?:0;                                        //si es verdadero pregunta eso no si existe
             $relation2 = $_POST['relation2'] != '' ? $_POST['relation2'] : 0;
             $relation3 = $_POST['relation3'] != '' ? $_POST['relation3'] : 0;
-            $mostSold = isset($_POST['mostSold']) ? '1':0;
-            $new =isset($_POST['new']) ? '1':0;
+            $mostSold = isset($_POST['mostSold']) ? '1' : 0;
+            $new =isset($_POST['new']) ? '1' : 0;
             $status = $_POST['status'] ?? '';
 
             //Books
-            //la ?: no evalua el isset si la cadena esta vacia es falsa
+                                                                                                //la ?: no evalua el isset si la cadena esta vacia es falsa
             $author = Validate::text($_POST['author'] ?: 'pepe');
             $publisher = Validate::text($_POST['publisher'] ?: 'jose');
             $pages = Validate::number($_POST['pages'] ?: '100');
@@ -279,14 +280,15 @@ class AdminProductController extends Controller
             } else {
                 array_push($errors, 'Debes seleccionar un tipo válido');
             }
-//da error
-            //se debe mejorar la validacion la imagen porque se comprueba dos veces
-            //se debe refactorizar para quitar las condicionales
+                                                                                                        //da error
+                                                                                                                    //se debe mejorar la validacion la imagen porque se comprueba dos veces
+                                                                                                                    //se debe refactorizar para quitar las condicionales
             if($image){
-                if(Validate::imageFile($_FILES['image']['tmp_name'])){//valida si es unfichero de imagen
-                    $image=strtolower($image);//pasamos a minusculas el nombre de la imagen
-                    if(is_uploaded_file($_FILES['image']['tmp_name'])){     //si se ha subido fichero accede a traves de la variable $files, si ha sido ssubido lo guardo donde me interese
-                        move_uploaded_file($_FILES['image']['tmp_name'],'img/' . $image);//esto debe ser protegido
+                if(Validate::imageFile($_FILES['image']['tmp_name'])){                              //valida si es unfichero de imagen
+                    $image=strtolower($image);                                                      //pasamos a minusculas el nombre de la imagen
+
+                    if(is_uploaded_file($_FILES['image']['tmp_name'])){                          //si se ha subido fichero accede a traves de la variable $files, si ha sido ssubido lo guardo donde me interese
+                        move_uploaded_file($_FILES['image']['tmp_name'],'img/' . $image);               //esto debe ser protegido
                         Validate::resizeImage($image,240);
                     }else{          //si la imagen no ha sido subida
                         array_push($errors,'Error al subir el archivo de imagen');
@@ -342,7 +344,7 @@ class AdminProductController extends Controller
             'product' => $product,                      //paso los datos del producto
 
         ];
-        var_dump($data);
+        //var_dump($data);
 
         $this->view('admin/products/update', $data);
     }

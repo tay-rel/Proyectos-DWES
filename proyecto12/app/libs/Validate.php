@@ -46,7 +46,7 @@ class Validate
         public static function resizeImage($image,$newWidth)        //
         {
             $file='img/'. $image;
-            $info=getimages($file);//tengo la imagen en forma de array numerico en la posicion 0 nos encontramos la anchura
+            $info=getimagesize($file);//tengo la imagen en forma de array numerico en la posicion 0 nos encontramos la anchura
             $width=$info[0];
             $heigth=$info[1];
             $type=$info['mime'];
@@ -57,7 +57,7 @@ class Validate
 
             $image=imagecreatefromjpeg($file);
             $canvas=imagecreatetruecolor($newWidth,$newHeight);
-            imagecopyresampled($canvas,$image,0,0,0,0 , $newWidth,$newHeight,$width);//recibe el tamaño que le pondremos redimencionando la imagen
+            imagecopyresampled($canvas, $image, 0,0,0,0,$newWidth, $newHeight,$width, $height);//recibe el tamaño que le pondremos redimencionando la imagen
 
             imagejpeg($canvas,$file,80);
         }
