@@ -45,7 +45,7 @@ class Validate
 
             return $file;
         }
-        public static function resizeImage($image,$newWidth)        //
+        public static function resizeImage($image,$newWidth)        //redimensiona la imagen a un valor que se le pasa
         {
             $file='img/'. $image;
             $info=getimagesize($file);//tengo la imagen en forma de array numerico en la posicion 0 nos encontramos la anchura

@@ -42,6 +42,9 @@ class ShopController extends Controller
     }
     public function show($id, $back = '')
     {
+        //podemos ver las vistas estando logueados problema anterior arreglado
+
+        $session = new Session();
         $product = $this->model->getProductById($id);
 
         $data = [
@@ -51,6 +54,7 @@ class ShopController extends Controller
             'back' => $back,
             'errors' => [],
             'data' => $product,
+            'user_id' => $session->getUserId(),
         ];
 
         $this->view('shop/show', $data);

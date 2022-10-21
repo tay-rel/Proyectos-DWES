@@ -40,8 +40,13 @@ class Session
         return $this->login;
     }
 
-    public function getUser()
+    public function getUser()       //obtine todo el usuario
     {
         return$this->user;
     }
+    public function getUserId()
+    {
+        return $this->user->id;             //solo me devuleve el identificador del usuario
+    }
+
 }

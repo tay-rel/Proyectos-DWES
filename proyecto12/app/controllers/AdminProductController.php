@@ -278,7 +278,7 @@ class AdminProductController extends Controller
             } else {
                 array_push($errors, 'Debes seleccionar un tipo válido');
             }
-                                                                                                        //da error
+                                                                                                                        //da error
             if ($image) {
                 if (Validate::imageFile($_FILES['image']['tmp_name'])) {
 
@@ -286,7 +286,7 @@ class AdminProductController extends Controller
 
                     if (is_uploaded_file($_FILES['image']['tmp_name'])) {
                         move_uploaded_file($_FILES['image']['tmp_name'], 'img/' . $image);
-                        Validate::resizeImage($image, 240);
+                        Validate::resizeImage($image, 240);                                               //se redimensiona aqui de la clase validate del metodo resize
                     } else {
                         array_push($errors, 'Error al subir el archivo de imagen');
                     }

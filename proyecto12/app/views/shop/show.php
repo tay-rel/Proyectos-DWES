@@ -23,4 +23,7 @@
         <?= html_entity_decode($data['data']->description) ?>
     <?php endif; ?>
 <a href="<?= ROOT . (!empty($data['back']) ? $data['back'] : 'shop') ?>" class="btn btn-success">Volver al listado de productos</a>
+
+<!---Añadimos otro boton,pasara dos parametros quien esta haciendo la compra,donde dara como primer parametro el identificador del producto--->
+<a href="<?= ROOT ?>cart/addProduct/<?= $data['data']->id ?>/<?= $data['user_id'] ?>" class="btn btn-primary">Comprar</a>
 <?php include_once dirname(__DIR__) . ROOT . 'footer.php'?>
