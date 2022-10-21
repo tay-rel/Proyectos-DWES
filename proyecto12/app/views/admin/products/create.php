@@ -60,7 +60,7 @@
                         <label for="objetives">Objetivos:</label>
                         <input type="text" name="objetives" class="form-control"
                                placeholder="Escribe los objetivos del curso"
-                               value="<?= (isset($data['data']['objetives'])) ? $data['data']['objetives'] : '' ?>">
+                               value="<?= $data['data']['objetives'] ?? '' ?>">
                     </div>
                     <div class="form-group text-left">
                         <label for="necesites">Conocimientos necesarios previos:</label>

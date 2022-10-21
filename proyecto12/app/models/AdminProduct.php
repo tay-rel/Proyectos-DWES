@@ -28,9 +28,10 @@ class AdminProduct
     }
     public function getCatalogue(){
         $sql = 'SELECT id, name, type FROM products WHERE deleted=0 AND status!=0 ORDER BY type, name';
-        $query=$this->db->prepare($sql);
+        $query = $this->db->prepare($sql);
         $query->execute();
-        return $query ->fetchAll(PDO::FETCH_OBJ);
+
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
     public function createProduct($data)
     {
@@ -69,11 +70,12 @@ class AdminProduct
         return $query->execute($params);
     }
 
-    public  function getProductById($id){
-        $sql='SELECT * FROM products WHERE id=:id';
+    public function getProductById($id)
+    {
+        $sql = 'SELECT * FROM products WHERE id=:id';
+        $query = $this->db->prepare($sql);
+        $query->execute([':id' => $id]);
 
-        $query=$this->db->prepare($sql);
-        $query->execute([':id' =>$id]);
         return $query->fetch(PDO::FETCH_OBJ);
     }
 
@@ -82,18 +84,17 @@ class AdminProduct
         //actualizare todos los campos ,sino han actualizado no quiero actualizar nada si no me pasan la imagen
 
         $errors=[];
-        $sql = 'UPDATE  products SET (type, name, description, price, discount, send, image, published, relation1, relation2, relation3, mostSold, new, status, deleted, create_at, updated_at, deleted_at, author, publisher, pages, people, objetives, necesites) 
-                VALUES (:type, :name, :description, :price, :discount, :send, :image, :published, :relation1, :relation2, :relation3, :mostSold, :new, :status, :deleted, :create_at, :updated_at, :deleted_at, :author, :publisher, :pages, :people, :objetives, :necesites)';
+
+        $sql = 'UPDATE products SET type=:type, name=:name, description=:description, price=:price, discount=:discount, send=:send, published=:published, relation1=:relation1, relation2=:relation2, relation3=:relation3, mostSold=:mostSold, new=:new, status=:status, deleted=:deleted, updated_at=:updated_at, author=:author, publisher=:publisher, pages=:pages, people=:people, objetives=:objetives, necesites=:necesites';
 
         $params = [
-            ':id'   =>$data['id'],
+            ':id'	=> $data['id'],
             ':type' => $data['type'],
             ':name' => $data['name'],
             ':description' => $data['description'],
             ':price' => $data['price'],
             ':discount' => $data['discount'],
             ':send' => $data['send'],
-            ':image' => $data['image'],
             ':published' => $data['published'],
             ':relation1' => $data['relation1'],
             ':relation2' => $data['relation2'],
@@ -112,37 +113,43 @@ class AdminProduct
         ];
 //NOS PREGUNTAMOS SI LA IMAGEN SE HA RECIBIDO O NO
 
-     if($data['image']){
-         //añado a la imagen sino me mandan la imagen no lo añado
-         $sql.=', image=:image';
+        if ($data['image']) {
+                                                               //añado a la imagen sino me mandan la imagen no lo añado
+            $sql .= ', image=:image';
          //parametrizamos
-         $params[':image']=$data['image'];//añado una nueva clave con su valor
+            $params[':image'] = $data['image'];//añado una nueva clave con su valor
      }
      //independientemente de que me añada el campo concateno
 
-        $sql .=' WHERE id:=id';
+        $sql .= ' WHERE id=:id';
 
         $query = $this->db->prepare($sql);
-        if(! $query->execute($params)){
-            array_push($errors,'El error al modificar el producto');
+
+        if ( ! $query->execute($params)) {
+            array_push($errors, 'Error al modificar el producto');
         }
+
         return $errors;
     }
 
     public function delete($id)
     {
-        $errors=[];
-        $sql='UPDATE products SET deleted=:deleted, deleted_at=:deleted_at WHERE id=:id';
-        $params=[
-            ':id'=>$id,
-            ':deleted'=>1,
-            ':deleted_at'=> date('Y-m-d H:i:s'),
-        ];
-        $query=$this->db->prepare($sql);
+        $errors = [];
 
-        if(! $query->execute($params)){
-            array_push($errors,'Error al borrar el producto');
+        $sql = 'UPDATE products SET deleted=:deleted, deleted_at=:deleted_at WHERE id=:id';
+
+        $params = [
+            ':id' => $id,
+            ':deleted' => 1,
+            ':deleted_at' => date('Y-m-d H:i:s'),
+        ];
+
+        $query = $this->db->prepare($sql);
+
+        if ( ! $query->execute($params)) {
+            array_push($errors, 'Error al borrar el producto');
         }
+
         return $errors;
     }
 }
