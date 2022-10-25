@@ -76,8 +76,17 @@ class CartController extends Controller
         //se necesita que todas las sesiones esten iniciadas
         $session = new Session();
 
-        if (! $session->getLogin()) {
-            //
+        if ($session->getLogin()) {
+
+            $user = $session->getUser();
+
+            $data = [
+                'titulo' => 'Carrito | Datos de envío',
+                'subtitle' => 'Checkout | Verificar dirección de envío',
+                'menu' => true,
+                'data' => $user,
+            ];
+            $this->view('carts/address', $data);
         } else {
             $data = [
                 'titulo' => 'Carrito | Checkout',
@@ -87,5 +96,10 @@ class CartController extends Controller
 
             $this->view('carts/checkout', $data);
         }
+    }
+    public function paymentmode()
+    {   //llega al metodo de pago si va bien.
+
+
     }
 }
