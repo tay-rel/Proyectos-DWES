@@ -99,7 +99,30 @@ class CartController extends Controller
     }
     public function paymentmode()
     {   //llega al metodo de pago si va bien.
+        $data = [
+            'titulo' => 'Carrito | Forma de pago',
+            'subtitle' => 'Checkout | Forma de pago',
+            'menu' => true,
+        ];
 
+        $this->view('carts/paymentmode', $data);
 
+    }
+    public function verify()
+    {
+        $session = new Session();
+        $user = $session->getUser();
+        $cart = $this->model->getCart($user->id);
+        $payment = $_POST['payment'] ?? '';
+
+        $data = [
+            'titulo' => 'Carrito | Verificar los datos',
+            'menu' => true,
+            'payment' => $payment,
+            'user' => $user,
+            'data' => $cart,
+        ];
+
+        $this->view('carts/verify', $data);
     }
 }
