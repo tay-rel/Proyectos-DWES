@@ -38,6 +38,18 @@
                     <a href="<?= ROOT ?>shop/contact" class="nav-link text-light <?= (isset($data['active']) && $data['active']=='contact') ? 'active' : '' ?>">Contacto</a>
                 </li>
             </ul>
+        <div class="d-flex justify-content-end">
+            <ul class="nav navbar-nav navbar-right">
+                <?php if(isset($_SESSION['cartTotal']) && $_SESSION['cartTotal'] > 0): ?>
+                    <li class="nav-item">
+                        <a href="<?= ROOT ?>cart" class="nav-link">
+                            Carrito: <?= number_format($_SESSION['cartTotal'], 2) ?>&euro;
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <li class="nav-it
+            </ul>
+        </div>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
                     <form action="<?= ROOT ?>search/products" class="d-flex" method="POST">
