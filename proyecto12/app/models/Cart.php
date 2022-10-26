@@ -10,7 +10,7 @@ class Cart
 
     public function verifyProduct($product_id,$user_id)
     {
-        $sql = 'SELECT * FROM carts WHERE product_id=:product_id AND user_id=:user_id';
+        $sql = 'SELECT * FROM carts WHERE product_id=:product_id AND user_id=:user_id ';//AND state=:0
         $query = $this->db->prepare($sql);
         $params = [
             ':product_id' => $product_id,
@@ -79,6 +79,16 @@ class Cart
         $params = [
             ':user_id' => $user,
             ':product_id' => $product,
+        ];
+        return $query->execute($params);
+    }
+    public function closeCart($id, $state)
+    {
+        $sql = 'UPDATE carts SET state=:state WHERE user_id=:user_id AND state=0';
+        $query = $this->db->prepare($sql);
+        $params = [
+            ':user_id' => $id,
+            ':state' => $state,
         ];
         return $query->execute($params);
     }
