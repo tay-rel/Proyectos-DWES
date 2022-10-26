@@ -4,6 +4,8 @@ class Application
 {
     function __construct()
     {
-        print 'Estamos repasando';
+        print 'Bienvenido a mi tienda';
+        $db = Mysqldb::getInstance()->getDatabase();
+
     }
 }
