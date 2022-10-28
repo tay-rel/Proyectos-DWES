@@ -72,6 +72,7 @@
     <div class="content">
         <div class="title m-b-md">
             Laravel con TDD
+            proyecto13.local
         </div>
 
         <div class="links">

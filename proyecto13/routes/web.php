@@ -15,3 +15,21 @@ Existe unautoload que la clase que no encuentra lo busca  en la clase config
 Route::get('/', function () {
     return view('welcome');
 });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+//\Illuminate\Support\Facades\
+Route::get('/inicio', function() {
+    return 'HOla Mundo';
+});
+//listar usuarios
+Route::get('usuarios' , 'UserController@index');        //cuando escriba /usuarios debe llmar al metodo index
+
+//para acceder a la ruta del usuario debo pasarle por parametro el id para que reciba por get
+Route::get('usuarios/{id}','UserController@show')->where('id', '[0-9]+');      //crea una condición
+
+//la aplica al final confirmando las anteriores
+Route::get('usuarios/nuevo', 'UserController@create' );
+
+//se puede pasar más de un parametro e las rutas
+Route::get('saludo/{name}/{nickname?}', 'WelcomeUserController');
