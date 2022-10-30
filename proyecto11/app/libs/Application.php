@@ -54,7 +54,6 @@ class Application
 
             unset($url[0], $url[1]);
 
-            print 'Bienvenido a mi tienda virtual';
             $this->urlParams = array_values($url);
         }
 
