@@ -15,13 +15,6 @@ Existe unautoload que la clase que no encuentra lo busca  en la clase config
 Route::get('/', function () {
     return view('welcome');
 });
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-//\Illuminate\Support\Facades\
-Route::get('/inicio', function() {
-    return 'HOla Mundo';
-});
 //listar usuarios
 Route::get('usuarios' , 'UserController@index');        //cuando escriba /usuarios debe llmar al metodo index
 
