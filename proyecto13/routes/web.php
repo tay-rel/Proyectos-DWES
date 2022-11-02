@@ -15,6 +15,9 @@ Existe unautoload que la clase que no encuentra lo busca  en la clase config
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/inicio', function () {//entra a la pagina principal de inicio
+    return 'Hola Mundo';
+});
 //listar usuarios
 Route::get('usuarios' , 'UserController@index');        //cuando escriba /usuarios debe llmar al metodo index
 
