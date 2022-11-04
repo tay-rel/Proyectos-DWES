@@ -30,6 +30,7 @@ class Mysqldb
         }
     }
 
+
     public static function getInstance()
     {
         if (is_null(self::$instancia)) {
