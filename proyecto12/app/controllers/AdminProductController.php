@@ -345,7 +345,7 @@ class AdminProductController extends Controller
             'product' => $product,                      //paso los datos del producto
 
         ];
-        //var_dump($data);
+       // var_dump($data);
 
         $this->view('admin/products/update', $data);
     }

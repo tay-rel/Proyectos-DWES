@@ -7,7 +7,7 @@
     <div class="card-body">
         <form action="<?= ROOT ?>login/verifyUser/" method="POST">
             <div class="form-group text-left">
-                <label for="user">Usuario:</label>
+                <label for="user">Correo de Usuario:</label>
                 <input type="text" name="user" class="form-control"
                 placeholder="esribe correo electronico"
                        value="<?=isset($data['data']) ? $data['data']['user']: ''?>"

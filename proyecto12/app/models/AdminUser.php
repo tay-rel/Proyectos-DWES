@@ -48,7 +48,7 @@ class AdminUser
         return $query->rowCount();
     }
 
-    //genera una funcion getUser que es parecida a otras es where porque no este borrado por deleted que el 0 es falso y 1 true
+    //genera una funcion getUser que es parecida a otras, es where porque no este borrado por deleted que el 0 es falso y 1 true
     public function getUsers()
     {
         $sql = 'SELECT * FROM admins WHERE deleted = 0';

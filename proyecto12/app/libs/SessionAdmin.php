@@ -1,6 +1,6 @@
 <?php
 
-class Session
+class SessionAdmin
 {
     private $login = false;
     private $user;
@@ -10,8 +10,8 @@ class Session
     {
         session_start();
 
-        if (isset($_SESSION['user'])) {
-            $this->user = $_SESSION['user'];
+        if (isset($_SESSION['admin'])) {
+            $this->user = $_SESSION['admin'];
             $this->login = true;
             $_SESSION['cartTotal'] = $this->cartTotal();
             $this->cartTotal = $_SESSION['cartTotal'];
@@ -51,7 +51,6 @@ class Session
     public function getUserId()
     {
         return $this->user->id;
-
     }
 
     public function cartTotal()
