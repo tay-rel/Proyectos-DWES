@@ -16,7 +16,13 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <a href="index.php" class="navbar-brand"> Tienda</a>
+    <a href="<?= ROOT ?>" class="navbar-brand"> Tienda</a>
+    <!-- Codigo html para el menu -->
+    <div class="collapse navbar-collapse" id="menu">
+        <?php if($data['menu']):?>
+        <!----Ubicacion del menu para usuarios logueados---->
+        <?php endif; ?>
+    </div>
 </nav>
 <div class="container-fluid">
     <div class="row content">

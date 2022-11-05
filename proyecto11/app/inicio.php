@@ -1,4 +1,9 @@
 <?php
+
+/*CONSTANTES INICIALES*/
+define('ROOT' , DIRECTORY_SEPARATOR);
+define('APP', ROOT . 'app' . DIRECTORY_SEPARATOR );
+
 /*INICIO CARGA LAS CLASES INICIALES DE LIBS*/
 ini_set('display_errors', 1);
 require_once 'libs/Mysqldb.php';
