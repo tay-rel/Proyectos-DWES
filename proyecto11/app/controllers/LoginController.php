@@ -17,6 +17,16 @@ class LoginController extends Controller
         ];
         $this->view('login', $data);
     }
+    public function olvido(){
+        print('Estoy en olvido');
+    }
+    public function registro(){
+        $data =[
+            'titulo'=>'Registro',
+            'menu'=>false,
+        ];
+        $this->view('register', $data);
+    }
 
 
 
