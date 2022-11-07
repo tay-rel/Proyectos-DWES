@@ -20,7 +20,7 @@ class AdminSellController extends Controller
                 'subtitle' => 'Productos vendidos de la tienda',
             ];
             $this->view('admin/sales/index', $data);
-            var_dump($data);
+
         }else{
 
             header('location:' . ROOT .'admin');
