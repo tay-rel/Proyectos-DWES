@@ -8,45 +8,17 @@ class AdminSell
     {
         $this -> db = Mysqldb::getInstance() -> getDatabase();
     }
-    public function getUsers()
-    {
-        $sql = 'SELECT * FROM users WHERE deleted = 0';
-        $query = $this->db->prepare($sql);
-        $query->execute();
-
-        return $query->fetchAll(PDO::FETCH_OBJ);
-    }
-    public function getProducts()
-    {
-        $sql = 'SELECT * FROM products WHERE deleted=0';
-        $query = $this->db->prepare($sql);
-        $query->execute();
-
-        return $query->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function getConfig($type)
-    {
-        $sql = 'SELECT * FROM config WHERE type=:type ORDER BY value';
-        $query = $this->db->prepare($sql);
-        $query->execute([':type' => $type]);
-
-        return $query->fetchAll(PDO::FETCH_OBJ);
-    }
-    public function getCatalogue(){
-        $sql = 'SELECT id, name, type FROM products WHERE deleted=0 AND status!=0 ORDER BY type, name';
-        $query = $this->db->prepare($sql);
-        $query->execute();
-
-        return $query->fetchAll(PDO::FETCH_OBJ);
-    }
-    public function getProductById($id)
-    {
-        $sql = 'SELECT * FROM products WHERE id=:id';
-        $query = $this->db->prepare($sql);
-        $query->execute([':id' => $id]);
-
-        return $query->fetch(PDO::FETCH_OBJ);
-    }
+   public function getSell($user_id)
+   {
+      //$sql ='SELECT * FROM user_id, product_id, date';
+       $sql = 'SELECT * FROM  c.user_id as user, c.product_id as product, 
+                c.send as send, p.price as price, p.image as image,
+                p.description as description, p.name as name
+                FROM carts as c, products as p
+                WHERE c.user_id=:user_id AND state=0 AND c.product_id=p.id';
+       $query =  $this->db->prepare($sql);
+       $query->execute([':user_id' => $user_id]);
+       return $query->fetchAll(PDO::FETCH_OBJ);
+   }
 
 }

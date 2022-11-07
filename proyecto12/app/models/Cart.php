@@ -54,8 +54,11 @@ class Cart
 
         $query = $this->db->prepare($sql);
         $query->execute([':user_id' => $user_id]);
+      //  var_dump($query);//muestra en cart/addproduct/2/3
 
         return $query->fetchAll(PDO::FETCH_OBJ);
+
+
     }
 
     public function update($user , $product , $quantity)

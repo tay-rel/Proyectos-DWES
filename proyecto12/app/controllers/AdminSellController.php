@@ -9,23 +9,23 @@ class AdminSellController extends Controller
     {
         $this->model = $this->model('AdminSell');
     }
-    public function index()
+    public function index($errors =[])
     {
         $session =new SessionAdmin();
-        if($session ->getLogin()){
+        if ($session->getLogin()) {
+            $user_id = $session->getUserId();
+
+            $cart = $this->model->getCart($user_id);
             $data = [
-                'titulo' => 'Productos vendidos',
-                'menu' => false,
-                'admin' => true,
-                'subtitle' => 'Productos vendidos de la tienda',
+                'titulo' => 'Carrito',
+                'menu' => true,
+                'user_id' => $user_id,
+                'data' => $cart,
+                'errors' => $errors,         //pasamos a la vista los errores
             ];
-            $this->view('admin/sales/index', $data);
-
-        }else{
-
-            header('location:' . ROOT .'admin');
+            $this->view('sales/index', $data);
+        } else {
+            header('location:' . ROOT);
         }
     }
-
-
 }
