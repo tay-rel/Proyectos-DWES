@@ -10,7 +10,7 @@ class AdminShopController extends Controller
 
     public function index()
     {
-        $session = new Session();
+        $session = new SessionAdmin();
         if ($session->getLogin()) {
             $data = [
                 'titulo' => 'Bienvenid@ a la administración de la tienda',

@@ -109,6 +109,7 @@ class AdminUser
 
         $query = $this->db->prepare($sql);
 
+
         if ( ! $query->execute($params) ) {
             array_push($errors, 'Error al modificar el usuario administrador');
         }

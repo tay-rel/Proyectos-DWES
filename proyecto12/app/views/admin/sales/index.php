@@ -1,7 +1,7 @@
 <?php include_once(VIEWS . 'header.php')?>
     <div class="card p-4 bg-light">
         <div class="card-header">
-            <h1 class="text-center">Administración ventas de Productos</h1>
+            <h1 class="text-center">Registro venta de Productos</h1>
         </div>
         <div class="card-body">
             <table class="table text-center" width="100%">
@@ -38,9 +38,6 @@
         <div class="card-footer">
             <div class="row">
                 <div class="col-sm-6">
-                    <a href="<?= ROOT ?>adminProduct/create" class="btn btn-success">
-                        Crear Producto
-                    </a>
                 </div>
                 <div class="col-sm-6">
 

@@ -14,7 +14,7 @@ class AdminSellController extends Controller
         $session =new SessionAdmin();
         if($session ->getLogin()){
             $data = [
-                'titulo' => 'Productos vendidos de la tienda',
+                'titulo' => 'Productos vendidos',
                 'menu' => false,
                 'admin' => true,
                 'subtitle' => 'Productos vendidos de la tienda',
