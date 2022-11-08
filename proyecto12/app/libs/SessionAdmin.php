@@ -12,10 +12,12 @@ class SessionAdmin
         if (isset($_SESSION['user'])) {
             $this->user = $_SESSION['user'];
             $this->login = true;
+
         } else {
             unset($this->user);
             $this->login = false;
         }
+
     }
 
     public function login($user)

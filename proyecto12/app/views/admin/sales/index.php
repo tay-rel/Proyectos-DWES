@@ -1,4 +1,5 @@
 <?php include_once(VIEWS . 'header.php')?>
+
     <div class="card p-4 bg-light">
         <div class="card-header">
             <h1 class="text-center">Registro venta de Productos</h1>
@@ -12,15 +13,15 @@
                     <th>Fecha</th>
                     <th>Total pagado</th>
                 </tr>
-                <?php foreach ($data['data'] as $key => $value) : ?>
+                <?php foreach ($data['data'] as $user ) : ?>
                     <tr>
-                        <td><b><?= $value->name ?></b><?= substr(html_entity_decode($value->description),0,200) ?>...</td>
-                        <td class="text-right"><?= number_format($value->quantity,0) ?></td>
-                        <td class="text-right"><?= number_format($value->price,2) ?> &euro;</td>
-                        <td class="text-right"><?= number_format($value->price * $value->quantity,2) ?> &euro;</td>
+                        <td class="text-center"><?= $user->id ?></td>
+                        <td class="text-center"><?= $user->name ?></td>
+                        <td class="text-center"><?= $user->email ?></td>
                     </tr>
-                    <?php $subtotal += $value->price * $value->quantity; $discount += $value->discount; $send += $value->send ?>
+
                 <?php endforeach ?>
+
             </table>
         </div>
         <div class="card-footer">

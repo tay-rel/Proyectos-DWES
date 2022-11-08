@@ -19,6 +19,7 @@ class Session
             unset($this->user);
             $this->login = false;
         }
+
     }
 
     public function login($user)

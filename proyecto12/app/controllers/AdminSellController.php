@@ -9,23 +9,39 @@ class AdminSellController extends Controller
     {
         $this->model = $this->model('AdminSell');
     }
-    public function index($errors =[])
+    public function index()
     {
         $session =new SessionAdmin();
-        if ($session->getLogin()) {
-            $user_id = $session->getUserId();
-
-            $cart = $this->model->getCart($user_id);
+        if($session ->getLogin()){
             $data = [
-                'titulo' => 'Carrito',
-                'menu' => true,
-                'user_id' => $user_id,
-                'data' => $cart,
-                'errors' => $errors,         //pasamos a la vista los errores
+                'titulo' => 'Productos vendidos',
+                'menu' => false,
+                'admin' => true,
+                'subtitle' => 'Productos vendidos de la tienda',
             ];
-            $this->view('sales/index', $data);
-        } else {
-            header('location:' . ROOT);
+            $this->view('admin/sales/index', $data);
+            //var_dump($data);
+        }else{
+            header('location:' . ROOT .'admin');
         }
     }
+
+    public function verify()
+    {
+        $session = new Session();
+        $user = $session->getUser();
+        $cart = $this->model->detailsProduct($user->id);
+        $payment = $_POST['payment'] ?? '';
+
+        $data = [
+            'titulo' => 'Carrito | Verificar los datos',
+            'menu' => true,
+            'payment' => $payment,
+            'user' => $user,
+            'data' => $cart,
+        ];
+
+        $this->view('sales/index', $data);
+    }
+
 }
