@@ -8,20 +8,25 @@
             <table class="table table-stripped" width="100%">
                 <tr>
                     <th>ID user</th>
+                    <th>Nombre Usuario</th>
                     <th>ID producto</th>
-                    <th>Descripción</th>
-                    <th>Fecha</th>
+                    <th>Nombre Producto</th>
+                    <th>Fecha de pago</th>
                     <th>Total pagado</th>
                 </tr>
-                <?php foreach ($data['data'] as $user ) : ?>
+
+                <tbody>
+                <?php foreach ($data['carrito'] as $carrito): ?>
                     <tr>
-                        <td class="text-center"><?= $user->id ?></td>
-                        <td class="text-center"><?= $user->name ?></td>
-                        <td class="text-center"><?= $user->email ?></td>
+                        <td class="text-center"><?= $carrito->userId ?></td>
+                        <td class="text-center"><?= $carrito->userName ?></td>
+                        <td class="text-center"><?= $carrito->productId ?></td>
+                        <td class="text-center"><?= $carrito->nameProduct ?></td>
+                        <td class="text-center"><?= $carrito->datePay?></td>
+
                     </tr>
-
-                <?php endforeach ?>
-
+                <?php endforeach; ?>
+                </tbody>
             </table>
         </div>
         <div class="card-footer">

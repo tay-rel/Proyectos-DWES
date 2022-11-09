@@ -8,11 +8,14 @@ class AdminSell
     {
         $this -> db = Mysqldb::getInstance() -> getDatabase();
     }
-    public function detailsProduct( $user_id)
+    public function detailsProduct( )
     {
-        $sql = 'SELECT * FROM carts WHERE user_id=:user_id AND product_id=:product_id AND date=:date';//AND state=0, comprueba si el producto esta en el carrito
+        $sql = 'SELECT usuario.id AS userId ,usuario.first_name AS userName, productos.id AS productId ,productos.name AS nameProduct, carritos.date AS datePay 
+                FROM users usuario 
+                INNER JOIN carts AS carritos ON usuario.id=carritos.user_id 
+                INNER JOIN products AS productos ON productos.id=carritos.product_id;';
         $query = $this->db->prepare($sql);
-        $query->execute([':user_id' => $user_id]);
+        $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
 
     }

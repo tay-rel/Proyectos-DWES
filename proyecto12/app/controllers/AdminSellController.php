@@ -12,12 +12,13 @@ class AdminSellController extends Controller
     public function index()
     {
         $session =new SessionAdmin();
+        $detalles = $this->model->detailsProduct();  //devuelve el metodo creado en el modelo
         if($session ->getLogin()){
             $data = [
                 'titulo' => 'Productos vendidos',
                 'menu' => false,
                 'admin' => true,
-                'subtitle' => 'Productos vendidos de la tienda',
+                'carrito'=>$detalles,
             ];
             $this->view('admin/sales/index', $data);
             //var_dump($data);
@@ -26,22 +27,5 @@ class AdminSellController extends Controller
         }
     }
 
-    public function verify()
-    {
-        $session = new Session();
-        $user = $session->getUser();
-        $cart = $this->model->detailsProduct($user->id);
-        $payment = $_POST['payment'] ?? '';
-
-        $data = [
-            'titulo' => 'Carrito | Verificar los datos',
-            'menu' => true,
-            'payment' => $payment,
-            'user' => $user,
-            'data' => $cart,
-        ];
-
-        $this->view('sales/index', $data);
-    }
 
 }
