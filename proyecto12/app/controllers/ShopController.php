@@ -11,9 +11,9 @@ class ShopController extends Controller
 
     public function index()
     {
-        $session=new Session();
 
-        if ($session->getLogin()){  //comprobacion si tenemos la sesion abierta
+
+    //comprobacion si tenemos la sesion abierta
             //quiero mostrar los productos más vendidos
             $mostSold=$this->model->getMostSold();
             $news = $this->model->getNews();
@@ -27,10 +27,7 @@ class ShopController extends Controller
 
             ];
             $this->view('shop/index', $data);
-        }else{
-            $session->logout();
-            header('LOCATION' . ROOT);
-        }
+
 
     }
 
@@ -44,7 +41,6 @@ class ShopController extends Controller
     {
         //podemos ver las vistas estando logueados problema anterior arreglado
 
-        $session = new Session();
         $product = $this->model->getProductById($id);
 
         $data = [
@@ -54,7 +50,6 @@ class ShopController extends Controller
             'back' => $back,
             'errors' => [],
             'data' => $product,
-            'user_id' => $session->getUserId(),
         ];
 
         $this->view('shop/show', $data);

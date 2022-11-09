@@ -21,8 +21,8 @@
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-5">
 
-    <?php if($data['admin']): ?>
-    <a href="<?= ROOT ?>AdminShop" class="navbar-brand ms-3">Tienda</a><!----si esta logueado que me lleva shop---->
+    <?php if( isset( $data['admin'])): ?>
+    <a href="<?= ROOT ?>AdminShop" class="navbar-brand ms-3">Tienda</a><!----si esta logueado que me lleva shop, compruebo si existe ---->
     <?php else:?>
         <a href="<?= ROOT ?>shop" class="navbar-brand ms-3">Tienda</a> <!---- si no esta logueado que actualice---->
     <?php endif; ?>

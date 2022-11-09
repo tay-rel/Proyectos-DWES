@@ -11,9 +11,7 @@ class BooksController extends Controller
 
     public function index()
     {
-        $session = new Session();
-
-        if ($session->getLogin()) {
+   /*nO DEBE VALIDAR LOGIN PORQUE NO ESTA INICIADA*/
 
             $books = $this->model->getBooks();
 
@@ -26,8 +24,6 @@ class BooksController extends Controller
 
             $this->view('books/index', $data);
 
-        } else {
-            header('location:' . ROOT);
-        }
+
     }
 }
