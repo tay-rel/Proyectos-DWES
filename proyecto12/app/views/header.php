@@ -20,7 +20,12 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-5">
-    <a href="<?= ROOT ?>shop" class="navbar-brand ms-3">Tienda</a>
+
+    <?php if($data['admin']): ?>
+    <a href="<?= ROOT ?>AdminShop" class="navbar-brand ms-3">Tienda</a><!----si esta logueado que me lleva shop---->
+    <?php else:?>
+        <a href="<?= ROOT ?>shop" class="navbar-brand ms-3">Tienda</a> <!---- si no esta logueado que actualice---->
+    <?php endif; ?>
     <div class="collapse navbar-collapse p-0" id="menu">
         <!--        Enlaces del menú para todos-->
         <?php if($data['menu']): ?>

@@ -18,6 +18,7 @@ class LoginController extends Controller
                 'user'=>$value[0],
                 'password'=>$value[1],
                 'remember'=>'on',
+                ''
             ];
         }else{
             $dataForm=null;     //si la coockie no existe es null
