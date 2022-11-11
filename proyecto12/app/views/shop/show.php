@@ -25,5 +25,7 @@
 <a href="<?= ROOT . (!empty($data['back']) ? $data['back'] : 'shop') ?>" class="btn btn-success">Volver al listado de productos</a>
 
 <!---Añadimos otro boton,pasara dos parametros quien esta haciendo la compra,donde dara como primer parametro el identificador del producto--->
+
+<!---if (($data['user_id'])?>-->
 <a href="<?= ROOT ?>cart/addProduct/<?= $data['data']->id ?>/<?= $data['user_id'] ?>" class="btn btn-primary">Comprar</a>
 <?php include_once dirname(__DIR__) . ROOT . 'footer.php'?>

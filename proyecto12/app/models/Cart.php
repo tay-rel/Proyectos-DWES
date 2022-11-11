@@ -31,6 +31,9 @@ class Cart
         $sql2 = 'INSERT INTO carts(state, user_id, product_id, quantity, discount, send, date)
                  VALUES (:state, :user_id, :product_id, :quantity, :discount, :send, :date)';
         $query2 = $this->db->prepare($sql2);
+      /*  $date = new DateTime("2012-07-05 16:43:21", new DateTimeZone('Europe/London'));
+        //date_default_timezone_set('Europe/London');*/
+       ;
         $params2 = [
             ':state' => 0,
             ':user_id' => $user_id,
@@ -38,7 +41,7 @@ class Cart
             ':quantity' => 1,
             ':discount' => $product->discount,
             ':send' => $product->send,
-            ':date' => date('Y-m-d H:i:s'),
+            ':date' =>  date('Y-m-d H:i:s'),
         ];
         $query2->execute($params2);
         return $query2 ->rowCount();//numero de filas afectamos si inserta 1 y si no 0
