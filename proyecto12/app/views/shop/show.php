@@ -26,6 +26,9 @@
 
 <!---Añadimos otro boton,pasara dos parametros quien esta haciendo la compra,donde dara como primer parametro el identificador del producto--->
 
-<!---if (($data['user_id'])?>-->
+<?php if(isset($_SESSION['user'])): ?>
 <a href="<?= ROOT ?>cart/addProduct/<?= $data['data']->id ?>/<?= $data['user_id'] ?>" class="btn btn-primary">Comprar</a>
+<?php else: ?>
+<a href="<?= ROOT ?>login" class="btn btn-primary">Comprar</a>
+<?php endif; ?>
 <?php include_once dirname(__DIR__) . ROOT . 'footer.php'?>

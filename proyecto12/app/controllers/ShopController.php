@@ -11,7 +11,7 @@ class ShopController extends Controller
 
     public function index()
     {
-         $session=new Session();
+        $session=new Session();
         /*  if ($session->getLogin()){  //comprobacion si tenemos la sesion abierta
               //quiero mostrar los productos más vendidos*/
 
@@ -28,10 +28,10 @@ class ShopController extends Controller
         ];
         $this->view('shop/index', $data);
 
-     /*   }else{
-             $session->logout();
-             header('LOCATION' . ROOT);
-         }*/
+        /*   }else{
+                $session->logout();
+                header('LOCATION' . ROOT);
+            }*/
 
     }
 
@@ -43,10 +43,10 @@ class ShopController extends Controller
     }
     public function show($id, $back = '')
     {
-          $session = new Session();
+        $session = new Session();
 
-          if($session->getLogin()){
-             $product = $this->model->getProductById($id);
+        if($session->getLogin()){
+            $product = $this->model->getProductById($id);
 
             $data = [
                 'titulo' => 'Detalle del producto',
@@ -58,8 +58,8 @@ class ShopController extends Controller
                 'user_id' => $session->getUserId(),
             ];
 
-             $this->view('shop/show', $data);
-         }else{
+            $this->view('shop/show', $data);
+        }else{
             $product = $this->model->getProductById($id);
             $data = [
                 'titulo' => 'Detalle del producto',
@@ -69,10 +69,10 @@ class ShopController extends Controller
                 'errors' => [],
                 'data' => $product,
             ];
-            $session->logout();
-           // header('LOCATION:' . ROOT . 'login');
+         //   $session->logout();
+            // header('LOCATION:' . ROOT . 'login');
             $this->view('shop/show', $data);
-         }
+        }
     }
 
     public function whoami()
