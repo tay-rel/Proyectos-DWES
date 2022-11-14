@@ -69,9 +69,10 @@ class ShopController extends Controller
                 'errors' => [],
                 'data' => $product,
             ];
-            $session->logout();
-           // header('LOCATION:' . ROOT . 'login');
+
+           // header('LOCATION:' . ROOT );
             $this->view('shop/show', $data);
+
          }
     }
 
