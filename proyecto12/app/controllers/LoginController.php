@@ -266,8 +266,8 @@ class LoginController extends Controller
                 'country'	=> $country
             ];
 
-            if ($firstName == '') {
-                array_push($errors, 'El nombre es requerido');
+            if ( preg_match('/[a-zA-Z]{3,15}/',$firstName) == '') {
+                array_push($errors, 'El nombre es requerido y el formato debe ser como minimo3');
             }
             if ($lastName1 == '') {
                 array_push($errors, 'El primer apellido es requerido');

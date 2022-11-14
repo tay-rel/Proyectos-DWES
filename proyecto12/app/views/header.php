@@ -67,9 +67,11 @@
                 <li class="nav-item">
                     <a href="<?= ROOT ?>shop/logout" class="nav-link text-light me-2 ms-2">Salir</a>
                 </li>
-             <!--   <li class="nav-item">
+                <?php if(! isset($_SESSION['user'])): ?>
+              <li class="nav-item">
                     <a href="<?= ROOT ?>login" class="nav-link text-light me-2 ms-2">Iniciar Sesión</a>
-                </li>-->
+                </li>
+                <?php endif; ?>
             </ul>
         <?php endif; ?>
         <?php if(isset($data['admin']) && $data['admin']): ?>
