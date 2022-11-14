@@ -9,8 +9,8 @@ class SessionAdmin
     {
         session_start();
 
-        if (isset($_SESSION['user'])) {
-            $this->user = $_SESSION['user'];
+        if (isset($_SESSION['admin'])) {
+            $this->user = $_SESSION['admin'];
             $this->login = true;
 
         } else {
@@ -24,14 +24,14 @@ class SessionAdmin
     {
         if ($user) {
             $this->user = $user;
-            $_SESSION['user'] = $user;
+            $_SESSION['admin'] = $user;
             $this->login = true;
         }
     }
 
     public function logout()
     {
-        unset($_SESSION['user']);
+        unset($_SESSION['admin']);
         unset($this->user);
         session_destroy();
         $this->login = false;

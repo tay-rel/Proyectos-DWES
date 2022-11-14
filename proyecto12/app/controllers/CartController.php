@@ -133,12 +133,9 @@ class CartController extends Controller
 
         //variable para obtener el producto del carrito
         $prices= $this->model->getProductPrices($user->id);
-        //var_dump($prices);
-        //foreach recorrre prices, que tien la longitud de lo que tenga carrito
         foreach ($prices as $price){
             $this->model->updateProductPrice($price->product_id,$user->id,$price->price);
         }
-
 
         //necesiatariamos la condicional si esta dado de alta
 

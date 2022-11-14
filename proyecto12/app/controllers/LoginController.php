@@ -4,6 +4,7 @@
 class LoginController extends Controller
 {
     private $model;
+    private $imprimer;
 
     public function __construct()
     {
@@ -12,6 +13,9 @@ class LoginController extends Controller
 
     public function index()
     {
+        $this->imprimer= 'Soy un string';
+
+
         if (isset($_COOKIE['shoplogin'])){      //obtenemos el valor
             $value=explode('|',$_COOKIE['shoplogin']);
             $dataForm= [
@@ -35,6 +39,8 @@ class LoginController extends Controller
 
     public function olvido()
     {
+        $this->imprimer= 'Soy un string dentro de olvido';
+        echo $this->imprimer;
         $errors = [];
 
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -266,7 +272,7 @@ class LoginController extends Controller
                 'country'	=> $country
             ];
 
-            if ( preg_match('/[a-zA-Z]{3,15}/',$firstName) == '') {
+            if ($firstName == '') {
                 array_push($errors, 'El nombre es requerido y el formato debe ser como minimo3');
             }
             if ($lastName1 == '') {
