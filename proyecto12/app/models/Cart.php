@@ -28,8 +28,8 @@ class Cart
         $product = $query->fetch(PDO::FETCH_OBJ);
 
 
-        $sql2 = 'INSERT INTO carts(state, user_id, product_id, quantity, discount, send, date,fullpay)
-                 VALUES (:state, :user_id, :product_id, :quantity, :discount, :send, :date,:fullpay)';
+        $sql2 = 'INSERT INTO carts(state, user_id, product_id, quantity, discount, send, date)
+                 VALUES (:state, :user_id, :product_id, :quantity, :discount, :send, :date)';
         $query2 = $this->db->prepare($sql2);
       /*  $date = new DateTime("2012-07-05 16:43:21", new DateTimeZone('Europe/London'));
         //date_default_timezone_set('Europe/London');*/
@@ -42,7 +42,6 @@ class Cart
             ':discount' => $product->discount,
             ':send' => $product->send,
             ':date' =>  date('Y-m-d H:i:s'),
-            'full'
         ];
         $query2->execute($params2);
         return $query2 ->rowCount();//numero de filas afectamos si inserta 1 y si no 0
@@ -101,7 +100,7 @@ class Cart
         return $query->execute($params);
     }
 
-    public function createAddress($data)
+    /*public function createAddress($data)
     {
         $response = false;
         if(isset($_SESSION['user'])){
@@ -125,5 +124,26 @@ class Cart
             $response = $query->execute($params);
         }
         return $response;
+    }*/
+    public function getProductPrices($user_id)
+    {
+        $sql='SELECT c.product_id, p.price FROM carts c, products p, users u 
+              WHERE c.user_id=u.id AND c.product_id=p.id AND c.state=0 AND user_id=:user_id';
+        $query = $this->db->prepare($sql);
+        $params=[':user_id' => $user_id,];
+        $query->execute($params);
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+    public function updateProductPrice($product_id, $user_id,$price)
+    {
+        $sql='UPDATE carts SET price=:price where state=0 AND product_id=:product_id AND user_id=:user_id';
+        $query = $this->db->prepare($sql);
+        $params=[
+            ':user_id' => $user_id,
+            ':product_id'=> $product_id,
+            ':price'=>$price,
+        ];
+       return $query->execute($params);
+
     }
 }

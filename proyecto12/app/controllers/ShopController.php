@@ -69,18 +69,10 @@ class ShopController extends Controller
                 'errors' => [],
                 'data' => $product,
             ];
-<<<<<<< HEAD
-
-           // header('LOCATION:' . ROOT );
-            $this->view('shop/show', $data);
-
-         }
-=======
-         //   $session->logout();
+            //   $session->logout();
             // header('LOCATION:' . ROOT . 'login');
             $this->view('shop/show', $data);
         }
->>>>>>> 202e4977ea4d729daecb7f40dd550ef3e1e096cd
     }
 
     public function whoami()

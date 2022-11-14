@@ -3,38 +3,32 @@
     <img src="<?= ROOT ?>img/<?= $data['data']->image ?>" class="rounded float-right" alt="">
     <h4>Precio:</h4>
     <p><?= number_format($data['data']->price, 2) ?>€</p>
-    <?php if ($data['data']->type == 1): ?>
-        <h4>Descripción:</h4>
-        <?= html_entity_decode($data['data']->description) ?>
-        <h4>A quien va dirigido:</h4>
-        <p><?= $data['data']->people ?></p>
-        <h4>Objetivos:</h4>
-        <p><?= $data['data']->objetives ?></p>
-        <h4>¿Qué es necesario conocer?</h4>
-        <p><?= $data['data']->necesites ?></p>
-    <?php elseif ($data['data']->type == 2): ?>
-        <h4>Autor:</h4>
-        <p><?= $data['data']->author ?></p>
-        <h4>Editorial:</h4>
-        <p><?= $data['data']->publisher ?></p>
-        <h4>Número de páginas:</h4>
-        <p><?= $data['data']->pages ?></p>
-        <h4>Resumen:</h4>
-        <?= html_entity_decode($data['data']->description) ?>
-    <?php endif; ?>
-<a href="<?= ROOT . (!empty($data['back']) ? $data['back'] : 'shop') ?>" class="btn btn-success">Volver al listado de productos</a>
+<?php if ($data['data']->type == 1): ?>
+    <h4>Descripción:</h4>
+    <?= html_entity_decode($data['data']->description) ?>
+    <h4>A quien va dirigido:</h4>
+    <p><?= $data['data']->people ?></p>
+    <h4>Objetivos:</h4>
+    <p><?= $data['data']->objetives ?></p>
+    <h4>¿Qué es necesario conocer?</h4>
+    <p><?= $data['data']->necesites ?></p>
+<?php elseif ($data['data']->type == 2): ?>
+    <h4>Autor:</h4>
+    <p><?= $data['data']->author ?></p>
+    <h4>Editorial:</h4>
+    <p><?= $data['data']->publisher ?></p>
+    <h4>Número de páginas:</h4>
+    <p><?= $data['data']->pages ?></p>
+    <h4>Resumen:</h4>
+    <?= html_entity_decode($data['data']->description) ?>
+<?php endif; ?>
+    <a href="<?= ROOT . (!empty($data['back']) ? $data['back'] : 'shop') ?>" class="btn btn-success">Volver al listado de productos</a>
 
-<!---Añadimos otro boton,pasara dos parametros quien esta haciendo la compra,donde dara como primer parametro el identificador del producto--->
+    <!---Añadimos otro boton,pasara dos parametros quien esta haciendo la compra,donde dara como primer parametro el identificador del producto--->
 
-<<<<<<< HEAD
-<?php if(isset($SESSION['user'])): ?>
-<a href="<?= ROOT ?>cart/addProduct/<?= $data['data']->id ?>/<?= $data['user_id'] ?>" class="btn btn-primary">Comprar</a>
-<?php else:?>
-=======
 <?php if(isset($_SESSION['user'])): ?>
-<a href="<?= ROOT ?>cart/addProduct/<?= $data['data']->id ?>/<?= $data['user_id'] ?>" class="btn btn-primary">Comprar</a>
+    <a href="<?= ROOT ?>cart/addProduct/<?= $data['data']->id ?>/<?= $data['user_id'] ?>" class="btn btn-primary">Comprar</a>
 <?php else: ?>
->>>>>>> 202e4977ea4d729daecb7f40dd550ef3e1e096cd
-<a href="<?= ROOT ?>login" class="btn btn-primary">Comprar</a>
+    <a href="<?= ROOT ?>login" class="btn btn-primary">Comprar</a>
 <?php endif; ?>
 <?php include_once dirname(__DIR__) . ROOT . 'footer.php'?>
