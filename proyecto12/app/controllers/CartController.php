@@ -155,4 +155,33 @@ class CartController extends Controller
 
         $this ->view('carts/thanks' , $data);
     }
+    public function createNewAddress()
+    {
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Procesamos la información recibida del formulario
+            $firstName = $_POST['first_name'] ?? '';
+            $lastName1 = $_POST['last_name_1'] ?? '';
+            $lastName2 = $_POST['last_name_2'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $address = $_POST['address'] ?? '';
+            $city = $_POST['city'] ?? '';
+            $province = $_POST['province'] ?? '';
+            $postcode = $_POST['postcode'] ?? '';
+            $country = $_POST['country'] ?? '';
+
+            $dataForm = [
+                'firstName' => $firstName,
+                'lastName1' => $lastName1,
+                'lastName2' => $lastName2,
+                'email' => $email,
+                'address' => $address,
+                'city' => $city,
+                'province' => $province,
+                'postcode' => $postcode,
+                'country' => $country
+            ];
+        }
+        $this->view('carts/address',$dataForm);
+    }
 }

@@ -99,4 +99,30 @@ class Cart
         ];
         return $query->execute($params);
     }
+
+    public function createAddress($data)
+    {
+        $response = false;
+        if(isset($_SESSION['user'])){
+            $sql = 'INSERT INTO carts(first_name, last_name_1, last_name_2, email, 
+                  address, city, province, zipcode, country) 
+                  VALUES(:first_name, :last_name_1, :last_name_2, :email, 
+                  :address, :city, :province, :zipcode, :country)';
+
+            $params=[
+                ':first_name' => $data['firstName'],
+                ':last_name_1' => $data['lastName1'],
+                ':last_name_2' => $data['lastName2'],
+                ':email' => $data['email'],
+                ':address' => $data['address'],
+                ':city' => $data['city'],
+                ':province' => $data['province'],
+                ':zipcode' => $data['postcode'],
+                ':country' => $data['country'],
+            ];
+            $query=$this->db->prepare($sql);
+            $response = $query->execute($params);
+        }
+        return $response;
+    }
 }
