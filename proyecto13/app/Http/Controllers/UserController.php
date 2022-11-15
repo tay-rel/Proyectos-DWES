@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;//si se debe especificar
+use http\Client\Curl\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+//si se debe especificar
 
 class UserController extends Controller
 {
@@ -10,15 +14,21 @@ class UserController extends Controller
     //SI no tiene usuarios se deb crear un mensaje que explique que no hay usuarios
     public function index()
     {
+        //1-$users =DB::table('users')->get();
+        $users = User::all();    // 2- de todos los usuarios lo quiero todo
         $title = 'Listado de usuarios';
 
-        //La funcion request recibe los datos de petición realizada al servidor desde el cliente.
+     /* //La funcion request recibe los datos de petición realizada al servidor desde el cliente.
         //El has pregunta si tiene la clave empty.
        if(request() -> has('empty')){
            $users = [];
        }else{
            $users = ['Joel', 'Ellie', 'Tess', 'Tommy', 'Bill'];
-       }
+       }*/
+
+     //   ->with('users', User::all())
+      //  ->with('title','Listado de usuarios');//-3
+
         return view('users.index', compact(
                 'title',
                 'users'

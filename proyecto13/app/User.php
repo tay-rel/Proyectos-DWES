@@ -26,4 +26,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function profession ()
+    {
+        //n->1 usuario tiene solo una profesion
+        //definimos la relacion a nivel de framework
+        //Se relaciona con la clave foranea a traves del segundo parametro
+       return $this->belongsTo(\Profession::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->email ==='Pepe Perez';
+    }
 }

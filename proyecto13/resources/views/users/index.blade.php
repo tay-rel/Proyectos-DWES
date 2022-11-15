@@ -7,13 +7,9 @@
 
     <ul>
         @forelse($users as $user)
-            <li>{{ $user }}</li>
+            <li>{{ $user->name }} ({{ $user->email }})</li>         <!--lo llama como una coleccion de usuarios , No como un objeto->
         @empty
             <p>No hay usuarios registrados</p>
         @endforelse
     </ul>
-@endsection
-
-@section('sidebar')
-    <h2>Barra lateral</h2>
 @endsection
