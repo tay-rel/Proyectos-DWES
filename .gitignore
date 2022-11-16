@@ -1,4 +1,8 @@
 laradock/*
 .env
+<<<<<<< HEAD
 proyecto11/*
 
+=======
+public/img*
+>>>>>>> b3c9755 (...)
