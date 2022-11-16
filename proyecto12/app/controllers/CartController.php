@@ -88,42 +88,53 @@ class CartController extends Controller
             ];
             $this->view('carts/address', $data);
         } else {
-            $data = [
+           /* $data = [
                 'titulo' => 'Carrito | Checkout',
                 'subtitle' => 'Checkout | Iniciar sesion',
                 'menu' => true
             ];
 
-            $this->view('carts/checkout', $data);
+            $this->view('carts/checkout', $data);*/
+            header('location:' . ROOT);
         }
     }
     public function paymentmode()
     {   //llega al metodo de pago si va bien.
-        $data = [
-            'titulo' => 'Carrito | Forma de pago',
-            'subtitle' => 'Checkout | Forma de pago',
-            'menu' => true,
-        ];
+        $session = new Session();
 
-        $this->view('carts/paymentmode', $data);
+        if ($session->getLogin()) {
+            $data = [
+                'titulo' => 'Carrito | Forma de pago',
+                'subtitle' => 'Checkout | Forma de pago',
+                'menu' => true,
+            ];
+            $this->view('carts/paymentmode', $data);
+        }else{
+            header('location:' . ROOT);
+        }
+
 
     }
     public function verify()
     {
         $session = new Session();
-        $user = $session->getUser();
-        $cart = $this->model->getCart($user->id);
-        $payment = $_POST['payment'] ?? '';
+      if($session->getLogin()){
+          $user = $session->getUser();
+          $cart = $this->model->getCart($user->id);
+          $payment = $_POST['payment'] ?? '';
 
-        $data = [
-            'titulo' => 'Carrito | Verificar los datos',
-            'menu' => true,
-            'payment' => $payment,
-            'user' => $user,
-            'data' => $cart,
-        ];
+          $data = [
+              'titulo' => 'Carrito | Verificar los datos',
+              'menu' => true,
+              'payment' => $payment,
+              'user' => $user,
+              'data' => $cart,
+          ];
 
-        $this->view('carts/verify', $data);
+          $this->view('carts/verify', $data);
+      }else{
+          header('location:' . ROOT);
+      }
     }
 
     public function thanks()
@@ -139,30 +150,34 @@ class CartController extends Controller
 
         //necesiatariamos la condicional si esta dado de alta
 
-        if($this->model->closeCart($user->id, 1)){     //pasamos el identificador del usuario y se pasa el nuevo estado, si ha ido bien muestro la vista posible=!
-            $data = [
-                'titulo' => 'Carrito | GRacias por su compra',
-                'data' => $user,
-                'menu' => true,
+       if ($session->getLogin()){
+           if($this->model->closeCart($user->id, 1)){     //pasamos el identificador del usuario y se pasa el nuevo estado, si ha ido bien muestro la vista posible=!
+               $data = [
+                   'titulo' => 'Carrito | GRacias por su compra',
+                   'data' => $user,
+                   'menu' => true,
 
-            ];
-        }else {
-            $data = [
-                'titulo' => 'Error en la actualizacion del carrito',
-                'menu' => false,
-                'subtitle' =>'Error en la actualizacion del carrito',
-                'text' =>   'Por favor , comuniquese con el sopoprte',
-                'color' => 'alert-danger',
-                'url'  => 'login',
-                'colorButton' => 'btn-danger',
-                'textBUtton'=>'Regresar',
-            ];
-            $this->view('mensaje', $data);
-        }
+               ];
+           }else {
+               $data = [
+                   'titulo' => 'Error en la actualizacion del carrito',
+                   'menu' => false,
+                   'subtitle' =>'Error en la actualizacion del carrito',
+                   'text' =>   'Por favor , comuniquese con el sopoprte',
+                   'color' => 'alert-danger',
+                   'url'  => 'login',
+                   'colorButton' => 'btn-danger',
+                   'textBUtton'=>'Regresar',
+               ];
+               $this->view('mensaje', $data);
+           }
 
-        $this ->view('carts/thanks' , $data);
+           $this ->view('carts/thanks' , $data);
+       }else{
+           header('location:' . ROOT);
+       }
     }
-    public function createNewAddress()
+   /* public function createNewAddress()
     {
 
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -190,5 +205,5 @@ class CartController extends Controller
             ];
         }
         $this->view('carts/address',$dataForm);
-    }
+    }*/
 }
