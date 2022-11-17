@@ -33,6 +33,7 @@ class AdminController extends Controller
             $dataForm = [
                 'user' => $user,
                 'password' => $password,
+                'admin'=>true,
             ];
             if(empty($user)) {
                 array_push($errors, 'El usuario es requerido');
@@ -47,7 +48,7 @@ class AdminController extends Controller
 
                 if ( ! $errors ) {
 
-                    $session = new Session();
+                    $session = new SessionAdmin();
                     $session->login($dataForm);
 
                     header("LOCATION:" . ROOT . 'AdminShop');
