@@ -43,7 +43,7 @@ class ShopController extends Controller
     public function show($id, $back = '')
     {
         $session = new Session();
-
+        if ($session->getLogin()) {
         $product = $this->model->getProductById($id);
 
         $data = [
@@ -57,6 +57,20 @@ class ShopController extends Controller
         ];
 
         $this->view('shop/show', $data);
+        } else {
+            $product = $this->model->getProductById($id);
+            $data = [
+                'titulo' => 'Detalle del producto',
+                'menu' => true,
+                'subtitle' => $product->name,
+                'back' => $back,
+              //  'errors' => [],
+                'data' => $product,
+
+            ];
+
+            $this->view('shop/show', $data);
+        }
     }
 
     public function whoami()
