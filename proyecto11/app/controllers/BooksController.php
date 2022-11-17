@@ -11,9 +11,9 @@ class BooksController extends Controller
 
     public function index()
     {
-        $session = new Session();
+       /* $session = new Session();
 
-        if ($session->getLogin()) {
+        if ($session->getLogin()) {*/
 
             $books = $this->model->getBooks();
 
@@ -26,8 +26,8 @@ class BooksController extends Controller
 
             $this->view('books/index', $data);
 
-        } else {
+      /*  } else {
             header('location:' . ROOT);
-        }
+        }*/
     }
 }
