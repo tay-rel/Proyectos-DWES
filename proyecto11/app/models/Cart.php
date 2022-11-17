@@ -94,4 +94,26 @@ class Cart
         ];
         return $query->execute($params);
     }
+
+    public function getProductPrices($user_id)
+    {
+        $sql='SELECT c.product_id, p.price FROM carts c, products p, users u 
+              WHERE c.user_id=u.id AND c.product_id=p.id AND c.state=0 AND user_id=:user_id';
+        $query = $this->db->prepare($sql);
+        $params=[':user_id' => $user_id,];
+        $query->execute($params);
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+    public function updateProductPrice($product_id, $user_id,$price)
+    {
+        $sql='UPDATE carts SET price=:price where state=0 AND product_id=:product_id AND user_id=:user_id';
+        $query = $this->db->prepare($sql);
+        $params=[
+            ':user_id' => $user_id,
+            ':product_id'=> $product_id,
+            ':price'=>$price,
+        ];
+        return $query->execute($params);
+
+    }
 }
