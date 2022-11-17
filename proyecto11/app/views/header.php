@@ -20,8 +20,13 @@
 
 </head>
 <body>
+<!--       Vista correcta Admin-->
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <a href="<?= ROOT ?>shop" class="navbar-brand">Tienda</a>
+    <?php if(isset($data['admin'])):?>
+        <a href="<?= ROOT ?>AdminShop" class="navbar-brand">Tienda</a>
+    <?php else: ?>
+        <a href="<?= ROOT ?>shop" class="navbar-brand">Tienda</a>
+    <?php endif; ?>
     <div class="collapse navbar-collapse" id="menu">
 <!--        Enlaces del menú para todos-->
         <?php if($data['menu']): ?>
