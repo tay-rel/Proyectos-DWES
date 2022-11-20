@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserModuleTest extends TestCase
 {
-    /
     /**
      * @test
      */
@@ -38,5 +37,5 @@ class UserModuleTest extends TestCase
             ->assertStatus(200)
             ->assertSee('Creando nuevo usuario');
     }
-}
+
 }
