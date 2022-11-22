@@ -38,9 +38,8 @@ class UserController extends Controller
         );     //para pasarle a la vista dee pasarle un array asociativo donde la clave sera el name de la var['users' => $users, 'title' => $title]    return view('users',compact('title', 'users') );
     }
 
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::find($id);
 
         if ($user == null) {
             return response()->view('errors.404', [], 404);

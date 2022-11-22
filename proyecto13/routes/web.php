@@ -20,7 +20,7 @@ Route::get('/', function () {
 Route::get('usuarios' , 'UserController@index')->name('users');       //cuando escriba /usuarios debe llmar al metodo index
 
 //para acceder a la ruta del usuario debo pasarle por parametro el id para que reciba por get
-Route::get('usuarios/{id}','UserController@show')
+Route::get('usuarios/{user}','UserController@show')
     ->where('id', '[0-9]+')
     ->name('user.show');
 

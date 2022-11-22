@@ -75,7 +75,7 @@ class UsersModuleTest extends TestCase
             ->assertStatus(200)
             ->assertSee('Creando nuevo usuario');
     }
-    
+
     /**
      * @test
      */
