@@ -17,15 +17,18 @@ Route::get('/', function () {
 });
 
 //listar usuarios
-Route::get('usuarios' , 'UserController@index')->name('users');       //cuando escriba /usuarios debe llmar al metodo index
+Route::get('usuarios' , 'UserController@index')->name('users');
 
-//la aplica al final confirmando las anteriores
+
 Route::get('usuarios/nuevo', 'UserController@create' )->name('user.create');
+
 Route::post('usuarios', 'UserController@store')->name('user.store');
 
-//para acceder a la ruta del usuario debo pasarle por parametro el id para que reciba por get
+Route::get('usuarios/{user}/editar', 'UserController@edit')->name('users.edit');
+
+
 Route::get('usuarios/{user}','UserController@show')
     ->name('user.show');
 
-//se puede pasar más de un parametro e las rutas
+
 Route::get('saludo/{name}/{nickname?}', 'WelcomeUserController');
