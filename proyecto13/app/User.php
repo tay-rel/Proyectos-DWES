@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
 
     public function profession ()
@@ -37,6 +37,6 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->email ==='Pepe Perez';
+        return $this->email ==='pepe@mail.es';
     }
 }
