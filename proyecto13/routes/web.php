@@ -21,7 +21,7 @@ Route::get('usuarios' , 'UserController@index')->name('users');       //cuando e
 
 //la aplica al final confirmando las anteriores
 Route::get('usuarios/nuevo', 'UserController@create' )->name('user.create');
-Route::post('usuarios/crear', 'UserController@store')->name('user.store');
+Route::post('usuarios', 'UserController@store')->name('user.store');
 
 //para acceder a la ruta del usuario debo pasarle por parametro el id para que reciba por get
 Route::get('usuarios/{user}','UserController@show')
