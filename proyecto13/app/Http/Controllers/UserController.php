@@ -18,16 +18,17 @@ class UserController extends Controller
         $users = User::all();    // 2- de todos los usuarios lo quiero todo
         $title = 'Listado de usuarios';
 
-     /* //La funcion request recibe los datos de petición realizada al servidor desde el cliente.
+        //La funcion request recibe los datos de petición realizada al servidor desde el cliente.
         //El has pregunta si tiene la clave empty.
-       if(request() -> has('empty')){
-           $users = [];
-       }else{
-           $users = ['Joel', 'Ellie', 'Tess', 'Tommy', 'Bill'];
-       }*/
 
-     //   ->with('users', User::all())
-      //  ->with('title','Listado de usuarios');//-3
+        /* if(request() -> has('empty')){
+               $users = [];
+           }else{
+               $users = ['Joel', 'Ellie', 'Tess', 'Tommy', 'Bill'];
+           }*/
+
+        //   ->with('users', User::all())
+        //  ->with('title','Listado de usuarios');//-3
 
         return view('users.index', compact(
                 'title',
