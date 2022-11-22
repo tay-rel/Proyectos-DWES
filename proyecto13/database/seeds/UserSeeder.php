@@ -31,11 +31,6 @@ class UserSeeder extends Seeder
                 ->value('id'),
         ]);
 
-        User::create([
-            'name' => 'Jaime Sánchez',
-            'email' => 'jaime@mail.es',
-            'password' => bcrypt('123456'),
-            'profession_id' => null,
-        ]);
+        factory(User::class, 48)->create();
     }
 }
