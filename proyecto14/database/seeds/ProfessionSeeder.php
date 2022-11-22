@@ -1,5 +1,6 @@
 <?php
 
+use App\Profession;//imnporta la clase de modelos
 use Illuminate\Database\Seeder;
 
 class ProfessionSeeder extends Seeder

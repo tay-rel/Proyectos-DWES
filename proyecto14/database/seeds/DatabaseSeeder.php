@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,8 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->truncateTables(['professions', 'users']);
-
+        $this->truncateTables(['professions', 'users']); //cada vez que ejecutas seeder reseteas los datos.Y desturye las tablas
         $this->call(ProfessionSeeder::class);
         $this->call(UserSeeder::class);
     }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Profession;//importado de profession
+use App\User;//importado de user
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -26,9 +28,19 @@ class UserSeeder extends Seeder
         $professionId = DB::table('professions')
             ->whereTitle('Desarrollador Back-End')
             ->value('id');*/
+
+        //orm =que trabaja a nivel de modelo,sino se usaria el constrctor de consultas
         User::create([
             'name' => 'Pepe Pérez',
             'email' => 'pepe@mail.es',
+            'password' => bcrypt('123456'),
+            'profession_id' => Profession::whereTitle('Desarrollador Back-End')
+                ->value('id')
+        ]);
+
+        User::create([
+            'name' => 'Ariel mayta',
+            'email' => 'ariel@mail.es',
             'password' => bcrypt('123456'),
             'profession_id' => Profession::whereTitle('Desarrollador Back-End')
                 ->value('id')
