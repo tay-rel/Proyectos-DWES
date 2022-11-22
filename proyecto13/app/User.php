@@ -32,11 +32,11 @@ class User extends Authenticatable
         //n->1 usuario tiene solo una profesion
         //definimos la relacion a nivel de framework
         //Se relaciona con la clave foranea a traves del segundo parametro
-       return $this->belongsTo(\Profession::class);
+       return $this->belongsTo(Profession::class);
     }
 
     public function isAdmin()
     {
-        return $this->email ==='pepe@mail.es';
+        return $this->is_admin;
     }
 }
