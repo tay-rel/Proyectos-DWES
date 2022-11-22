@@ -19,10 +19,14 @@ class UsersModuleTest extends TestCase
     {
         //para la prueba, los usuario que estan creados en el test se quedan permanentemente en la bbdd
         //de un test a otro la bbdd debe reiniciarse
+
         factory(User::class)->create([
-            'name'=>'Ellie',
+            'name' => 'Joel'
         ]);
 
+        factory(User::class)->create([
+            'name' => 'Ellie'
+        ]);
 
         $this->get('usuarios')
             ->assertStatus(200)
