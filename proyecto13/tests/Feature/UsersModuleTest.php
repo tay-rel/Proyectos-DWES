@@ -212,5 +212,24 @@ class UsersModuleTest extends TestCase
             return $viewUser->id === $user->id;
         });      //debo enviar a la vista, usamos funcion anonima que podra comprobar los ids de ambos usuarios y no que compruebe los objetos de manera directa.
     }
+        /**
+         * @test
+         */
+        function it_updates_a_user()
+        {
+            $user = factory(User::class)->create();
+                $this->put('usuario/'.$user->id,[//put=indica que debe actualizar un recurso de la aplicacion
+                    'name' => 'Pepe',
+                    'email' => 'pepe@mail.es',
+                    'password' => '12345678',
+                ])->assertRedirect('usuarios/' . $user->id);
+
+                $this->assertCredentials([//una fila que tenga esos elementos,busca las credenciales
+                    'name' => 'Pepe',
+                    'email' => 'pepe@mail.es',
+                    'password' => '12345678',
+                ]);
+
+        }
 
 }

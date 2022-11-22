@@ -80,4 +80,12 @@ class UserController extends Controller
         //se usa el binding
             return view('users.edit', compact('user'));
     }
+
+    public function update(User $user)
+    {
+        $data=request()->all();
+        $data['password'] =bcrypt($data['password']);
+
+        return redirect()->route('user.show',$user);//lleva a ver el usuario cuando se haga los cambios
+    }
 }
