@@ -215,16 +215,16 @@ class UsersModuleTest extends TestCase
         /**
          * @test
          */
-        function it_updates_a_user()
+    function it_updates_a_user()
         {
             $user = factory(User::class)->create();
-                $this->put('usuario/'.$user->id,[//put=indica que debe actualizar un recurso de la aplicacion
+            $this->put('usuarios/'.$user->id, [//put=indica que debe actualizar un recurso de la aplicacion
                     'name' => 'Pepe',
                     'email' => 'pepe@mail.es',
                     'password' => '12345678',
-                ])->assertRedirect('usuarios/' . $user->id);
+            ])->assertRedirect('usuarios/' . $user->id);
 
-                $this->assertCredentials([//una fila que tenga esos elementos,busca las credenciales
+            $this->assertCredentials([//una fila que tenga esos elementos,busca las credenciales
                     'name' => 'Pepe',
                     'email' => 'pepe@mail.es',
                     'password' => '12345678',
