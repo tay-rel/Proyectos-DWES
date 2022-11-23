@@ -205,12 +205,12 @@ class UsersModuleTest extends TestCase
         $user = factory(User::class)->create();
 
         $this->get('usuarios/'.$user->id.'/editar')
-        ->assertStatus(200)
-        ->assertViewIs('users.edit')
-        ->assertSee('Editar usuario')
-        ->assertViewHas('user',function ($viewUser) use($user){
-            return $viewUser->id === $user->id;
-        });      //debo enviar a la vista, usamos funcion anonima que podra comprobar los ids de ambos usuarios y no que compruebe los objetos de manera directa.
+            ->assertStatus(200)
+            ->assertViewIs('users.edit')
+            ->assertSee('Editar usuario')
+            ->assertViewHas('user', function ($viewUser) use ($user) {
+                return $viewUser->id === $user->id;
+            });   //debo enviar a la vista, usamos funcion anonima que podra comprobar los ids de ambos usuarios y no que compruebe los objetos de manera directa.
     }
         /**
          * @test

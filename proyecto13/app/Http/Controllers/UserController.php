@@ -78,7 +78,7 @@ class UserController extends Controller
     {
         //se debe dar un id , para localizarlo
         //se usa el binding
-            return view('users.edit', compact('user'));
+        return view('users.edit', compact('user'));
     }
 
     public function update(User $user)
