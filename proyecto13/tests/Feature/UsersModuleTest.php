@@ -289,8 +289,10 @@ class UsersModuleTest extends TestCase
      */
     function the_email_must_be_unique_when_updating_a_user()
     {
-        self::markTestIncomplete();     //se marca como incompleto, lo que significa que falta por completar
-        return ;
+        //se debe comprobar que el email es unico
+        factory(User::class)->create([
+           'enail'=>'existing-email@mail.es'
+        ]);
 
         //quiere saber cual es el email
         //el nombre tenga el que tenga debo poder modificarlo.
@@ -299,7 +301,7 @@ class UsersModuleTest extends TestCase
         $this->from('usuarios/'.$user->id.'/editar');
         $this->put('usuarios/'.$user->id, [
             'name' => 'Pepe',       //y al modificarlo el nombre sea pepe
-            'email' => 'pepe@mail.es',
+            'email' => 'existing-email@mail.es',
             'password' => '12345678',
         ])->assertRedirect('usuarios/' . $user->id . '/editar') //me redirige al propio formulario
         ->assertSessionHasErrors(['email']);
@@ -335,5 +337,51 @@ class UsersModuleTest extends TestCase
            'password' => $oldPassword,      //sino envia la contraseña mantiene  la anterior
         ]);
     }
+
+    /**
+     * @test
+     */
+    function the_user_email_can_stay_the_same_when_updating_a_user()
+    {
+        //Se pide el email
+
+        $oldPassword = 'CLAVE_VIEJA';
+        $user = factory(User::class)->create([
+            'email'=> 'pepe@mail.es',       //crea un usuario cuya contraseña es clave vieja
+        ]);
+
+        $this->from('usuarios/'.$user->id.'/editar')
+            ->put('usuarios/'.$user->id, [
+                'name' => 'Pepe',
+                'email' => 'pepe@mail.es',
+                //si la envio vacia no debe darte error y debe redirigir a la vista show .
+                'password' => '',
+            ])->assertRedirect('usuarios/' . $user->id . '/editar'); //me redirige al propio formulario
+
+        $this->assertCredentials([
+            'name' => 'Pepe',
+            'email' => 'pepe@mail.es',
+            'password' => $oldPassword,      //sino envia la contraseña mantiene  la anterior
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    function it_deletes_A_user()
+    {
+        //$this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+
+        $this->delete('usuarios/' . $user->id)
+            ->assertRedirect('usuarios');
+
+        $this->assertDatabaseMissing('users',[
+           'id'=>$user->id,
+        ]);
+
+        $this->assertSame(0, User::count());
+    }
+
 
 }

@@ -85,7 +85,7 @@ class UserController extends Controller
     {
         $data = request()->validate([      //obtiene la información que viene del formulario, las convierte en null
             'name' => 'required',
-            'email' =>'required|email|unique:users,email',
+            'email' =>'required|email|unique:users,email,' . $user->id,
             'password'=>'',
         ]);
         if($data['password'] != null){
@@ -100,6 +100,10 @@ class UserController extends Controller
 
         return redirect()->route('user.show', $user);//lleva a ver el usuario cuando se haga los cambios
     }
-
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->route('users');
+    }
 
 }

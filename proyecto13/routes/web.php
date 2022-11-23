@@ -34,4 +34,6 @@ Route::get('usuarios/{user}','UserController@show')
 
 Route::put('usuarios/{user}', 'UserController@update')->name('user.update');
 
+Route::delete('usuarios/{user}', 'UserController@destroy')->name('user.destroy');     //el metodo delete no tiene que ver con el destroy
+
 
