@@ -36,7 +36,7 @@
         <p>{{ $errors->first('email') }}</p>
     @endif
     <br>
-    <label for="password">Contraseña:</label>
+    <label for="password">Contraseña:</label><!--La contraseña debe ser opcional-->
     <input type="password" name="password" placeholder="Escribe tu contraseña">
     <br>
     <button type="submit">Actualizar usuario</button>

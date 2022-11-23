@@ -311,20 +311,29 @@ class UsersModuleTest extends TestCase
     /**
      * @test
      */
-    function the_password_is_required_when_updating_a_user()
+    function the_password_is_optional_when_updating_a_user()
     {
-        //cuando la clave esta vacia genera un error
-        $user = factory(User::class)->create(['email'=>'pepe@mail.es']);    //crea con un nombre aleatorio
+        //LA contraseña es opcinal la puedo cambiar o no.
+        //Si se envia la cadena vacia , la encripta y la guarda.
 
-        $this->from('usuarios/'.$user->id.'/editar');
-        $this->put('usuarios/'.$user->id, [
-            'name' => 'Pepe',       //y al modificarlo el nombre sea pepe
+        $oldPassword = 'CLAVE_VIEJA';
+        $user = factory(User::class)->create([
+            'password'=>bcrypt($oldPassword),       //crea un usuario cuya contraseña es clave vieja
+        ]);
+
+        $this->from('usuarios/'.$user->id.'/editar')
+        ->put('usuarios/'.$user->id, [
+            'name' => 'Pepe',
             'email' => 'pepe@mail.es',
-            'password' => '12345678',
-        ])->assertRedirect('usuarios/' . $user->id . '/editar') //me redirige al propio formulario
-        ->assertSessionHasErrors(['email']);
+            //si la envio vacia no debe darte error y debe redirigir a la vista show .
+            'password' => '',
+        ])->assertRedirect('usuarios/' . $user->id . '/editar'); //me redirige al propio formulario
 
-        $this->assertDatabaseMissing('users',['name'=>'pepe@mail.es']);
+        $this->assertCredentials([
+            'name' => 'Pepe',
+            'email' => 'pepe@mail.es',
+           'password' => $oldPassword,      //sino envia la contraseña mantiene  la anterior
+        ]);
     }
 
 }

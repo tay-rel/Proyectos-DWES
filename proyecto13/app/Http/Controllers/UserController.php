@@ -83,13 +83,18 @@ class UserController extends Controller
 
     public function update(User $user)
     {
-        $data = request()->validate([      //obtiene la información que viene del formulario
+        $data = request()->validate([      //obtiene la información que viene del formulario, las convierte en null
             'name' => 'required',
             'email' =>'required|email|unique:users,email',
-            'password'=>'required',
+            'password'=>'',
         ]);
+        if($data['password'] != null){
+            $data['password']=bcrypt($data['password']);        //sobreescribe la caena encriptada
+        }else{
+            unset($data['password']);       //quita de $data , la clave password
+        }
 
-        $data['password'] = bcrypt($data['password']);
+      //  $data['password'] = bcrypt($data['password']);
 
         $user->update($data);
 
