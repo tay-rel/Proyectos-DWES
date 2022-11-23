@@ -232,4 +232,99 @@ class UsersModuleTest extends TestCase
 
         }
 
+        /**
+     * @test
+     */
+    function the_name_is_required_when_updating_a_user()
+    {
+        $user = factory(User::class)->create();
+        $this->from('usuarios/'.$user->id.'/editar');
+        $this->put('usuarios/'.$user->id, [//put=indica que debe actualizar un recurso de la aplicacion
+            'name' => 'Pepe',
+            'email' => 'pepe@mail.es',
+            'password' => '12345678',
+        ])->assertRedirect('usuarios/' . $user->id);
+
+        $this->assertDatabaseMissing('users',['email'=>'pepe@mail.es']);
+    }
+
+    /**
+     * @test
+     */
+    function the_email_is_required_when_updating_a_user()
+    {
+
+   //      $this->withoutExceptionHandling();//mira lo que pasa
+        $user = factory(User::class)->create();
+        $this->from('usuarios/'.$user->id.'/editar');
+        $this->put('usuarios/'.$user->id, [//put=indica que debe actualizar un recurso de la aplicacion
+            'name' => 'Pepe',
+            'email' => '',
+            'password' => '12345678',
+        ])->assertRedirect('usuarios/' . $user->id . '/editar')
+        ->assertSessionHasErrors(['email']);
+
+        $this->assertDatabaseMissing('users',['name'=>'pepe']);
+    }
+
+    /**
+     * @test
+     */
+    function the_email_must_be_valid_when_updating_a_user()
+    {
+        $user = factory(User::class)->create();
+        $this->from('usuarios/'.$user->id.'/editar');
+        $this->put('usuarios/'.$user->id, [
+            'name' => 'Pepe',
+            'email' => 'correo-no-valido',
+            'password' => '12345678',
+        ])->assertRedirect('usuarios/' . $user->id . '/editar') //me redirige al propio formulario
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertDatabaseMissing('users',['name'=>'pepe']);
+    }
+
+    /**
+     * @test
+     */
+    function the_email_must_be_unique_when_updating_a_user()
+    {
+        self::markTestIncomplete();     //se marca como incompleto, lo que significa que falta por completar
+        return ;
+
+        //quiere saber cual es el email
+        //el nombre tenga el que tenga debo poder modificarlo.
+        $user = factory(User::class)->create(['email'=>'pepe@mail.es']);    //crea con un nombre aleatorio
+
+        $this->from('usuarios/'.$user->id.'/editar');
+        $this->put('usuarios/'.$user->id, [
+            'name' => 'Pepe',       //y al modificarlo el nombre sea pepe
+            'email' => 'pepe@mail.es',
+            'password' => '12345678',
+        ])->assertRedirect('usuarios/' . $user->id . '/editar') //me redirige al propio formulario
+        ->assertSessionHasErrors(['email']);
+
+        $this->assertDatabaseMissing('users',['name'=>'pepe']);
+
+    }
+
+    /**
+     * @test
+     */
+    function the_password_is_required_when_updating_a_user()
+    {
+        //cuando la clave esta vacia genera un error
+        $user = factory(User::class)->create(['email'=>'pepe@mail.es']);    //crea con un nombre aleatorio
+
+        $this->from('usuarios/'.$user->id.'/editar');
+        $this->put('usuarios/'.$user->id, [
+            'name' => 'Pepe',       //y al modificarlo el nombre sea pepe
+            'email' => 'pepe@mail.es',
+            'password' => '12345678',
+        ])->assertRedirect('usuarios/' . $user->id . '/editar') //me redirige al propio formulario
+        ->assertSessionHasErrors(['email']);
+
+        $this->assertDatabaseMissing('users',['name'=>'pepe@mail.es']);
+    }
+
 }

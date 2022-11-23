@@ -17,9 +17,12 @@
     </div>
 @endif
 
-
-<form action="{{ route('user.store') }}" method="post">
+<!--$user se le pasa desde el controlador , es el que manda a traves de la ruta por root y dara un error porque espera el put y lo manda por post-->
+<form action="{{ route('user.update', $user) }}" method="post">
     {{ csrf_field() }}
+
+    <!--le decimos que es por put, que genera un input de tipo hidden -->
+    {{method_field('PUT')}}
 
     <label for="name">Nombre:</label>
     <input type="text" name="name" placeholder="Nombre" value="{{ old('name', $user->name) }}">

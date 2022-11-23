@@ -11,6 +11,8 @@
 |
 Existe unautoload que la clase que no encuentra lo busca  en la clase config
 */
+Route::get('saludo/{name}/{nickname?}', 'WelcomeUserController');
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,4 +35,3 @@ Route::get('usuarios/{user}','UserController@show')
 Route::put('usuarios/{user}', 'UserController@update')->name('user.update');
 
 
-Route::get('saludo/{name}/{nickname?}', 'WelcomeUserController');

@@ -83,7 +83,11 @@ class UserController extends Controller
 
     public function update(User $user)
     {
-        $data = request()->all();
+        $data = request()->validate([      //obtiene la información que viene del formulario
+            'name' => 'required',
+            'email' =>'required|email|unique:users,email',
+            'password'=>'required',
+        ]);
 
         $data['password'] = bcrypt($data['password']);
 
@@ -91,4 +95,6 @@ class UserController extends Controller
 
         return redirect()->route('user.show', $user);//lleva a ver el usuario cuando se haga los cambios
     }
+
+
 }
