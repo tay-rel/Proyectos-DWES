@@ -44,7 +44,6 @@ class UsersModuleTest extends TestCase
     function it_shows_a_default_page_if_the_users_list_is_empty()
     {
         //prueba test
-        DB::table();
 
         //para que pase en la bbdd se debe crear otra tabla de bbdd
         $this->get('usuarios?empty')
@@ -74,7 +73,7 @@ class UsersModuleTest extends TestCase
     {
         $this->get('usuarios/nuevo')
             ->assertStatus(200)
-            ->assertSee('Creando nuevo usuario');
+            ->assertSee('Crear nuevo usuario');
     }
 
     /**
@@ -238,14 +237,15 @@ class UsersModuleTest extends TestCase
     function the_name_is_required_when_updating_a_user()
     {
         $user = factory(User::class)->create();
-        $this->from('usuarios/'.$user->id.'/editar');
-        $this->put('usuarios/'.$user->id, [//put=indica que debe actualizar un recurso de la aplicacion
-            'name' => 'Pepe',
+        $this->from('usuarios/'.$user->id.'/editar')
+             ->put('usuarios/'.$user->id, [             //put=indica que debe actualizar un recurso de la aplicacion
+            'name' => '',
             'email' => 'pepe@mail.es',
             'password' => '12345678',
-        ])->assertRedirect('usuarios/' . $user->id);
+        ])->assertRedirect('usuarios/' . $user->id . '/editar')
+        ->assertSessionHasErrors(['name']);
 
-        $this->assertDatabaseMissing('users',['email'=>'pepe@mail.es']);
+        $this->assertDatabaseMissing('users',['email' => 'pepe@mail.es']);
     }
 
     /**
@@ -290,17 +290,20 @@ class UsersModuleTest extends TestCase
     function the_email_must_be_unique_when_updating_a_user()
     {
         //se debe comprobar que el email es unico
+
         factory(User::class)->create([
-           'enail'=>'existing-email@mail.es'
+           'email'=>'existing-email@mail.es'
         ]);
 
-        //quiere saber cual es el email
-        //el nombre tenga el que tenga debo poder modificarlo.
-        $user = factory(User::class)->create(['email'=>'pepe@mail.es']);    //crea con un nombre aleatorio
+        //Investiga cual es el email y para que el usuario modifique algo del email debe ser unico
 
-        $this->from('usuarios/'.$user->id.'/editar');
-        $this->put('usuarios/'.$user->id, [
-            'name' => 'Pepe',       //y al modificarlo el nombre sea pepe
+        $user = factory(User::class)->create([
+            'email'=>'pepe@mail.es'             //crea con un nombre aleatorio
+        ]);
+
+        $this->from('usuarios/' . $user->id . '/editar');
+        $this->put('usuarios/' . $user->id, [
+            'name' => 'Pepe',                   //y al modificarlo el nombre sea pepe
             'email' => 'existing-email@mail.es',
             'password' => '12345678',
         ])->assertRedirect('usuarios/' . $user->id . '/editar') //me redirige al propio formulario
@@ -329,7 +332,7 @@ class UsersModuleTest extends TestCase
             'email' => 'pepe@mail.es',
             //si la envio vacia no debe darte error y debe redirigir a la vista show .
             'password' => '',
-        ])->assertRedirect('usuarios/' . $user->id . '/editar'); //me redirige al propio formulario
+        ])->assertRedirect('usuarios/' . $user->id); //me redirige al propio formulario
 
         $this->assertCredentials([
             'name' => 'Pepe',
@@ -345,7 +348,6 @@ class UsersModuleTest extends TestCase
     {
         //Se pide el email
 
-        $oldPassword = 'CLAVE_VIEJA';
         $user = factory(User::class)->create([
             'email'=> 'pepe@mail.es',       //crea un usuario cuya contraseña es clave vieja
         ]);
@@ -355,13 +357,12 @@ class UsersModuleTest extends TestCase
                 'name' => 'Pepe',
                 'email' => 'pepe@mail.es',
                 //si la envio vacia no debe darte error y debe redirigir a la vista show .
-                'password' => '',
-            ])->assertRedirect('usuarios/' . $user->id . '/editar'); //me redirige al propio formulario
+                'password' => '12345678',
+            ])->assertRedirect('usuarios/' . $user->id ); //me redirige al propio formulario
 
-        $this->assertCredentials([
+        $this->assertDatabaseHas('users', [
             'name' => 'Pepe',
             'email' => 'pepe@mail.es',
-            'password' => $oldPassword,      //sino envia la contraseña mantiene  la anterior
         ]);
     }
 

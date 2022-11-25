@@ -62,8 +62,10 @@ class UserController extends Controller
         ], [
             'name.required' => 'El campo nombre es obligatorio',
             'email.required' => 'El campo email es obligatorio',
-            'password.required' => 'El campo password es obligatorio'
+            'password.required' => 'El campo contraseña es obligatorio',
         ]);
+
+
         //llama al metodo create
         //dd($data);//sirve para ver que recibe
         User::create([
@@ -93,8 +95,6 @@ class UserController extends Controller
         }else{
             unset($data['password']);       //quita de $data , la clave password
         }
-
-      //  $data['password'] = bcrypt($data['password']);
 
         $user->update($data);
 

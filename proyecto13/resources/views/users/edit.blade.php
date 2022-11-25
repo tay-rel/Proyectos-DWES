@@ -1,8 +1,8 @@
-@extends('layout');
+@extends('layout')
 
-@section('title','Editar usuario');
+@section('title','Editar usuario')
 
-@section('content');
+@section('content')
 
 <h1>Editar usuario</h1>
 
@@ -18,6 +18,8 @@
 @endif
 
 <!--$user se le pasa desde el controlador , es el que manda a traves de la ruta por root y dara un error porque espera el put y lo manda por post-->
+
+
 <form action="{{ route('user.update', $user) }}" method="post">
     {{ csrf_field() }}
 

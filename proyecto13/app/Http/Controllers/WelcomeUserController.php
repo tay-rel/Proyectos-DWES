@@ -8,9 +8,9 @@ class WelcomeUserController extends Controller
 {
     public function __invoke($name, $nickname = null) {
         if ($nickname) {
-            return 'Bienvenido  ' . ucfirst($name) . ', tu apodo es ' . $nickname;
+            return 'Bienvenido ' . ucfirst($name) . ', tu apodo es ' . $nickname;
         }
 
-        return 'Bienvenido  ' . ucfirst($name) . ', no tienes apodo';
+        return 'Bienvenido ' . ucfirst($name) . ', no tienes apodo';
     }
 }

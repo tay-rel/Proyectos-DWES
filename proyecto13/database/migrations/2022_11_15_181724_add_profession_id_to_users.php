@@ -14,9 +14,11 @@ class AddProfessionIdToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
+            // clave foranea tabla professions // debe ser el mismo tipo de dato
             $table->unsignedInteger('profession_id')
-                ->nullable()
+                ->nullable() // puede ser nulo
                 ->after('password');
+            // enlazar clave foranea con la tabla de la que procede
             $table->foreign('profession_id')
                 ->references('id')
                 ->on('professions');
