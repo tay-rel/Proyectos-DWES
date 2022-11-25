@@ -102,6 +102,21 @@ class UsersModuleTest extends TestCase
             'email' => 'pepe@mail.es',
             'password' => '12345678',
         ]);
+
+
+      /*  'bio'=>'Programador de Laravel',
+            'twitter'=>'https://twitter.com/pepe',      //recibe dos campos mas , que corresponden al perfin del usuario, para que se guarden en la tablas user_profile
+
+
+  $this->assertDatabaseHas('user_profiles'[]);
+
+
+//los dos nuevos campos pasa los dos campos, para eso debe estar creada la tabla
+        $this->assertDatabaseHas('user_profiles',[
+            'name' => 'Pepe',
+            'bio'=>'Programador de Laravel',
+            'twitter'=>'https://twitter.com/pepe',
+        ]);*/
     }
 
     /**
