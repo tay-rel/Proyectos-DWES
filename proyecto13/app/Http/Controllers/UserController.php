@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 
-use App\{User,UserProfile};
+use App\{Http\Requests\CreateUserRequest, User, UserProfile};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-//si se debe especificar
 
 class UserController extends Controller
 {
 
-    //SI no tiene usuarios se deb crear un mensaje que explique que no hay usuarios
+    //SI no tiene usuarios se debe crear un mensaje que explique que no hay usuarios
     public function index()
     {
         //1-$users =DB::table('users')->get();
@@ -53,41 +52,13 @@ class UserController extends Controller
         return view('users.create');
     }
 
-    public function store()
-    {
-        $data = request()->validate([
-            'name' => 'required',
-            'email' =>'required|email|unique:users,email',
-            'password'=>'required',
-            //'bio'=>'required',
-          //  'twitter'=>['nullable', 'url'],        //el campo es https
-        ], [
-            'name.required' => 'El campo nombre es obligatorio',
-            'email.required' => 'El campo email es obligatorio',
-            'password.required' => 'El campo contraseña es obligatorio',
-        ]);
-
-
-        //llama al metodo create
-        //dd($data);//sirve para ver que recibe
-        User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
-
-        //genera la insercion en la tabla,
-   /*     UserProfile::create([
-            'bio'=>$data['bio'],
-            'twitter'=>$data['twitter'],
-        ]);*/
-
+    public function store(CreateUserRequest $request)
+    {   $request-> createUser();
         return redirect()->route('users');
     }
+
     public function edit(User $user)
     {
-        //se debe dar un id , para localizarlo
-        //se usa el binding
         return view('users.edit', compact('user'));
     }
 

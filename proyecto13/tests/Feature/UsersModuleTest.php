@@ -95,6 +95,8 @@ class UsersModuleTest extends TestCase
             'name' => 'Pepe',
             'email' => 'pepe@mail.es',
             'password' => '12345678',
+            'bio' => 'Programador de Laravel y Vue.js',         //recibe dos campos mas , que corresponden al perfin del usuario, para que se guarden en la tablas user_profile
+            'twitter' => 'https://twitter.com/pepe',
         ])->assertRedirect('usuarios');
 
         $this->assertCredentials([
@@ -104,19 +106,12 @@ class UsersModuleTest extends TestCase
         ]);
 
 
-      /*  'bio'=>'Programador de Laravel',
-            'twitter'=>'https://twitter.com/pepe',      //recibe dos campos mas , que corresponden al perfin del usuario, para que se guarden en la tablas user_profile
-
-
-  $this->assertDatabaseHas('user_profiles'[]);
-
-
-//los dos nuevos campos pasa los dos campos, para eso debe estar creada la tabla
+        //los dos nuevos campos pasa los dos campos, para eso debe estar creada la tabla
         $this->assertDatabaseHas('user_profiles',[
-            'name' => 'Pepe',
-            'bio'=>'Programador de Laravel',
-            'twitter'=>'https://twitter.com/pepe',
-        ]);*/
+            'bio' => 'Programador de Laravel y Vue.js',
+            'twitter' => 'https://twitter.com/pepe',
+            'user_id' => User::findByEmail('pepe@mail.es')->id,
+        ]);
     }
 
     /**
