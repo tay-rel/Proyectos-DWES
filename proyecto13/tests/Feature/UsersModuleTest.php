@@ -149,6 +149,31 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
+    function the_bio_is_required()
+    {
+        // $this->withoutExceptionHandling();
+        $this->from('usuarios/nuevo')
+            ->post('usuarios', $this->getValidData([
+                'bio' => '',
+            ]))->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors('bio');
+
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
+    function it_twitter_must_be_valid()
+    {
+        $this->from('usuarios/nuevo');
+        $this->post('usuarios', $this->getValidData([
+            'twitter' => 'no-es-valido',
+        ]))->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors('twitter' );
+
+        $this->assertEquals(0, User::count());
+    }
+
+        /** @test */
     function the_email_must_be_valid()
     {
         $this->from('usuarios/nuevo')
@@ -160,6 +185,8 @@ class UsersModuleTest extends TestCase
         $this->assertEquals(0, User::count());
 
     }
+
+
 
     /** @test */
     function the_email_must_be_unique()
