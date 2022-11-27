@@ -12,9 +12,19 @@ class UsersModuleTest extends TestCase
 {
     use RefreshDatabase;        //refresca la bbd automaticamente cada vez que lanza las pruebas
 
-    /**
-     * @test
-     */
+
+    public function getValidData(array $custom = [])
+    {
+        return array_filter(array_merge([           //borra todas las claves que son nulas y las reemplaza
+            'name' => 'Pepe',
+            'email' => 'pepe@mail.es',
+            'password' => '12345678',
+            'bio' => 'Programador de Laravel y Vue.js',
+            'twitter' => 'https://twitter.com/pepe',
+        ], $custom));
+    }
+
+    /** @test */
     function it_loads_the_users_list_page() //se ejecuta dentro de una transaccion,al principio y al final , terminando todo esto.Se genera un roolback
     {
         //para la prueba, los usuario que estan creados en el test se quedan permanentemente en la bbdd
@@ -38,9 +48,7 @@ class UsersModuleTest extends TestCase
 
     //Comprueba si hay un array vacío de usuarios
 
-    /**
-     * @test
-     */
+    /** @test */
     function it_shows_a_default_page_if_the_users_list_is_empty()
     {
         //prueba test
@@ -52,9 +60,7 @@ class UsersModuleTest extends TestCase
             ->assertSee('No hay usuarios registrados');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function it_displays_the_user_details()
     {
         $user = factory(User::class)->create([
@@ -66,9 +72,7 @@ class UsersModuleTest extends TestCase
             ->assertSee($user->name);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function it_loads_the_new_users_page()
     {
         $this->get('usuarios/nuevo')
@@ -76,9 +80,7 @@ class UsersModuleTest extends TestCase
             ->assertSee('Crear nuevo usuario');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function it_displays_a_404_error_if_the_user_is_not_found()
     {
         $this->get('usuarios/999')
@@ -86,25 +88,17 @@ class UsersModuleTest extends TestCase
             ->assertSee('Página no encontrada');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function it_creates_a_new_user()
     {
-        $this->post('usuarios', [
-            'name' => 'Pepe',
-            'email' => 'pepe@mail.es',
-            'password' => '12345678',
-            'bio' => 'Programador de Laravel y Vue.js',         //recibe dos campos mas , que corresponden al perfin del usuario, para que se guarden en la tablas user_profile
-            'twitter' => 'https://twitter.com/pepe',
-        ])->assertRedirect('usuarios');
+        $this->post('usuarios', $this->getValidData())
+            ->assertRedirect('usuarios');
 
         $this->assertCredentials([
             'name' => 'Pepe',
             'email' => 'pepe@mail.es',
             'password' => '12345678',
         ]);
-
 
         //los dos nuevos campos pasa los dos campos, para eso debe estar creada la tabla
         $this->assertDatabaseHas('user_profiles',[
@@ -114,76 +108,60 @@ class UsersModuleTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function the_name_is_required()
     {
         //$this->withoutExceptionHandling();
 
         $this->from('usuarios/nuevo')
-            ->post('usuarios', [
+            ->post('usuarios', $this->getValidData([
                 'name' => '',
-                'email' => 'pepe@mail.es',
-                'password' => '12345678',
-            ])->assertRedirect('usuarios/nuevo')
+            ]))->assertRedirect('usuarios/nuevo')
             ->assertSessionHasErrors(['name' => 'El campo nombre es obligatorio']);
 
         $this->assertEquals(0, User::count());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function the_email_is_required()
     {
        // $this->withoutExceptionHandling();//mira lo que pasa
         $this->from('usuarios/nuevo')
-            ->post('usuarios', [
-                'name' => 'Pepe',
+            ->post('usuarios', $this->getValidData([
                 'email' => '',
-                'password' => '12345678',
-            ])->assertRedirect('usuarios/nuevo')            //rediriga a usuario barra nuevo
+            ]))->assertRedirect('usuarios/nuevo')            //rediriga a usuario barra nuevo
             ->assertSessionHasErrors(['email' => 'El campo email es obligatorio']);
 
         $this->assertEquals(0, User::count());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function the_password_is_required()
     {
         // $this->withoutExceptionHandling();//mira lo que pasa
         $this->from('usuarios/nuevo')
-            ->post('usuarios', [
-                'name' => 'Pepe',
-                'email' => 'pepe@mail.es',
+            ->post('usuarios', $this->getValidData([
                 'password' => '',
-            ])->assertRedirect('usuarios/nuevo')            //rediriga a usuario barra nuevo
+            ]))->assertRedirect('usuarios/nuevo')            //rediriga a usuario barra nuevo
             ->assertSessionHasErrors(['password' => 'El campo contraseña es obligatorio']);
 
         $this->assertEquals(0, User::count());
     }
-    /**
-     * @test
-     */
+
+    /** @test */
     function the_email_must_be_valid()
     {
         $this->from('usuarios/nuevo')
-            ->post('usuarios', [
-                'name' => 'Pepe',
+            ->post('usuarios', $this->getValidData([
                 'email' => 'correo-no-valido',
-                'password' => '12345678',
-            ])->assertRedirect('usuarios/nuevo')            //rediriga a usuario barra nuevo
+            ]))->assertRedirect('usuarios/nuevo')            //rediriga a usuario barra nuevo
             ->assertSessionHasErrors('email' ); //se inidica que hay errores con el email
 
         $this->assertEquals(0, User::count());
 
     }
-    /**
-     * @test
-     */
+
+    /** @test */
     function the_email_must_be_unique()
     {
        // $this->withoutExceptionHandling();//mira lo que pasa
@@ -197,16 +175,14 @@ class UsersModuleTest extends TestCase
                 'name' => 'Pepe',
                 'email' => 'pepe@mail.es',
                 'password' => '12345678',
-            ])->assertRedirect('usuarios/nuevo')            //rediriga a usuario barra nuevo
-            ->assertSessionHasErrors('email' ); //se inidica que hay errores con el email
+            ])->assertRedirect('usuarios/nuevo')             //rediriga a usuario barra nuevo
+            ->assertSessionHasErrors('email' );             //se inidica que hay errores con el email
 
-        $this->assertEquals(1, User::count());    //porque el primer usuario ya existe y trata de crear un segundo usuario
+        $this->assertEquals(1, User::count());          //porque el primer usuario ya existe y trata de crear un segundo usuario
 
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function it_loads_the_edit_user_page()
     {
         //se debe ver el formulario con los datos a editar
@@ -219,11 +195,11 @@ class UsersModuleTest extends TestCase
             ->assertSee('Editar usuario')
             ->assertViewHas('user', function ($viewUser) use ($user) {
                 return $viewUser->id === $user->id;
-            });   //debo enviar a la vista, usamos funcion anonima que podra comprobar los ids de ambos usuarios y no que compruebe los objetos de manera directa.
+            });
+        //debo enviar a la vista, usamos funcion anonima que podra comprobar los ids de ambos usuarios y no que compruebe los objetos de manera directa.
     }
-        /**
-         * @test
-         */
+
+    /** @test */
     function it_updates_a_user()
         {
             $user = factory(User::class)->create();
@@ -241,9 +217,7 @@ class UsersModuleTest extends TestCase
 
         }
 
-        /**
-     * @test
-     */
+    /** @test */
     function the_name_is_required_when_updating_a_user()
     {
         $user = factory(User::class)->create();
@@ -258,9 +232,7 @@ class UsersModuleTest extends TestCase
         $this->assertDatabaseMissing('users',['email' => 'pepe@mail.es']);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function the_email_is_required_when_updating_a_user()
     {
 
@@ -277,9 +249,7 @@ class UsersModuleTest extends TestCase
         $this->assertDatabaseMissing('users',['name'=>'pepe']);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function the_email_must_be_valid_when_updating_a_user()
     {
         $user = factory(User::class)->create();
@@ -294,9 +264,7 @@ class UsersModuleTest extends TestCase
         $this->assertDatabaseMissing('users',['name'=>'pepe']);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function the_email_must_be_unique_when_updating_a_user()
     {
         //se debe comprobar que el email es unico
@@ -323,9 +291,7 @@ class UsersModuleTest extends TestCase
 
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function the_password_is_optional_when_updating_a_user()
     {
         //LA contraseña es opcinal la puedo cambiar o no.
@@ -351,9 +317,7 @@ class UsersModuleTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function the_user_email_can_stay_the_same_when_updating_a_user()
     {
         //Se pide el email
@@ -376,9 +340,7 @@ class UsersModuleTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     function it_deletes_A_user()
     {
         //$this->withoutExceptionHandling();
@@ -393,6 +355,25 @@ class UsersModuleTest extends TestCase
 
         $this->assertSame(0, User::count());
     }
+    /** @test */
+    function the_twitter_field_is_optional()
+    {
+        $this->withoutExceptionHandling();
+        $this->post('usuarios', $this->getValidData([
+            'twitter' => null
+        ]))->assertRedirect('usuarios');
 
+        $this->assertCredentials([
+            'name' => 'Pepe',
+            'email' => 'pepe@mail.es',
+            'password' => '12345678',
+        ]);
+
+        $this->assertDatabaseHas('user_profiles', [
+            'bio' => 'Programador de Laravel y Vue.js',
+            'twitter' => null,
+            'user_id' => User::findByEmail('pepe@mail.es')->id,
+        ]);
+    }
 
 }
