@@ -20,6 +20,7 @@ class CreateProfessionsTable extends Migration
             $table->boolean('selectable')->default(true);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -245,13 +245,13 @@ class UsersModuleTest extends TestCase
     /** @test */
     function only_selectable_professions_are_valid()
     {
-        $nonSelectableProfession = factory(Profession::class)->create([
-            'selectable' => false
+        $deletedProfession = factory(Profession::class)->create([
+            'deleted_at' => now()->format('Y-m-d')
         ]);
 
         $this->from('usuarios/nuevo')
             ->post('usuarios', $this->getValidData([
-                'profession_id' => $nonSelectableProfession->id
+                'profession_id' => $deletedProfession->id
             ]))->assertRedirect('usuarios/nuevo')
             ->assertSessionHasErrors(['profession_id']);
 
