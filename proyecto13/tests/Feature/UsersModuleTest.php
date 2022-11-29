@@ -18,14 +18,14 @@ class UsersModuleTest extends TestCase
     public function getValidData(array $custom = [])
     {
         $this->profession = factory(Profession::class)->create();
-        return array_filter(array_merge([           //borra todas las claves que son nulas y las reemplaza
+        return array_merge([           //borra todas las claves que son nulas y las reemplaza
             'name' => 'Pepe',
             'email' => 'pepe@mail.es',
             'password' => '12345678',
             'profession_id' => $this->profession->id,
             'bio' => 'Programador de Laravel y Vue.js',
             'twitter' => 'https://twitter.com/pepe',
-        ], $custom));
+        ], $custom);
     }
 
     /** @test */
@@ -79,9 +79,13 @@ class UsersModuleTest extends TestCase
     /** @test */
     function it_loads_the_new_users_page()
     {
+        $profession = factory(Profession::class)->create();
         $this->get('usuarios/nuevo')
             ->assertStatus(200)
-            ->assertSee('Crear nuevo usuario');
+            ->assertSee('Crear nuevo usuario')
+            ->assertViewHas('professions', function ($professions) use ($profession) {
+                return $professions->contains($profession);
+            });
     }
 
     /** @test */
@@ -102,7 +106,6 @@ class UsersModuleTest extends TestCase
             'name' => 'Pepe',
             'email' => 'pepe@mail.es',
             'password' => '12345678',
-            'profession_id' => $this->profession->id,
         ]);
 
         //los dos nuevos campos pasa los dos campos, para eso debe estar creada la tabla
@@ -110,6 +113,7 @@ class UsersModuleTest extends TestCase
             'bio' => 'Programador de Laravel y Vue.js',
             'twitter' => 'https://twitter.com/pepe',
             'user_id' => User::findByEmail('pepe@mail.es')->id,
+            'profession_id' => $this->profession->id,
         ]);
     }
 
@@ -221,12 +225,13 @@ class UsersModuleTest extends TestCase
             'name' => 'Pepe',
             'email' => 'pepe@mail.es',
             'password' => '12345678',
-            'profession_id' => null,
+
         ]);
 
         $this->assertDatabaseHas('user_profiles', [
             'bio' => 'Programador de Laravel y Vue.js',
             'user_id' => User::findByEmail('pepe@mail.es')->id,
+            'profession_id' => null,
         ]);
     }
 

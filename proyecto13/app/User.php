@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','profession_id',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -30,9 +30,6 @@ class User extends Authenticatable
 
     public function profession ()
     {
-        //n->1 usuario tiene solo una profesion
-        //definimos la relacion a nivel de framework
-        //Se relaciona con la clave foranea a traves del segundo parametro
        return $this->belongsTo(Profession::class);
     }
     public function profile ()
@@ -57,12 +54,12 @@ class User extends Authenticatable
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
-                'profession_id' => $data['profession_id'] ?? null,
             ]);
 
             $user->profile()->create([
                 'bio' => $data['bio'],
-                'twitter' => $data['twitter'] ?? null,
+                'twitter' => $data['twitter'],
+                'profession_id' => $data['profession_id'],
             ]);
         });
     }
