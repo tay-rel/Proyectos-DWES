@@ -119,7 +119,7 @@ class UsersModuleTest extends TestCase
             ]))->assertRedirect('usuarios/nuevo')
             ->assertSessionHasErrors(['name' => 'El campo nombre es obligatorio']);
 
-        $this->assertEquals(0, User::count());
+        $this->assertDatabaseEmpty('users' );
     }
 
     /** @test */
@@ -132,7 +132,7 @@ class UsersModuleTest extends TestCase
             ]))->assertRedirect('usuarios/nuevo')            //rediriga a usuario barra nuevo
             ->assertSessionHasErrors(['email' => 'El campo email es obligatorio']);
 
-        $this->assertEquals(0, User::count());
+        $this->assertDatabaseEmpty('users' );
     }
 
     /** @test */
@@ -145,7 +145,7 @@ class UsersModuleTest extends TestCase
             ]))->assertRedirect('usuarios/nuevo')            //rediriga a usuario barra nuevo
             ->assertSessionHasErrors(['password' => 'El campo contraseña es obligatorio']);
 
-        $this->assertEquals(0, User::count());
+        $this->assertDatabaseEmpty('users' );
     }
 
     /** @test */
@@ -158,7 +158,7 @@ class UsersModuleTest extends TestCase
             ]))->assertRedirect('usuarios/nuevo')
             ->assertSessionHasErrors('bio');
 
-        $this->assertEquals(0, User::count());
+        $this->assertDatabaseEmpty('users' );
     }
 
     /** @test */
@@ -170,7 +170,7 @@ class UsersModuleTest extends TestCase
         ]))->assertRedirect('usuarios/nuevo')
             ->assertSessionHasErrors('twitter' );
 
-        $this->assertEquals(0, User::count());
+        $this->assertDatabaseEmpty('users' );
     }
 
         /** @test */
@@ -182,7 +182,7 @@ class UsersModuleTest extends TestCase
             ]))->assertRedirect('usuarios/nuevo')            //rediriga a usuario barra nuevo
             ->assertSessionHasErrors('email' ); //se inidica que hay errores con el email
 
-        $this->assertEquals(0, User::count());
+        $this->assertDatabaseEmpty('users' );
 
     }
 
@@ -198,11 +198,8 @@ class UsersModuleTest extends TestCase
         ]);
 
         $this->from('usuarios/nuevo')
-            ->post('usuarios', [
-                'name' => 'Pepe',
-                'email' => 'pepe@mail.es',
-                'password' => '12345678',
-            ])->assertRedirect('usuarios/nuevo')             //rediriga a usuario barra nuevo
+            ->post('usuarios', $this->getValidData())
+            ->assertRedirect('usuarios/nuevo')             //rediriga a usuario barra nuevo
             ->assertSessionHasErrors('email' );             //se inidica que hay errores con el email
 
         $this->assertEquals(1, User::count());          //porque el primer usuario ya existe y trata de crear un segundo usuario
@@ -380,7 +377,7 @@ class UsersModuleTest extends TestCase
            'id'=>$user->id,
         ]);
 
-        $this->assertSame(0, User::count());
+        $this->assertDatabaseEmpty('users' );
     }
     /** @test */
     function the_twitter_field_is_optional()
