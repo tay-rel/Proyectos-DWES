@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Profession;
+use App\Skill;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -14,11 +15,10 @@ class UsersModuleTest extends TestCase
     use RefreshDatabase;        //refresca la bbd automaticamente cada vez que lanza las pruebas
     private $profession;
 
-
     public function getValidData(array $custom = [])
     {
         $this->profession = factory(Profession::class)->create();
-        return array_merge([           //borra todas las claves que son nulas y las reemplaza
+        return array_merge([
             'name' => 'Pepe',
             'email' => 'pepe@mail.es',
             'password' => '12345678',
@@ -27,14 +27,35 @@ class UsersModuleTest extends TestCase
             'twitter' => 'https://twitter.com/pepe',
         ], $custom);
     }
+    /** @test */
+    function the_skills_must_be_an_array()
+    {
+        $this->from('usuarios/nuevo')
+            ->post('usuarios', $this->getValidData([
+                'skills' => 'PHP,JS'
+            ]))->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['skills']);
+
+        $this->assertDatabaseEmpty('users');
+    }
 
     /** @test */
-    function it_loads_the_users_list_page() //se ejecuta dentro de una transaccion,al principio y al final , terminando todo esto.Se genera un roolback
+    function the_skills_must_be_valid()
     {
-        //para la prueba, los usuario que estan creados en el test se quedan permanentemente en la bbdd
-        //de un test a otro la bbdd debe reiniciarse
-        //permite acceder al formulario
+        $skillA = factory(Skill::class)->create();
+        $skillB = factory(Skill::class)->create();
 
+        $this->from('usuarios/nuevo')
+            ->post('usuarios', $this->getValidData([
+                'skills' => [$skillA->id, $skillB->id + 1]
+            ]))->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['skills']);
+
+        $this->assertDatabaseEmpty('users');
+    }
+    /** @test */
+    function it_loads_the_users_list_page()
+    {
         factory(User::class)->create([
             'name' => 'Joel'
         ]);
@@ -79,12 +100,18 @@ class UsersModuleTest extends TestCase
     /** @test */
     function it_loads_the_new_users_page()
     {
+        $skillA = factory(Skill::class)->create();
+        $skillB = factory(Skill::class)->create();
+
         $profession = factory(Profession::class)->create();
         $this->get('usuarios/nuevo')
             ->assertStatus(200)
             ->assertSee('Crear nuevo usuario')
             ->assertViewHas('professions', function ($professions) use ($profession) {
                 return $professions->contains($profession);
+            })
+            ->assertViewHas('skills', function ($skills) use($skillA, $skillB) {
+                return $skills->contains($skillA) && $skills->contains($skillB);
             });
     }
 
@@ -99,21 +126,43 @@ class UsersModuleTest extends TestCase
     /** @test */
     function it_creates_a_new_user()
     {
-        $this->post('usuarios', $this->getValidData())
-            ->assertRedirect('usuarios');
+        $this->withoutExceptionHandling();
+        $skillA = factory(Skill::class)->create();
+        $skillB = factory(Skill::class)->create();
+        $skillC = factory(Skill::class)->create();
+
+        $this->post('usuarios', $this->getValidData([
+            'skills' => [$skillA->id, $skillB->id],
+        ]))->assertRedirect('usuarios');
 
         $this->assertCredentials([
             'name' => 'Pepe',
             'email' => 'pepe@mail.es',
             'password' => '12345678',
         ]);
+        $user = User::findByEmail('pepe@mail.es');
 
         //los dos nuevos campos pasa los dos campos, para eso debe estar creada la tabla
         $this->assertDatabaseHas('user_profiles',[
             'bio' => 'Programador de Laravel y Vue.js',
             'twitter' => 'https://twitter.com/pepe',
-            'user_id' => User::findByEmail('pepe@mail.es')->id,
+            'user_id' => $user->id,
             'profession_id' => $this->profession->id,
+        ]);
+
+        $this->assertDatabaseHas('skill_user', [
+            'user_id' => $user->id,
+            'skill_id' => $skillA->id,
+        ]);
+
+        $this->assertDatabaseHas('skill_user', [
+            'user_id' => $user->id,
+            'skill_id' => $skillB->id,
+        ]);
+
+        $this->assertDatabaseMissing('skill_user', [
+            'user_id' => $user->id,
+            'skill_id' => $skillC->id,
         ]);
     }
 
@@ -248,7 +297,7 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
-    function only_selectable_professions_are_valid()
+    function only_not_deleted_professions_can_be_selected()
     {
         $deletedProfession = factory(Profession::class)->create([
             'deleted_at' => now()->format('Y-m-d')
