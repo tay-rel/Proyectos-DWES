@@ -34,8 +34,7 @@ class User extends Authenticatable
     }
     public function profile ()
     {
-        //1->1 usuario tiene solo un perfil
-        return $this->hasOne(UserProfile::class);
+        return $this->hasOne(UserProfile::class)->withDefault();
     }
     public function skills()
     {

@@ -11,13 +11,10 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
 
-    //SI no tiene usuarios se debe crear un mensaje que explique que no hay usuarios
     public function index()
     {
-        //1-$users =DB::table('users')->get();
         $users = User::all();    // 2- de todos los usuarios lo quiero todo
         $title = 'Listado de usuarios';
-
 
         return view('users.index', compact(
                 'title',
@@ -28,17 +25,16 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-
         if ($user == null) {
             return response()->view('errors.404', [], 404);
         }
-
         return view('users.show', compact('user'));
     }
 
     public function create()
     {
         return view('users.create', [
+            'user'=> new User,
             'professions' => Profession::orderBy('title', 'ASC')->get(),
             'skills' => Skill::orderBy('name', 'ASC')->get(),
             'roles' => trans('users.roles'),
@@ -52,7 +48,12 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        return view('users.edit', [
+            'user' => $user,
+            'professions' => Profession::orderBy('title', 'ASC')->get(),
+            'skills' => Skill::orderBy('name', 'ASC')->get(),
+            'roles' => trans('users.roles'),
+        ]);
     }
 
     public function update(User $user)
