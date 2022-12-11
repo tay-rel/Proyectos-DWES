@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\{Http\Requests\CreateUserRequest, Profession, Skill, User, UserProfile};
+use App\{Http\Requests\CreateUserRequest, Http\Requests\UpdateUserRequest, Profession, Skill, User, UserProfile};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -56,33 +56,11 @@ class UserController extends Controller
         return $this->form('users.edit', $user);
     }
 
-    public function update(User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $data = request()->validate([      //obtiene la información que viene del formulario, las convierte en null
-            'name' => 'required',
-            'email' =>'required|email|unique:users,email,' . $user->id,
-            'password'=>'',
-            'role' => '',
-            'bio' => '',
-            'twitter' => '',
-            'profession_id' => '',
-            'skills' => '',
-        ]);
-        if($data['password'] != null){
-            $data['password']=bcrypt($data['password']);        //sobreescribe la caena encriptada
-        }else{
-            unset($data['password']);       //quita de $data , la clave password
-        }
+        $request->updateUser($user);
 
-        $user->fill($data);
-        $user->role = $data['role'];
-        $user->save();
-
-        $user->profile->update($data);
-
-        $user->skills()->sync($data['skills'] ?? []);
-
-        return redirect()->route('user.show', $user);//lleva a ver el usuario cuando se haga los cambios
+        return redirect()->route('user.show', $user);
     }
     public function destroy(User $user)
     {
