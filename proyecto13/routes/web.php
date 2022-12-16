@@ -39,7 +39,7 @@ Route::get('usuarios/{user}','UserController@show')
 
 Route::put('usuarios/{user}', 'UserController@update')->name('user.update');
 
-Route::delete('usuarios/{user}', 'UserController@destroy')->name('user.destroy');     //el metodo delete no tiene que ver con el destroy
+Route::delete('usuarios/{id}', 'UserController@destroy')->name('user.destroy');     //el metodo delete no tiene que ver con el destroy
 
 Route::get('editar-perfil', 'ProfileController@edit');
 Route::put('editar-perfil', 'ProfileController@update');
@@ -51,4 +51,4 @@ Route::delete('profesiones/{profession}', 'ProfessionController@destroy')
 
 Route::get('habilidades', 'SkillController@index')
     ->name('skill.index');
-
+Route::get('saludo/{name}/{nickname?}', 'WelcomeUserController');

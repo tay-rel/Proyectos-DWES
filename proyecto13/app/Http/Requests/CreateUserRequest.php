@@ -55,7 +55,7 @@ class CreateUserRequest extends FormRequest
             'name.required' => 'El campo nombre es obligatorio',
             'email.required' => 'El campo email es obligatorio',
             'password.required' => 'El campo contraseña es obligatorio',
-            'bio.required' =>'El campo biografia es requerida',
+
         ];
     }
     public function createUser()
@@ -67,10 +67,6 @@ class CreateUserRequest extends FormRequest
                 'password' => bcrypt($this->password),
                 'role' => $this->role ?? 'user',
             ]);
-
-            $user->role = $this->role ?? 'user';
-
-            $user->save();
 
             $user->profile()->create([
                 'bio' => $this->bio,
