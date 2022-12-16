@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserProfile extends Model
 {
-    //use SoftDeletes;
+    use SoftDeletes;
     protected $guarded = [];
 }
