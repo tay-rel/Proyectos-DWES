@@ -13,7 +13,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();    // 2- de todos los usuarios lo quiero todo
+        $users = User::orderBy('created_at', 'DESC')->paginate();
         $title = 'Listado de usuarios';
 
         return view('users.index', compact(
@@ -67,7 +67,7 @@ class UserController extends Controller
         $user = User::onlyTrashed()
             ->where('id', $id)
             ->firstOrFail();
-        
+
         $user->forceDelete();
         return redirect()->route('users.trashed');
     }
@@ -82,7 +82,7 @@ class UserController extends Controller
     public function trashed()
     {
         return view('users.index', [
-            'users' => User::onlyTrashed()->get(),
+            'users' => User::onlyTrashed()->paginate(),
             'title' => 'Listado de usuarios en la papelera',
         ]);
     }
