@@ -62,20 +62,15 @@ class UserController extends Controller
 
         return redirect()->route('user.show', $user);
     }
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::onlyTrashed()
-            ->where('id', $id)
-            ->firstOrFail();
-
         $user->forceDelete();
-
-        return redirect()->route('users.trashed');
+        return redirect()->route('users');
     }
 
     public function trash(User $user)
     {
-        $user->profile()->delete();
+        $user->delete();
         return redirect()->route('users');
 
     }
@@ -86,5 +81,4 @@ class UserController extends Controller
             'title' => 'Listado de usuarios en la papelera',
         ]);
     }
-
 }
