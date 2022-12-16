@@ -51,4 +51,5 @@ Route::delete('profesiones/{profession}', 'ProfessionController@destroy')
 
 Route::get('habilidades', 'SkillController@index')
     ->name('skill.index');
+
 Route::get('saludo/{name}/{nickname?}', 'WelcomeUserController');

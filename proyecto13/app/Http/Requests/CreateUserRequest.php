@@ -67,7 +67,7 @@ class CreateUserRequest extends FormRequest
                 'password' => bcrypt($this->password),
                 'role' => $this->role ?? 'user',
             ]);
-            
+
             $user->profile()->create([
                 'bio' => $this->bio,
                 'twitter' => $this->twitter,
