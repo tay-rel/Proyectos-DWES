@@ -23,7 +23,7 @@
                 <td>{{ $profession->title }}</td>
                 <td>{{ $profession->profiles_count }}</td>
                 <td>
-                    @if($profession->profiles_count == 0)
+                    @if(!$profession->profiles_count == 0) <!--SI esta a negativo no es cero-->
                         <form action="{{ route('profession.destroy', $profession->id) }}" method="post">
                             @csrf
                             @method('DELETE')
