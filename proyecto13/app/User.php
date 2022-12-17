@@ -1,45 +1,52 @@
 <?php
 
-namespace App;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\DB;
+	namespace App;
 
-class User extends Authenticatable
-{
-    use Notifiable, SoftDeletes;
+	use Illuminate\Database\Eloquent\SoftDeletes;
+	use Illuminate\Notifications\Notifiable;
+	use Illuminate\Foundation\Auth\User as Authenticatable;
+	use Illuminate\Support\Facades\DB;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [];
+	class User extends Authenticatable
+	{
+		use Notifiable, SoftDeletes;
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token'
-    ];
+		/**
+		 * The attributes that are mass assignable.
+		 *
+		 * @var array
+		 */
+		protected $guarded = [];
 
-    public function profile ()
-    {
-        return $this->hasOne(UserProfile::class)->withDefault();
-    }
-    public function skills()
-    {
-        return $this->belongsToMany(Skill::class);
-    }
-    public function isAdmin()
-    {
-        return $this->role === 'admin';
-    }
-    public static function findByEmail($email)
-    {
-        return static::whereEmail($email)->first();
-    }
-}
+		/**
+		 * The attributes that should be hidden for arrays.
+		 *
+		 * @var array
+		 */
+		protected $hidden = ['password', 'remember_token'];
+
+		public static function findByEmail($email)
+		{
+			return static::whereEmail($email)->first();
+		}
+
+		public function profile()
+		{
+			return $this->hasOne(UserProfile::class)->withDefault();
+		}
+
+		public function skills()
+		{
+			return $this->belongsToMany(Skill::class);
+		}
+
+		public function team()
+		{
+			return $this->belongsTo(Team::class)->withDefault();
+		}
+
+		public function isAdmin()
+		{
+			return $this->role === 'admin';
+		}
+	}
