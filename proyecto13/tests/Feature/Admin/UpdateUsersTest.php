@@ -174,7 +174,7 @@ class UpdateUsersTest extends TestCase
             ]))->assertRedirect('usuarios/' . $user->id . '/editar')
             ->assertSessionHasErrors(['email']);
 
-        $this->assertDatabaseMissing('users', ['name' => 'Pepe']);
+        $this->assertDatabaseMissing('users', ['first_name' => 'Pepe']);
     }
 
     /** @test */
@@ -213,7 +213,7 @@ class UpdateUsersTest extends TestCase
             ]))->assertRedirect('usuarios/' . $user->id);
 
         $this->assertCredentials([
-            'name' => 'Pepe',
+            'first_name' => 'Pepe',
             'email' => 'pepe@mail.es',
             'password' => $oldPassword,
         ]);
