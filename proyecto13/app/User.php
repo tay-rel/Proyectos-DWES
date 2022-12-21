@@ -17,7 +17,9 @@
 		 * @var array
 		 */
 		protected $guarded = [];
-
+        protected $casts = [
+            'active' => 'bool'
+        ];
 		/**
 		 * The attributes that should be hidden for arrays.
 		 *
@@ -44,6 +46,17 @@
                 ->orWhereHas('team', function ($query) use ($search) {
                     $query->where('name', 'like', "%{$search}%");
                 });
+        }
+
+        public function scopeByState($query, $state)
+        {
+            if ($state == 'active') {
+                return $query->where('active', true);
+            }
+
+            if ($state == 'inactive') {
+                return $query->where('active', false);
+            }
         }
 
 		public function profile()
