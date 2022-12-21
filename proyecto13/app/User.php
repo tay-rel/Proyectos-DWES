@@ -89,4 +89,10 @@
 		{
 			return $this->role === 'admin';
 		}
+        public function scopeByRole($query, $role)
+        {
+            if (in_array($role, ['admin', 'user'])) {
+                $query->where('role', $role);
+            }
+        }
 	}
