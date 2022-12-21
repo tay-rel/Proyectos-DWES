@@ -15,5 +15,9 @@ return [
 			'active' => 'Solo activos',
 			'inactive' => 'Solo inactivos',
 		]
-	]
+    ],
+    'states' => [
+        'active' => 'Activo',
+        'inactive' => 'Inactivo',
+    ],
 ];

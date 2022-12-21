@@ -48,6 +48,9 @@ class CreateUserRequest extends FormRequest
                 'nullable',
                 Rule::in(Role::getList())
             ],
+            'state' => [
+                Rule::in(['active', 'inactive'])
+            ],
         ];
     }
     public function messages()
@@ -69,6 +72,7 @@ class CreateUserRequest extends FormRequest
                 'email' => $this->email,
                 'password' => bcrypt($this->password),
                 'role' => $this->role ?? 'user',
+                'state' => $this->state,
             ]);
 
             $user->profile()->create([

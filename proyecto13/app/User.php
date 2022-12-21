@@ -35,6 +35,17 @@
         {
             return $this->first_name . ' ' . $this->last_name;
         }
+        public function getStateAttribute()
+        {
+            if ($this->active != null) {
+                return $this->active ? 'active' : 'inactive';
+            }
+        }
+
+        public function setStateAttribute($value)
+        {
+            $this->attributes['active'] = $value == 'active';
+        }
 
         public function scopeSearch($query, $search)
         {
