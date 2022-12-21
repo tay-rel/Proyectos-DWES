@@ -16,10 +16,12 @@
 		/** @test */
 		function it_completely_deletes_a_user()
 		{
-			$user = factory(User::class)->create(['deleted_at' => now(),]);
-			$user->profile()->save(factory(UserProfile::class)->make());
+			$user = factory(User::class)->create([
+				'deleted_at' => now(),
+			]);
 
-			$this->delete('usuarios/' . $user->id)->assertRedirect('usuarios/papelera');
+			$this->delete('usuarios/' . $user->id)
+				->assertRedirect('usuarios/papelera');
 
 			$this->assertDatabaseEmpty('users');
 		}
@@ -29,8 +31,9 @@
 		{
 			$this->withExceptionHandling();
 
-			$user = factory(User::class)->create(['deleted_at' => null,]);
-			$user->profile()->save(factory(UserProfile::class)->make());
+			$user = factory(User::class)->create([
+				'deleted_at' => null,
+			]);
 
 			$this->delete('usuarios/' . $user->id)->assertStatus(404);
 
