@@ -1,47 +1,38 @@
 <?php
 
-namespace App;
+	namespace App;
 
-use Illuminate\Database\Eloquent\Builder;
+	use Illuminate\Database\Eloquent\Builder;
+	use Illuminate\Support\Facades\Validator;
+	use Illuminate\Support\Str;
 
-class UserQuery extends Builder
-{
-    public function findByEmail($email)
-    {
-        return static::whereEmail($email)->first();
-    }
+	class UserQuery extends Builder
+	{
+		use FiltersQueries;
 
-    public function search($search)
-    {
-        if (empty($search)) {
-            return $this;
-        }
-        return $this->whereRaw('CONCAT(first_name, " ", last_name) like ?', "%{$search}%")
-            ->orWhere('email', 'like', "%{$search}%")
-            ->orWhereHas('team', function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%");
-            });
-    }
+		public function filterRules()
+		{
+			return ['search' => 'filled', 'state' => 'in:active,inactive', 'role' => 'in:admin,user',];
 
-    public function byState($state)
-    {
-        if ($state == 'active') {
-            return $this->where('active', true);
-        }
+		}
 
-        if ($state == 'inactive') {
-            return $this->where('active', false);
-        }
+		public function findByEmail($email)
+		{
+			return static::whereEmail($email)->first();
+		}
 
-        return $this;
-    }
+		public function filterBySearch($search)
+		{
+			return $this->where(function ($query) use ($search) {
+				$query->whereRaw('CONCAT(first_name, " ", last_name) like ?', "%{$search}%")->orWhere('email', 'like', "%{$search}%")->orWhereHas('team', function ($query) use ($search) {
+						$query->where('name', 'like', "%{$search}%");
+					});
+			});
+		}
 
-    public function byRole($role)
-    {
-        if (in_array($role, ['admin', 'user'])) {
-            return $this->where('role', $role);
-        }
+		public function filterByState($state)
+		{
+			return $this->where('active', $state === 'active');
+		}
 
-        return $this;
-    }
-}
+	}
