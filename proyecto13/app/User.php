@@ -62,8 +62,13 @@ class User extends Authenticatable
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+	public function scopefilterBy($query, QueryFilter $filters, array $data)
+	{
+		return($filters->applyTo($query, $data));	//obtenemos los filtros validados
+	}
 
-    public function getStateAttribute()
+
+	public function getStateAttribute()
     {
         if ($this->active != null) {
             return $this->active ? 'active' : 'inactive';
