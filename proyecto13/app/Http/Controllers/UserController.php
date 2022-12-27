@@ -28,7 +28,7 @@ class UserController extends Controller
                     $query->doesntHave('team');
                 }
             })
-			->filterBy($userFilter, request()->all(['state', 'role', 'search']))
+						->filterBy($userFilter, request()->all(['state', 'role', 'search', 'skills']))
             ->orderBy('created_at', 'DESC')
             ->paginate();
 
@@ -37,7 +37,7 @@ class UserController extends Controller
 
 		return view('users.index', [
 			'users' => $users,
-            'view' => 'index',
+			'view' => 'index',
 			'skills' => Skill::orderBy('name')->get(),
 			'states' => trans('users.filters.states'),
 			'checkedSkills' => collect(request('skills')),
