@@ -25,8 +25,10 @@ class UserProfileTest extends TestCase
     function a_user_can_edit_its_profile()
     {
         $user = factory(User::class)->create();
-        $user->profile()->save(factory(UserProfile::class)->make());
-
+				
+        //$user->profile()->update(factory(UserProfile::class)->make());
+				//como solo crea el perfil no tenemos que hacer un cambio asi que la elimina.
+			 
         $newProfession = factory(Profession::class)->create();
 
         $response = $this->get('editar-perfil');

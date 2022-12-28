@@ -23,7 +23,7 @@ class CreateUserProfilesTable extends Migration
             $table->foreign('profession_id')
                 ->references('id')
                 ->on('professions');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id') ->unique() ;		//no puede existir dos perfiles asociados al mismo usuario
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')

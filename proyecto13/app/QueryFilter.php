@@ -27,7 +27,7 @@
 
 		private function applyFilters($query,$name, $value): void
 		{
-			$method = 'filterBy' . Str::studly($name);
+			$method =  Str::studly($name);
 
 			if (method_exists($this, $method)) {
 				$this->{$method}($query,$value);	//llamamos a un metodo que modificara la consulta.

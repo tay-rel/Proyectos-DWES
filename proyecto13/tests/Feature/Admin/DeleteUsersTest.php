@@ -44,7 +44,9 @@
 		function it_sends_a_user_to_the_trash()
 		{
 			$user = factory(User::class)->create();
-			$user->profile()->save(factory(UserProfile::class)->make());
+
+			 //$user->profile()->update(factory(UserProfile::class)->make());
+			 //como solo crea el perfil no tenemos que hacer un cambio asi que la elimina.
 
 			$this->patch('usuarios/' . $user->id . '/papelera')->assertRedirect('usuarios');
 
