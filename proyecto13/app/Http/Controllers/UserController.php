@@ -7,6 +7,7 @@ use App\{Http\Requests\CreateUserRequest,
 	Http\Requests\UpdateUserRequest,
 	Profession,
 	Skill,
+	Sortable,
 	User,
 	UserFilter,
 	UserProfile};
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
 
-    public function index(UserFilter  $userFilter)
+    public function index(UserFilter  $userFilter, Sortable  $sortable)
     {
         $users = User::query()
             ->with('team','skills','profile.profession')
@@ -34,6 +35,8 @@ class UserController extends Controller
 
 
         $users->appends($userFilter->valid());
+	 
+			 $sortable ->setCurrentOrder(request('order', request('direction')));	//ya tiene en cuenta el parametro a traves de URL
 
 		return view('users.index', [
 			'users' => $users,
@@ -41,6 +44,7 @@ class UserController extends Controller
 			'skills' => Skill::orderBy('name')->get(),
 			'states' => trans('users.filters.states'),
 			'checkedSkills' => collect(request('skills')),
+			 'sortable' => $sortable,
 		]);
     }
 
