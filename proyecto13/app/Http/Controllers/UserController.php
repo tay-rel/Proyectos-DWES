@@ -21,8 +21,11 @@ class UserController extends Controller
     public function index(UserFilter  $userFilter, Sortable  $sortable)
     {
         $users = User::query()
+						->when(request() -> routeIs('users.trashed'), function ($q){
+							 $q -> onlyTrashed();
+						})
             ->with('team','skills','profile.profession')
-            ->when(request('team'), function ($query, $team) {
+            ->when(request('team'), function ($query, $team) {	//comprueba una condición
                 if ($team === 'with_team') {
                     $query->has('team');
                 } elseif ($team === 'without_team') {
@@ -30,7 +33,11 @@ class UserController extends Controller
                 }
             })
 						->filterBy($userFilter, request()->all(['state', 'role', 'search', 'skills', 'from', 'to']))
-            ->orderBy('created_at', 'DESC')
+						->when(request('order'), function($q){
+							$q ->orderBy(request('order'), request('direction', 'asc'));	//direction no es obligatorio el orden (asc/desc)
+						}, function($q){
+							 $q ->orderByDesc('created_at');		//si no existe el metodo order lo ordena por fecha
+						})	//primer parametro comprueba, si existe se ejecuta y si no ejecuta otra cosa
             ->paginate();
 
 
@@ -40,7 +47,7 @@ class UserController extends Controller
 
 		return view('users.index', [
 			'users' => $users,
-			'view' => 'index',
+			'view' => request() -> routeIs('users.trashed') ?  'trash' : 'index',
 			'skills' => Skill::orderBy('name')->get(),
 			'states' => trans('users.filters.states'),
 			'checkedSkills' => collect(request('skills')),
@@ -103,11 +110,5 @@ class UserController extends Controller
         return redirect()->route('users');
 
     }
-    public function trashed()
-    {
-        return view('users.index', [
-            'users' => User::onlyTrashed()->paginate(),
-            'view' => 'trash',
-        ]);
-    }
+   
 }
