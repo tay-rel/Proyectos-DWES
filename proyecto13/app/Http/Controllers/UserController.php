@@ -36,7 +36,7 @@ class UserController extends Controller
 
         $users->appends($userFilter->valid());
 	 
-			 $sortable ->setCurrentOrder(request('order', request('direction')));	//ya tiene en cuenta el parametro a traves de URL
+			 $sortable ->setCurrentOrder(request('order'), request('direction'));	//ya tiene en cuenta el parametro a traves de URL
 
 		return view('users.index', [
 			'users' => $users,

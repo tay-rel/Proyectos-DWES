@@ -22,22 +22,23 @@ class SortableTest extends TestCase
 			$this -> assertSame('link-sortable', $sortable -> classes('first_name'));
 			
 	 }
-	 /** @test */
-function return_css_classes_to_indicate_the_column_is_sorted_in_ascendent_order()
-{
-			$sortable = new Sortable();
-			$sortable -> setCurrentOrder('first_name');
-			
-			$this ->assertSame('link-sortable link-sorted-up', $sortable ->classes('first_name'));
-}
 	 
 	 /** @test */
-	 function return_css_classes_to_indicate_the_column_is_sorted_in_descendent_order()
+	 public function return_css_classes_to_indicate_the_column_is_sorted_in_ascendent_order()
 	 {
 			$sortable = new Sortable();
-			$sortable -> setCurrentOrder('first_name' , 'desc');
+			$sortable->setCurrentOrder('first_name', 'asc');
 			
-			$this ->assertSame('link-sortable link-sorted-down', $sortable ->classes('first_name'));
+			$this->assertSame('link-sortable link-sorted-up', $sortable->classes('first_name'));
+	 }
+	 
+	 /** @test */
+	 public function return_css_classes_to_indicate_the_column_is_sorted_in_descendent_order()
+	 {
+			$sortable = new Sortable();
+			$sortable->setCurrentOrder('first_name', 'desc');
+			
+			$this->assertSame('link-sortable link-sorted-down', $sortable->classes('first_name'));
 	 }
 
 
