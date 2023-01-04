@@ -21,29 +21,24 @@ class UserController extends Controller
     public function index(UserFilter  $userFilter, Sortable  $sortable)
     {
         $users = User::query()
-						->when(request() -> routeIs('users.trashed'), function ($q){
-							 $q -> onlyTrashed();
-						})
             ->with('team','skills','profile.profession')
-            ->when(request('team'), function ($query, $team) {	//comprueba una condición
+						->onlyTrashedIf(request() ->routeIs('users.trashed'))
+            ->when(request('team'), function ($query, $team) {
                 if ($team === 'with_team') {
                     $query->has('team');
                 } elseif ($team === 'without_team') {
                     $query->doesntHave('team');
                 }
             })
-						->filterBy($userFilter, request()->all(['state', 'role', 'search', 'skills', 'from', 'to']))
-						->when(request('order'), function($q){
-							$q ->orderBy(request('order'), request('direction', 'asc'));	//direction no es obligatorio el orden (asc/desc)
-						}, function($q){
-							 $q ->orderByDesc('created_at');		//si no existe el metodo order lo ordena por fecha
-						})	//primer parametro comprueba, si existe se ejecuta y si no ejecuta otra cosa
+					
+						->filterBy($userFilter, request()->all(['state', 'role', 'search', 'skills', 'from', 'to', 'order', 'direction']))
+						->orderByDesc('created_at')
             ->paginate();
 
 
         $users->appends($userFilter->valid());
 	 
-			 $sortable ->setCurrentOrder(request('order'), request('direction'));	//ya tiene en cuenta el parametro a traves de URL
+			 $sortable ->setCurrentOrder(request('order'), request('direction'));
 
 		return view('users.index', [
 			'users' => $users,

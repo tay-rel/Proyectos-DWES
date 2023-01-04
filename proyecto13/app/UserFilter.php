@@ -15,9 +15,12 @@
 				'search' => 'filled',
 				'state' => 'in:active,inactive',
 				'role' => 'in:admin,user',
-				'skills' => 'array|exists:skills,id',			//No solo debe existir sino que debe estar en la tabla skill y la columna id
+				'skills' => 'array|exists:skills,id',
 				 'from' =>'date_format:d/m/Y',
 					 'to' => 'date_format:d/m/Y',
+				 //agregamos nuevas reglas para factorizar el codigo de index
+				 'order' => 'in:first_name,email,created_at',
+				 'direction' => 'in:asc,desc',
 				];
 		}
 		
@@ -63,8 +66,18 @@
 		 public function to($query, $date)
 		 {
 				$date = Carbon::createFromFormat('d/m/Y', $date);
-			 
-				//EL menor igual funcionara como hasta .
+				
 				$query ->whereDate('created_at', '<=', $date);
 		 }
+		 
+		 public function order($query, $value)
+		 {
+					 $query->orderBy($value, $this ->valid['direction'] ?? 'asc');//in_array comprueba la direccion
+		 }
+		 
+		 public function direction($query, $value)
+		 {
+			
+		 }
+		 
 	}

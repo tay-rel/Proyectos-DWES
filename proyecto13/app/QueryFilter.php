@@ -7,7 +7,7 @@
 
 	abstract class QueryFilter
 	{
-		private $valid;		//se guarda en la url aquello que solo ha sido validado
+		protected $valid;		//se guarda en la url aquello que solo ha sido validado
 		abstract  public function  rules(): array;
 
 		public function applyTo($query, array $filters)

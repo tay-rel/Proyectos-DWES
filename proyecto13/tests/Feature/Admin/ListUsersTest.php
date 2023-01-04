@@ -168,4 +168,39 @@ class ListUsersTest extends TestCase
 					'Jane Doe',
 				]);
 	 }
+	 
+	 // Esta prueba ignorara si se recibe un parametro diferente al que esta por defecto.
+	 /** @test */
+	 function invalid_order_query_data_is_ignored_and_default_order_is_used_instead()
+	 {
+			factory(User::class) -> create(['first_name' => 'John Doe', 'created_at' => now()->subDays(2)]);
+			factory(User::class) -> create(['first_name' => 'Jane Doe', 'created_at' => now()->subDays(5)]);
+			factory(User::class) -> create(['first_name' => 'Richard Roe', 'created_at' => now()->subDays(3)]);
+			
+			$this -> get('usuarios?order=invalid_column&direction=desc')
+				->assertOk()
+				->assertSeeInOrder([
+					'John Doe',
+					'Richard Roe',
+					'Jane Doe',
+				]);
+	 }
+	 
+	 //Valida la parte correspondiente a la direcion
+	 /** @test */
+	 function invalid_direction_query_data_is_ignored_and_default_order_is_used_instead()
+	 {
+			factory(User::class) -> create(['first_name' => 'John Doe']);
+			factory(User::class) -> create(['first_name' => 'Jane Doe']);
+			factory(User::class) -> create(['first_name' => 'Richard Roe']);
+			
+			$this -> get('usuarios?order=first_name&direction=down')//es down porque no sera un paramtero esperado .
+				->assertOk()
+				->assertSeeInOrder([
+					'Jane Doe',
+					'John Doe',
+					'Richard Roe',
+				]);
+			
+	 }
 }
