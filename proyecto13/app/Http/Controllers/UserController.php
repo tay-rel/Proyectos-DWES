@@ -37,8 +37,8 @@ class UserController extends Controller
 
 
         $users->appends($userFilter->valid());
+				$sortable ->appends($userFilter -> valid());		//pasamos los filtros validos para que se añadan al orden y la direccion que queremos
 	 
-			 $sortable ->setCurrentOrder(request('order'), request('direction'));
 
 		return view('users.index', [
 			'users' => $users,

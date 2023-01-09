@@ -6,23 +6,15 @@ use Illuminate\Support\Arr;
 
 class Sortable
 {
-	 protected $currentColumn;
-	 protected $currentDirection;
+	
 	 protected $currentUrl;
+	 protected $query = [];	//si no tenemos nada el ccual se pase como parametro.
 	 
 	 public function __construct($currentUrl)
 	 {
 			$this -> currentUrl = $currentUrl;
 	 }
 	 
-	 public function setCurrentOrder ($column, $direction = 'asc')
-	 {
-			$this -> currentColumn = $column;	//En la propiedad almacenamos el orden de la columna que estamos considerando.
-			$this -> currentDirection =$direction;
-	 }
-	 
-	 //El metodo conforma una URL
-	 //que nos devuelve un array en formato de cosulta
 	 public function url($column)
 	 {
 					if($this ->isSortingBy($column, 'asc')) {
@@ -34,12 +26,12 @@ class Sortable
 	 
 	 protected function buildSortableUrl($column, $direction = 'asc')
 	 {
-			return $this -> currentUrl . '?' . Arr::query(['order' => $column, 'direction' => $direction]);
+			return $this -> currentUrl . '?' . Arr::query(array_merge($this -> query, ['order' => $column, 'direction' => $direction]));
 	 }
 	 
 	 protected function isSortingBy($column, $direction)
 	 {
-			return $this-> currentColumn == $column && $this -> currentDirection == $direction;
+			return Arr::get($this -> query, 'order') == $column && Arr::get($this ->query, 'direction', 'asc') == $direction;
 	 }
 	 public function classes($column)
 	 {
@@ -52,6 +44,14 @@ class Sortable
 				 }
 				 
 		return 'link-sortable';//me devuelve la columna de la doble flecha
+	 }
+	 
+	 public function appends(array $query)
+	 {
+			//Esta propiedad almacena los filtros que podrian estar aplicadose ademas
+			//del orden y la direccion
+			$this ->query =$query;
+
 	 }
 	 
 }
