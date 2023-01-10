@@ -109,14 +109,14 @@ class ListUsersTest extends TestCase
 			factory(User::class) -> create(['first_name' => 'Richard Roe']);
 			factory(User::class) -> create(['first_name' => 'Jane Doe']);
 	 
-			$this -> get('usuarios?order=first_name&direction=asc')
+			$this -> get('usuarios?order=name')
 							 ->assertSeeInOrder([
 										 'Jane Doe',
 										 'John Doe',
 										 'Richard Roe',
 							 ]);		//queremos ver el orden que le damos
 		 
-			$this -> get('usuarios?order=first_name&direction=desc')
+			$this -> get('usuarios?order=name-desc')
 				->assertSeeInOrder([
 					'Richard Roe',
 					'John Doe',
@@ -131,14 +131,14 @@ class ListUsersTest extends TestCase
 			factory(User::class) -> create(['email' => 'richard@example.com']);
 			factory(User::class) -> create(['email' => 'jane@example.com']);
 			
-			$this -> get('usuarios?order=email&direction=asc')
+			$this -> get('usuarios?order=email')
 				->assertSeeInOrder([
 					'jane@example.com',
 					'john@example.com',
 					'richard@example.com',
 				]);		//queremos ver el orden que le damos
 			
-			$this -> get('usuarios?order=email&direction=desc')
+			$this -> get('usuarios?order=email-desc')
 				->assertSeeInOrder([
 					'richard@example.com',
 					'john@example.com',
@@ -153,7 +153,7 @@ class ListUsersTest extends TestCase
 			factory(User::class) -> create(['first_name' => 'Richard Roe', 'created_at' => now()->subDays(3)]);
 			factory(User::class) -> create(['first_name' => 'Jane Doe', 'created_at' => now()->subDays(5)]);
 			
-			$this -> get('usuarios?order=created_at&direction=asc')
+			$this -> get('usuarios?order=date')
 				->assertSeeInOrder([
 					'Jane Doe',
 					'Richard Roe',
@@ -161,7 +161,7 @@ class ListUsersTest extends TestCase
 			
 				]);		//queremos ver el orden que le damos
 			
-			$this -> get('usuarios?order=created_at&direction=desc')
+			$this -> get('usuarios?order=date-desc')
 				->assertSeeInOrder([
 					'John Doe',
 					'Richard Roe',
@@ -186,21 +186,4 @@ class ListUsersTest extends TestCase
 				]);
 	 }
 	 
-	 //Valida la parte correspondiente a la direcion
-	 /** @test */
-	 function invalid_direction_query_data_is_ignored_and_default_order_is_used_instead()
-	 {
-			factory(User::class) -> create(['first_name' => 'John Doe']);
-			factory(User::class) -> create(['first_name' => 'Jane Doe']);
-			factory(User::class) -> create(['first_name' => 'Richard Roe']);
-			
-			$this -> get('usuarios?order=first_name&direction=down')//es down porque no sera un paramtero esperado .
-				->assertOk()
-				->assertSeeInOrder([
-					'Jane Doe',
-					'John Doe',
-					'Richard Roe',
-				]);
-			
-	 }
 }

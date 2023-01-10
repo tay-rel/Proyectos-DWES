@@ -5,10 +5,19 @@
 	
 	use  Illuminate\Support\Carbon;
 	use Illuminate\Support\Facades\DB;
+	use Psy\Util\Str;
 	
 	class UserFilter extends QueryFilter
 	{
-
+		 protected $aliasses = [
+			 'name'=>'first_name',
+			 'date' => 'created_at',
+		 ];
+		 
+		 public function getColumnName($alias)
+		 {
+				return $this ->aliasses[$alias] ?? $alias;
+		 }
 		public function rules(): array
 		{
 			return [
@@ -19,8 +28,7 @@
 				 'from' =>'date_format:d/m/Y',
 					 'to' => 'date_format:d/m/Y',
 				 //agregamos nuevas reglas para factorizar el codigo de index
-				 'order' => 'in:first_name,email,created_at',
-				 'direction' => 'in:asc,desc',
+				 'order' => 'in:name,email,date,name-desc,email-desc,date-desc',
 				];
 		}
 		
@@ -72,12 +80,11 @@
 		 
 		 public function order($query, $value)
 		 {
-					 $query->orderBy($value, $this ->valid['direction'] ?? 'asc');//in_array comprueba la direccion
-		 }
-		 
-		 public function direction($query, $value)
-		 {
-			
+				if(\Illuminate\Support\Str::endsWith($value, '-desc')){
+					 $query->orderByDesc($this->getColumnName(\Illuminate\Support\Str::substr($value, 0 , -5)));
+				}else{
+					 $query -> orderBy($this->getColumnName($value));
+				}
 		 }
 		 
 	}

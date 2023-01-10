@@ -25,9 +25,9 @@
                     <!--Nombre de las tablas del listado-->
 
                     <th scope="col"># <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-                    <th scope="col"><a href="{{ $sortable -> url('first_name') }}" class="{{ $sortable->classes('first_name') }}">Nombre </a></th>
+                    <th scope="col"><a href="{{ $sortable -> url('name') }}" class="{{ $sortable->classes('name') }}">Nombre </a></th>
                     <th scope="col"><a href="{{ $sortable -> url('email') }}" class="{{ $sortable->classes('email') }}">Correo </a></th>
-                    <th scope="col"><a href="{{ $sortable -> url('created_at') }}" class="{{ $sortable->classes('created_at') }}">Fecha </a></th>
+                    <th scope="col"><a href="{{ $sortable -> url('date') }}" class="{{ $sortable->classes('date') }}">Fecha </a></th>
                     <th scope="col" class="text-right th-actions">Acciones</th>
                 </tr>
                 </thead>

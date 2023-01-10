@@ -31,7 +31,7 @@ class UserController extends Controller
                 }
             })
 					
-						->filterBy($userFilter, request()->all(['state', 'role', 'search', 'skills', 'from', 'to', 'order', 'direction']))
+						->filterBy($userFilter, request()->all(['state', 'role', 'search', 'skills', 'from', 'to', 'order']))
 						->orderByDesc('created_at')
             ->paginate();
 
