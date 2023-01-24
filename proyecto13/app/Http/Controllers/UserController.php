@@ -3,22 +3,13 @@
 namespace App\Http\Controllers;
 
 
-use App\{Http\Requests\CreateUserRequest,
-	Http\Requests\UpdateUserRequest,
-	Profession,
-	Skill,
-	Sortable,
-	User,
-	UserFilter,
-	UserProfile};
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\{Http\Requests\CreateUserRequest, Http\Requests\UpdateUserRequest, Profession, Skill, Sortable, User};
 
 
 class UserController extends Controller
 {
-
-    public function index(UserFilter  $userFilter, Sortable  $sortable)
+	 
+	 public function index(Sortable $sortable)
     {
         $users = User::query()
             ->with('team','skills','profile.profession')
@@ -30,14 +21,13 @@ class UserController extends Controller
                     $query->doesntHave('team');
                 }
             })
-					
-						->filterBy($userFilter, request()->all(['state', 'role', 'search', 'skills', 'from', 'to', 'order']))
+	
+					->applyFilters()
 						->orderByDesc('created_at')
             ->paginate();
-
-
-        $users->appends($userFilter->valid());
-				$sortable ->appends($userFilter -> valid());		//pasamos los filtros validos para que se añadan al orden y la direccion que queremos
+	 
+	 
+			 $sortable->appends($users->parameters());
 	 
 
 		return view('users.index', [

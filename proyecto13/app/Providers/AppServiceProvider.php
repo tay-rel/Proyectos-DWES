@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Sortable;
 use Illuminate\Database\Eloquent\Builder ;
 use Illuminate\Support\Facades\Blade;
@@ -19,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::component('shared._card', 'card');
+			 $this->app->bind(LengthAwarePaginator::class,
+				 \App\LengthAwarePaginator::class);
 				
     }
 

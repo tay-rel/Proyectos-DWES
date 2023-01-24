@@ -2,10 +2,11 @@
 
 namespace App;
 
+use App\Filters\UserFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -38,7 +39,11 @@ class User extends Authenticatable
     {
         return new UserQuery($query);
     }
-
+	 
+	 public function newQueryFilter()
+	 {
+			return new UserFilter;
+	 }
 
     public function profile()
     {
@@ -64,11 +69,6 @@ class User extends Authenticatable
     {
         return $this->first_name . ' ' . $this->last_name;
     }
-	public function scopefilterBy($query, QueryFilter $filters, array $data)
-	{
-		return($filters->applyTo($query, $data));	//obtenemos los filtros validados
-	}
-
 
 	public function getStateAttribute()
     {
