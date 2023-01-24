@@ -105,23 +105,23 @@ class ListUsersTest extends TestCase
 		/** @test */
 	 function users_are_ordered_by_name()
 	 {
-			factory(User::class) -> create(['first_name' => 'John Doe']);
-			factory(User::class) -> create(['first_name' => 'Richard Roe']);
-			factory(User::class) -> create(['first_name' => 'Jane Doe']);
-	 
-			$this -> get('usuarios?order=name')
-							 ->assertSeeInOrder([
-										 'Jane Doe',
-										 'John Doe',
-										 'Richard Roe',
-							 ]);		//queremos ver el orden que le damos
+			factory(User::class)->create(['first_name' => 'John Doe']);
+			factory(User::class)->create(['first_name' => 'Richard Roe']);
+			factory(User::class)->create(['first_name' => 'Jane Doe']);
 		 
-			$this -> get('usuarios?order=name-desc')
+			$this->get('usuarios?order=first_name')
+				->assertSeeInOrder([
+					'Jane Doe',
+					'John Doe',
+					'Richard Roe',
+				]);
+		 
+			$this->get('usuarios?order=first_name-desc')
 				->assertSeeInOrder([
 					'Richard Roe',
 					'John Doe',
 					'Jane Doe',
-				]);		//queremos ver el orden que le damos
+				]);
 	 }
 	 
 	 /** @test */
