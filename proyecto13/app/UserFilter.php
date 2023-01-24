@@ -3,6 +3,7 @@
 	namespace App;
 
 	
+	use App\Rules\SortableColumn;
 	use  Illuminate\Support\Carbon;
 	use Illuminate\Support\Facades\DB;
 	use Psy\Util\Str;
@@ -28,7 +29,7 @@
 				 'from' =>'date_format:d/m/Y',
 					 'to' => 'date_format:d/m/Y',
 				 //agregamos nuevas reglas para factorizar el codigo de index
-				 'order' => 'in:name,email,date,name-desc,email-desc,date-desc',
+				'order' => [new SortableColumn(['first_name', 'email', 'date'])],
 				];
 		}
 		
