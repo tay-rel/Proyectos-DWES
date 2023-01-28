@@ -171,35 +171,20 @@ class ListUsersTest extends TestCase
 	 
 	 // Esta prueba ignorara si se recibe un parametro diferente al que esta por defecto.
 	 /** @test */
-	 function invalid_order_query_data_is_ignored_and_default_order_is_used_instead()
+	 function invalid_order_query_data_is_ignored_and_the_default_order_is_used_instead()
 	 {
-			factory(User::class) -> create(['first_name' => 'John Doe', 'created_at' => now()->subDays(2)]);
-			factory(User::class) -> create(['first_name' => 'Jane Doe', 'created_at' => now()->subDays(5)]);
-			factory(User::class) -> create(['first_name' => 'Richard Roe', 'created_at' => now()->subDays(3)]);
+			factory(User::class)->create(['first_name' => 'Richard Roe', 'created_at' => now()->subDays(3)]);
+			factory(User::class)->create(['first_name' => 'John Doe', 'created_at' => now()->subDays(2)]);
+			factory(User::class)->create(['first_name' => 'Jane Doe', 'created_at' => now()->subDays(5)]);
 			
-			$this -> get('usuarios?order=id')
-				->assertOk()
+			$this->get('usuarios?order=id')
 				->assertSeeInOrder([
 					'John Doe',
 					'Richard Roe',
 					'Jane Doe',
 				]);
-		 
+			
 			$this->get('usuarios?order=invalid_column')
-				->assertSeeInOrder([
-					'John Doe',
-					'Richard Roe',
-					'Jane Doe',
-				]);
-		 
-			$this->get('usuarios?order=first_name-descendent')
-				->assertSeeInOrder([
-					'John Doe',
-					'Richard Roe',
-					'Jane Doe',
-				]);
-		 
-			$this->get('usuarios?order=asc-first_name')
 				->assertSeeInOrder([
 					'John Doe',
 					'Richard Roe',
@@ -207,4 +192,39 @@ class ListUsersTest extends TestCase
 				]);
 	 }
 	 
+	 /** @test */
+	 function invalid_direction_query_data_is_ignored_and_the_default_order_is_used_instead()
+	 {
+			factory(User::class)->create(['first_name' => 'Richard Roe', 'created_at' => now()->subDays(3)]);
+			factory(User::class)->create(['first_name' => 'John Doe', 'created_at' => now()->subDays(2)]);
+			factory(User::class)->create(['first_name' => 'Jane Doe', 'created_at' => now()->subDays(5)]);
+			
+			$this->get('usuarios?order=id')
+				->assertSeeInOrder([
+					'John Doe',
+					'Richard Roe',
+					'Jane Doe',
+				]);
+			
+			$this->get('usuarios?order=invalid_column')
+				->assertSeeInOrder([
+					'John Doe',
+					'Richard Roe',
+					'Jane Doe',
+				]);
+			
+			$this->get('usuarios?order=first_name-descendent')
+				->assertSeeInOrder([
+					'John Doe',
+					'Richard Roe',
+					'Jane Doe',
+				]);
+			
+			$this->get('usuarios?order=asc-first_name')
+				->assertSeeInOrder([
+					'John Doe',
+					'Richard Roe',
+					'Jane Doe',
+				]);
+	 }
 }

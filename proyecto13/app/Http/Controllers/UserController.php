@@ -21,12 +21,11 @@ class UserController extends Controller
                     $query->doesntHave('team');
                 }
             })
-	
 					->applyFilters()
-						->orderByDesc('created_at')
-            ->paginate();
+					->orderBy('created_at', 'desc')
+					->paginate();
 	 
-	 
+	 //dd($users);
 			 $sortable->appends($users->parameters());
 	 
 
@@ -34,7 +33,6 @@ class UserController extends Controller
 			'users' => $users,
 			'view' => request() -> routeIs('users.trashed') ?  'trash' : 'index',
 			'skills' => Skill::orderBy('name')->get(),
-			'states' => trans('users.filters.states'),
 			'checkedSkills' => collect(request('skills')),
 			 'sortable' => $sortable,
 		]);
