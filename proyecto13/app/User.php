@@ -14,7 +14,8 @@ class User extends Authenticatable
     protected $guarded = [];
 
     protected $casts = [
-        'active' => 'bool'
+			'active' => 'bool',
+			'last_login_at' => 'datetime',
     ];
 
     /**
@@ -63,13 +64,7 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
-	 
-	 public function lastLogin()
-	 {
-			//Obtiene el ultimo login que debe coger un elemento y tomara el primero que ser el mayor
-		return $this->hasOne(Login::class)->orderByDesc('created_at');
-		}
-
+		
     public function getNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
@@ -86,4 +81,5 @@ class User extends Authenticatable
     {
         $this->attributes['active'] = $value == 'active';
     }
+		
 }

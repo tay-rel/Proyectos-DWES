@@ -45,11 +45,13 @@ class UserTest extends TestCase
 			]);
 			
 			//llamamos a todos los usuarios
-			$users = User::all();
+			$users = User::withLastLogin()->get();
 			
-			//laslogin es la relacion entre la tabla created_at y user
-			$this->assertEquals(Carbon::parse('2022-09-18 12:31:00'), $users->firstWhere('first_name', 'Joel')->lastLogin->created_at);
-			$this->assertEquals(Carbon::parse('2022-09-15 12:01:00'), $users->firstWhere('first_name', 'Ellie')->lastLogin->created_at);
+			$this->assertInstanceOf(Carbon::class, $users->firstWhere('first_name', 'Joel')->last_login_at);
+		 
+			//last_login_at, es una propiedad que se va crear sobre la marcha para cada clase
+			$this->assertEquals(Carbon::parse('2022-09-18 12:31:00'), $users->firstWhere('first_name', 'Joel')->last_login_at);
+			$this->assertEquals(Carbon::parse('2022-09-15 12:01:00'), $users->firstWhere('first_name', 'Ellie')->last_login_at);
 			//$this->>asserTrue($users->firstWhere('first_name', 'Ellie')->lastLogin->created_at));
 	 }
 }
