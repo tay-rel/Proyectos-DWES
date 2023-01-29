@@ -63,6 +63,12 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+	 
+	 public function lastLogin()
+	 {
+			//Obtiene el ultimo login que debe coger un elemento y tomara el primero que ser el mayor
+		return $this->hasOne(Login::class)->orderByDesc('created_at');
+		}
 
     public function getNameAttribute()
     {
