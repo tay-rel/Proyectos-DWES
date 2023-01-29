@@ -6,6 +6,7 @@ use App\Filters\UserFilter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -59,7 +60,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Team::class)->withDefault();
     }
-
+	 
+	 public function delete()
+	 {
+			DB::transaction(function () {
+				 if (parent::delete()) {
+						$this->profile()->delete();//elimina el perfil del usuario
+						
+						DB::table('skill_user')
+							->where('user_id', $this->id)
+							->update(['deleted_at' => now()]);
+				 }
+			});
+	 }
     public function isAdmin()
     {
         return $this->role === 'admin';
