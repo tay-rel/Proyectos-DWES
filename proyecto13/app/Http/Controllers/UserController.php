@@ -14,7 +14,7 @@ class UserController extends Controller
         $users = User::query()
 					->with('team','skills','profile.profession')
 					->withLastLogin()
-					->onlyTrashedIf(request() ->routeIs('users.trashed'))
+					->onlyTrashedIf(request() ->routeIs('user.trashed'))
            ->when(request('team'), function ($query, $team) {
                 if ($team === 'with_team') {
                     $query->has('team');
@@ -32,7 +32,7 @@ class UserController extends Controller
 
 		return view('users.index', [
 			'users' => $users,
-			'view' => request() -> routeIs('users.trashed') ?  'trash' : 'index',
+			'view' => request() -> routeIs('user.trashed') ?  'trash' : 'index',
 			'skills' => Skill::orderBy('name')->get(),
 			'checkedSkills' => collect(request('skills')),
 			 'sortable' => $sortable,
@@ -63,7 +63,7 @@ class UserController extends Controller
 
     public function store(CreateUserRequest $request)
     {   $request-> createUser();
-        return redirect()->route('users');
+        return redirect()->route('user');
     }
 
     public function edit(User $user)
@@ -84,14 +84,14 @@ class UserController extends Controller
             ->firstOrFail();
 
         $user->forceDelete();
-        return redirect()->route('users.trashed');
+        return redirect()->route('user.trashed');
     }
 
     public function trash(User $user)
     {
   
         $user->delete();
-        return redirect()->route('users');
+        return redirect()->route('user');
 
     }
    

@@ -23,11 +23,11 @@
                 <button type="submit" class="btn btn-link"><span class="oi oi-circle-x"></span></button>
             </form>
         @else
-            <form action="{{ route('users.trash', $user) }}" method="POST">
+            <form action="{{ route('user.trash', $user) }}" method="POST">
                 @csrf
                 @method('PATCH')
                 <a href="{{ route('user.show', $user) }}" class="btn btn-outline-secondary btn-sm"><span class="oi oi-eye"></span></a>
-                <a href="{{ route('users.edit', $user) }}" class="btn btn-outline-secondary btn-sm"><span class="oi oi-pencil"></span></a>
+                <a href="{{ route('user.edit', $user) }}" class="btn btn-outline-secondary btn-sm"><span class="oi oi-pencil"></span></a>
                 <button type="submit" class="btn btn-outline-danger btn-sm"><span class="oi oi-trash"></span></button>
             </form>
         @endif

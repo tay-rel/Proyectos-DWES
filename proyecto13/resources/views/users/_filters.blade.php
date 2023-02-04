@@ -1,4 +1,4 @@
-<form method="get" action="{{ route('users') }}">
+<form method="get" action="{{ route('user') }}">
     <div class="row row-filters">
         <div class="col-12">
             @foreach(['' => 'Todos', 'with_team' => 'Con equipo', 'without_team' => 'Sin equipo'] as $value => $text)

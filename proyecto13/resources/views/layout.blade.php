@@ -61,7 +61,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('users') }}">Usuarios <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ route('user') }}">Usuarios <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('profession.index') }}">Profesiones <span class="sr-only">(current)</span></a>

@@ -19,19 +19,19 @@ Route::get('/', function () {
 });
 
 //listar usuarios
-Route::get('usuarios' , 'UserController@index')->name('users');
+Route::get('usuarios' , 'UserController@index')->name('user');
 
 
 Route::get('usuarios/nuevo', 'UserController@create' )->name('user.create');
 
 Route::post('usuarios', 'UserController@store')->name('user.store');
 
-Route::get('usuarios/papelera', 'UserController@index')->name('users.trashed');
+Route::get('usuarios/papelera', 'UserController@index')->name('user.trashed');
 
-Route::get('usuarios/{user}/editar', 'UserController@edit')->name('users.edit');
+Route::get('usuarios/{user}/editar', 'UserController@edit')->name('user.edit');
 
 Route::patch('usuarios/{user}/papelera', 'UserController@trash')
-    ->name('users.trash');
+    ->name('user.trash');
 
 Route::get('usuarios/{user}','UserController@show')
     ->name('user.show');
