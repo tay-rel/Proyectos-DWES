@@ -3,7 +3,7 @@
 @section('title', 'Editar perfil de usuario')
 
 @section('content')
-    @card
+    <x-card>
     @slot('header', 'Editar perfil')
 
     @include('shared._errors')
@@ -56,5 +56,5 @@
             <a href="{{ route('users') }}" class="btn btn-link">Regresar al listado de usuarios</a>
         </div>
     </form>
-    @endcard
+        </x-card>
 @endsection
