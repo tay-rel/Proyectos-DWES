@@ -43,6 +43,10 @@
             <option value="{{ $profession->id }}" {{ old('profession_id', $user->profile->profession_id) == $profession->id ? ' selected' : '' }}>{{ $profession->title }}</option>
         @endforeach
     </select>
+
+    <!--<select name="profession_id" id="profession_id" class="form-control">
+
+    </select>-->
 </div>
 
 <h5>Habilidades</h5>
