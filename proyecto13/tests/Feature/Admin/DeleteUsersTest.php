@@ -63,4 +63,32 @@
 			$user->refresh();
 			$this->assertTrue($user->trashed());
 		}
+
+
+        /** @test */
+        /* function restore_a_user_to_the_trash()
+         {
+                $user = factory(User::class)->create([
+                    'deleted_at' => now(),
+                ]);
+            //	$user = factory(User::class)->create();
+            //	$user->delete();
+
+                $this->assertSoftDeleted('users', [
+                    'id' => $user->id
+                ]);
+
+                $this->delete('usuarios/' . $user->id )
+                    ->assertRedirect('usuarios' );
+
+
+                //$response = $this->delete("usuarios/{$user->id}");
+                //$response->assertRedirect();
+
+                $this->assertDatabaseHas('users', [
+                    'id' => $user->id,
+                    'deleted_at' => null,
+                ]);
+                //$this->assertNull(User::withTrashed()->find($user->id) ->deleted_at);
+         }*/
 	}

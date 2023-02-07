@@ -53,7 +53,7 @@
 
         <div class="form-group mt-4">
             <button type="submit" class="btn btn-primary">Actualizar perfil</button>
-            <a href="{{ route('users') }}" class="btn btn-link">Regresar al listado de usuarios</a>
+            <a href="{{ route('user') }}" class="btn btn-link">Regresar al listado de usuarios</a>
         </div>
     </form>
         </x-card>
