@@ -66,7 +66,7 @@
 
 
         /** @test */
-        /* function restore_a_user_to_the_trash()
+        function restore_a_user_to_the_trash()
          {
                 $user = factory(User::class)->create([
                     'deleted_at' => now(),
@@ -78,8 +78,8 @@
                     'id' => $user->id
                 ]);
 
-                $this->delete('usuarios/' . $user->id )
-                    ->assertRedirect('usuarios' );
+                $this->get('usuarios/' . $user->id .'/restore')
+                    ->assertRedirect('usuarios/papelera' );
 
 
                 //$response = $this->delete("usuarios/{$user->id}");
@@ -90,5 +90,5 @@
                     'deleted_at' => null,
                 ]);
                 //$this->assertNull(User::withTrashed()->find($user->id) ->deleted_at);
-         }*/
+         }
 	}

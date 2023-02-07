@@ -87,6 +87,20 @@ class UserController extends Controller
         return redirect()->route('user.trashed');
     }
 
+    public function restore($id)
+    {
+        //Indicamos que la busqueda se haga en los registros eliminados con withTrashed
+
+        $user = User::withTrashed()
+            ->where('id', '=', $id)
+            ->first();
+
+        //Restauramos el registro
+        $user->restore();
+
+        return redirect()->route( "user.trashed" );	//->with("restored" , $id );
+    }
+
     public function trash(User $user)
     {
   
