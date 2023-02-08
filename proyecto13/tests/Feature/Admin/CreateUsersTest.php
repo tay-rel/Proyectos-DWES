@@ -18,7 +18,7 @@ class CreateUsersTest extends TestCase
         'last_name' => 'Pérez',
         'email' => 'pepe@mail.es',
         'password' => '12345678',
-        'profession_id' => '',
+        'profession_id' => '',//1
         'bio' => 'Programador de Laravel y Vue.js',
         'twitter' => 'https://twitter.com/pepe',
         'role' => 'user',
@@ -104,6 +104,8 @@ class CreateUsersTest extends TestCase
         $this->assertDatabaseEmpty('users');
     }
 
+		
+		/******campos requerido*****/
     /** @test */
     function the_first_name_is_required()
     {
@@ -159,7 +161,31 @@ class CreateUsersTest extends TestCase
 
         $this->assertDatabaseEmpty('users');
     }
+	 
+	 /** @test */
+/*	 function the_profession_id_is_required()
+	 {
+			$this->withExceptionHandling();
+			
+			$newProfession = factory(Profession::class)->create();
+			
+//			$profession = [
+//				'newProfession' => $newProfession->id,
+//				 'profession_id'=>$newProfession->id,
+//			];
+			
+			$this->from('usuarios/nuevo')
+				->post('usuarios', $this->getValidData([
+					'profession_id' => $newProfession->id,
+					'newProfession' => '',
+				]))
+				->assertSessionHasErrors(['newProfession' => 'El campo profesion es obligatorio']);
+			
+			$this->assertDatabaseEmpty('user_profiles');
+	 }*/
 
+	 
+	 /*Campos Validos*/
     /** @test */
     function the_email_must_be_valid()
     {
@@ -247,7 +273,8 @@ class CreateUsersTest extends TestCase
     /** @test */
     function the_twitter_field_is_optional()
     {
-        $this->withoutExceptionHandling();
+			// $profession = factory(Profession::class) ->create();
+			 $this->withoutExceptionHandling();
         $this->post('usuarios', $this->getValidData([
             'twitter' => null
         ]))->assertRedirect('usuarios');
@@ -299,7 +326,8 @@ class CreateUsersTest extends TestCase
     /** @test */
     function the_role_field_is_optional()
     {
-        $this->post('usuarios', $this->getValidData([
+			 $profession = factory(Profession::class) ->create();
+			 $this->post('usuarios', $this->getValidData([
             'role' => null,
         ]))->assertRedirect('usuarios');
 

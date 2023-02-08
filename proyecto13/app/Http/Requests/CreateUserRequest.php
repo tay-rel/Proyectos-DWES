@@ -37,7 +37,7 @@ class CreateUserRequest extends FormRequest
             'profession_id' => [
                 'nullable',
                 'present',
-                'required_if:newProfession, null',
+               // 'required_if:newProfession, null',
                 Rule::exists('professions', 'id')
                     ->whereNull('deleted_at')
             ],
@@ -61,6 +61,7 @@ class CreateUserRequest extends FormRequest
             'last_name.required' => 'El campo apellidos es obligatorio',
             'email.required' => 'El campo email es obligatorio',
             'password.required' => 'El campo contraseña es obligatorio',
+					'profession_id.required' => 'El campo profesion es obligatorio',
 
         ];
     }

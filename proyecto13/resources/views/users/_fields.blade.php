@@ -44,9 +44,7 @@
         @endforeach
     </select>
 
-    <!--<select name="profession_id" id="profession_id" class="form-control">
-
-    </select>-->
+  <!--  <input name="profession_id" id="newProfession" class="form-control mt-4">-->
 </div>
 
 <h5>Habilidades</h5>
