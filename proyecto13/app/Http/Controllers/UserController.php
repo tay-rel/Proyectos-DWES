@@ -15,13 +15,13 @@ class UserController extends Controller
 					->with('team','skills','profile.profession')
 					->withLastLogin()
 					->onlyTrashedIf(request() ->routeIs('user.trashed'))
-           ->when(request('team'), function ($query, $team) {
-                if ($team === 'with_team') {
-                    $query->has('team');
-                } elseif ($team === 'without_team') {
-                    $query->doesntHave('team');
-                }
-            })
+//           ->when(request('team'), function ($query, $team) {
+//                if ($team === 'with_team') {
+//                    $query->has('team');
+//                } elseif ($team === 'without_team') {
+//                    $query->doesntHave('team');
+//                }
+//            })
 					->applyFilters()
 					->orderBy('created_at', 'desc')
 					->paginate();

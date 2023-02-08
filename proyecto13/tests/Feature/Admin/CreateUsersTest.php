@@ -163,26 +163,26 @@ class CreateUsersTest extends TestCase
     }
 	 
 	 /** @test */
-/*	 function the_profession_id_is_required()
-	 {
-			$this->withExceptionHandling();
-			
-			$newProfession = factory(Profession::class)->create();
-			
-//			$profession = [
-//				'newProfession' => $newProfession->id,
-//				 'profession_id'=>$newProfession->id,
-//			];
-			
-			$this->from('usuarios/nuevo')
-				->post('usuarios', $this->getValidData([
-					'profession_id' => $newProfession->id,
-					'newProfession' => '',
-				]))
-				->assertSessionHasErrors(['newProfession' => 'El campo profesion es obligatorio']);
-			
-			$this->assertDatabaseEmpty('user_profiles');
-	 }*/
+//	 function the_profession_id_is_required()
+//	 {
+//			//$this->withExceptionHandling();
+//
+//		//	$newProfession = factory(Profession::class)->create();
+//
+////			$profession = [
+////				'newProfession' => $newProfession->id,
+////				 'profession_id'=>$newProfession->id,
+//		//	];
+//
+//			$this->from('usuarios/nuevo')
+//				->post('usuarios', $this->getValidData([
+//					'profession_id' => '',
+//					'newProfession' => '',
+//				]))
+//				->assertSessionHasErrors('profession_id')
+//                ->assertSessionHasErrors('newProfession');
+//			$this->assertDatabaseEmpty('user_profiles');
+//	 }
 
 	 
 	 /*Campos Validos*/

@@ -100,33 +100,55 @@
 					 ->notContains($frontendDev);
 					 
 				}
-		 
-		 /** @test */
-//		 function filter_users_by_team()
-//		 {
-//
-//				$team = factory(Team::class)->create(['name'=>'IES Ingeniero']);
-//				$team2 = factory(Team::class)->create(['name'=>'Koss Inc']);
-//
-//
-//			/*	$clase = factory(User::class)->create();
-//				$clase -> team() ->attach($team);
-//
-//				$trabajo = factory(User::class)->create();
-//				$trabajo -> team() ->attach($team2);
-//				*/
-//
-//				//Lanzamos la petición a traves de get
-//				$response =$this ->get("usuarios?team=with_team");
-//				$response -> assertStatus(200);
-//
-//				//Lo que se reciba se debe comprobar que en la vista la colección que
-//				//recibimos contiene
-//				$response ->assertViewCollection('users')
-//					->contains($team);
-//
-//		 }
-				
+
+
+        /** @test */
+        function filter_users_by_with_team()
+        {
+            $teamA = factory(Team::class)->create([
+                'name' =>'IES Ingeniero',
+            ]);
+            $teamB = factory(Team::class)->create([
+                'name' =>'IES Fresita',
+            ]);
+
+            $team2 = factory(User::class)->create([
+                'team_id'=>$teamB->id,
+            ]);
+            $team3 = factory(User::class)->create([
+                'team_id'=>null,
+            ]);
+            $team1 = factory(User::class)->create([
+                'team_id'=>$teamA->id,
+            ]);
+
+            $response = $this->get('usuarios?team=with_team')
+            ->assertStatus(200)
+                ->assertSeeInOrder([
+                   'IES Fresita',
+                    'IES Ingeniero'
+                ]);
+        }
+
+        /** @test */
+        function filter_users_by_with_without_team()
+        {
+            $teamA = factory(Team::class)->create([
+                'name' =>'IES Ingeniero',
+            ]);
+
+            $team2 = factory(User::class)->create([
+                'team_id'=>null,
+            ]);
+            $team1 = factory(User::class)->create([
+                'team_id'=>$teamA->id,
+            ]);
+
+            $response = $this->get('usuarios?team=without_team')
+                ->assertStatus(200);
+        }
+
+
 		 /** @test */
 				function filter_users_created_from_date()
 				{
