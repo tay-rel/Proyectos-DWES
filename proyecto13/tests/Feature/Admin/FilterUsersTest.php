@@ -3,6 +3,7 @@
 	namespace Tests\Feature\Admin;
 
 	use App\Skill;
+	use App\Team;
 	use App\User;
 	use Tests\TestCase;
 	use Illuminate\Foundation\Testing\WithFaker;
@@ -99,6 +100,32 @@
 					 ->notContains($frontendDev);
 					 
 				}
+		 
+		 /** @test */
+//		 function filter_users_by_team()
+//		 {
+//
+//				$team = factory(Team::class)->create(['name'=>'IES Ingeniero']);
+//				$team2 = factory(Team::class)->create(['name'=>'Koss Inc']);
+//
+//
+//			/*	$clase = factory(User::class)->create();
+//				$clase -> team() ->attach($team);
+//
+//				$trabajo = factory(User::class)->create();
+//				$trabajo -> team() ->attach($team2);
+//				*/
+//
+//				//Lanzamos la petición a traves de get
+//				$response =$this ->get("usuarios?team=with_team");
+//				$response -> assertStatus(200);
+//
+//				//Lo que se reciba se debe comprobar que en la vista la colección que
+//				//recibimos contiene
+//				$response ->assertViewCollection('users')
+//					->contains($team);
+//
+//		 }
 				
 		 /** @test */
 				function filter_users_created_from_date()
