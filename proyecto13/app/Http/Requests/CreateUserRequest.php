@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Profession;
 use App\Role;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
@@ -36,10 +37,15 @@ class CreateUserRequest extends FormRequest
             'twitter' => ['nullable', 'present', 'url'],
             'profession_id' => [
                 'nullable',
+                'required_if:newProfession,null',
                 'present',
-                'required_if:newProfession, null',
                 Rule::exists('professions', 'id')
                     ->whereNull('deleted_at')
+            ],
+            'newProfession' => [
+                'required_if:profession_id,null',
+                'present',
+                'unique:professions,title'
             ],
             'skills' => [
                 'array',
@@ -61,7 +67,8 @@ class CreateUserRequest extends FormRequest
             'last_name.required' => 'El campo apellidos es obligatorio',
             'email.required' => 'El campo email es obligatorio',
             'password.required' => 'El campo contraseña es obligatorio',
-            'profession_id.required' => 'El campo profesion es obligatorio',
+            'profession_id.required_if' => 'El campo profesion es obligatorio',
+            'newProfession.required_if' => 'El campo profesion es obligatorio',
 
         ];
     }
@@ -77,10 +84,16 @@ class CreateUserRequest extends FormRequest
                 'state' => $this->state,
             ]);
 
+            if($this->newProfession && $this->profession_id == null){
+                $profession= factory(Profession::class)->create([
+                    'title'=>$this->newProfession
+                ]);
+            }
+
             $user->profile()->create([
                 'bio' => $this->bio,
                 'twitter' => $this->twitter,
-                'profession_id' => $this->profession_id,
+                'profession_id' => $this->profession_id ?? $profession->id ,
             ]);
 
             $user->skills()->attach($this->skills ?? []);

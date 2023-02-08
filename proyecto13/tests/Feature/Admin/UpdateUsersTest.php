@@ -20,6 +20,7 @@ class UpdateUsersTest extends TestCase
         'email' => 'pepe@mail.es',
         'password' => '12345678',
         'profession_id' => '',
+        'newProfession'=>'Back-end',//1
         'bio' => 'Programador de Laravel y Vue.js',
         'twitter' => 'https://twitter.com/pepe',
         'role' => 'user',
@@ -93,6 +94,7 @@ class UpdateUsersTest extends TestCase
         ]);
     }
 
+    /******Campos requeridos********/
     /** @test */
     function the_first_name_is_required()
     {
@@ -140,6 +142,25 @@ class UpdateUsersTest extends TestCase
 
         $this->assertDatabaseMissing('users', ['first_name' => 'Pepe']);
     }
+
+    /** @test */
+    function the_profession_id_is_required()
+    {
+        $this->withExceptionHandling();
+
+        $user = factory(User::class)->create();
+
+        $this->from('usuarios/'.$user->id.'/editar')
+            ->put('usuarios/'.$user->id, $this->getValidData([
+                'profession_id' => null,
+                'newProfession' => null,
+            ]))->assertRedirect('usuarios/' . $user->id . '/editar')
+            ->assertSessionHasErrors('newProfession');
+          // ->assertSessionHasErrors('profession_id');
+
+      //  $this->assertDatabaseMissing('users', ['profession_id' => 'Back-end']);
+    }
+
 
     /** @test */
     function the_email_must_be_valid()

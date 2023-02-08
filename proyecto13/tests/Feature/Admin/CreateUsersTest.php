@@ -18,7 +18,8 @@ class CreateUsersTest extends TestCase
         'last_name' => 'Pérez',
         'email' => 'pepe@mail.es',
         'password' => '12345678',
-        'profession_id' => '',//1
+        'profession_id' => '',
+        'newProfession'=>'Back-end',//1
         'bio' => 'Programador de Laravel y Vue.js',
         'twitter' => 'https://twitter.com/pepe',
         'role' => 'user',
@@ -163,26 +164,18 @@ class CreateUsersTest extends TestCase
     }
 	 
 	 /** @test */
-//	 function the_profession_id_is_required()
-//	 {
-//			//$this->withExceptionHandling();
-//
-//		//	$newProfession = factory(Profession::class)->create();
-//
-////			$profession = [
-////				'newProfession' => $newProfession->id,
-////				 'profession_id'=>$newProfession->id,
-//		//	];
-//
-//			$this->from('usuarios/nuevo')
-//				->post('usuarios', $this->getValidData([
-//					'profession_id' => '',
-//					'newProfession' => '',
-//				]))
-//				->assertSessionHasErrors('profession_id')
-//                ->assertSessionHasErrors('newProfession');
-//			$this->assertDatabaseEmpty('user_profiles');
-//	 }
+	 function the_profession_id_is_required()
+	 {
+         $this->withExceptionHandling();
+
+			$this->from('usuarios/nuevo')
+				->post('usuarios', $this->getValidData([
+                    'newProfession'=>null
+                ]))
+				->assertSessionHasErrors(['profession_id'=> 'El campo profesion es obligatorio'])
+                ->assertSessionHasErrors(['newProfession'=> 'El campo profesion es obligatorio']);
+
+	 }
 
 	 
 	 /*Campos Validos*/
@@ -217,26 +210,26 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    function the_profession_id_field_is_optional()
-    {
-        $this->withExceptionHandling();
-
-        $this->post('usuarios', $this->getValidData([
-            'profession_id' => null
-        ]))->assertRedirect('usuarios');
-
-        $this->assertCredentials([
-            'first_name' => 'Pepe',
-            'email' => 'pepe@mail.es',
-            'password' => '12345678',
-        ]);
-
-        $this->assertDatabaseHas('user_profiles', [
-            'bio' => 'Programador de Laravel y Vue.js',
-            'user_id' => User::findByEmail('pepe@mail.es')->id,
-            'profession_id' => null,
-        ]);
-    }
+//    function the_profession_id_field_is_optional()
+//    {
+//        $this->withExceptionHandling();
+//
+//        $this->post('usuarios', $this->getValidData([
+//            'profession_id' => null
+//        ]))->assertRedirect('usuarios');
+//
+//        $this->assertCredentials([
+//            'first_name' => 'Pepe',
+//            'email' => 'pepe@mail.es',
+//            'password' => '12345678',
+//        ]);
+//
+//        $this->assertDatabaseHas('user_profiles', [
+//            'bio' => 'Programador de Laravel y Vue.js',
+//            'user_id' => User::findByEmail('pepe@mail.es')->id,
+//            'profession_id' => null,
+//        ]);
+//    }
 
     /** @test */
     function the_profession_id_must_be_valid()

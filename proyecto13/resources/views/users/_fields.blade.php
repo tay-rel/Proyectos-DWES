@@ -43,8 +43,9 @@
             <option value="{{ $profession->id }}" {{ old('profession_id', $user->profile->profession_id) == $profession->id ? ' selected' : '' }}>{{ $profession->title }}</option>
         @endforeach
     </select>
-
-  <!--  <input name="profession_id" id="newProfession" class="form-control mt-4">-->
+    <label for="newProfession"></label>
+    <input type="text" class="form-control" name="newProfession" id="newProfession"
+           placeholder="Nueva profession"    value="{{ old('newProfession') }}"/>
 </div>
 
 <h5>Habilidades</h5>

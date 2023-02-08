@@ -56,7 +56,7 @@ class SortableTest extends TestCase
 			
 			$this -> assertSame(
 				'http://laraveltdd.local/demo?order=first_name-desc',
-				$this ->sortable -> url('first_name')	//debe devolver una Url con la que estamos comparando
+				$this ->sortable -> url('first_name-desc')	//debe devolver una Url con la que estamos comparando
 			);
 		}
 		

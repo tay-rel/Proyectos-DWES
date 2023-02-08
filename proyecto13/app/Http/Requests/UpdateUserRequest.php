@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Profession;
 use App\Role;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
@@ -38,6 +39,11 @@ class UpdateUserRequest extends FormRequest
                 'nullable', 'present',
                 Rule::exists('professions', 'id')->whereNull('deleted_at')
             ],
+            'newProfession' => [
+                'required_if:profession_id,null',
+                'present',
+                'unique:professions,title'
+            ],
             'skills' => [
                 'array',
                 Rule::exists('skills', 'id')
@@ -63,10 +69,16 @@ class UpdateUserRequest extends FormRequest
 
         $user->save();
 
+        if($this->newProfession && $this->profession_id == null){
+            $profession= factory(Profession::class)->create([
+                'title'=>$this->newProfession
+            ]);
+        }
+
         $user->profile->update([
             'bio' => $this->bio,
             'twitter' => $this->twitter,
-            'profession_id' => $this->profession_id
+            'profession_id' => $this->profession_id ?? $profession->id
         ]);
 
         $user->skills()->sync($this->skills ?? []);
