@@ -2,4 +2,5 @@ laradock/*
 .env
 
 public/img*
+laratdd/*
 
