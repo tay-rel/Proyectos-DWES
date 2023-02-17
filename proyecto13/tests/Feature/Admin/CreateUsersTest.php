@@ -317,6 +317,28 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
+    function twitter_must_be_present()
+    {
+        $this->withExceptionHandling();
+
+        $this->from('usuarios/nuevo')
+            ->post('usuarios', [
+                'first_name' => 'Pepe',
+                'last_name' => 'Pérez',
+                'email' => 'pepe@mail.es',
+                'password' => '12345678',
+                'profession_id' => '',
+                'newProfession'=>'Back-end',//1
+                'bio' => 'Programador de Laravel y Vue.js',
+                'role' => 'user',
+                'state' => 'active',
+            ])
+            ->assertSessionHasErrors(['twitter']);
+
+        $this->assertDatabaseEmpty('users');
+        $this->assertDatabaseEmpty('user_profiles');
+    }
+    /** @test */
     function the_role_field_is_optional()
     {
 			 $profession = factory(Profession::class) ->create();
